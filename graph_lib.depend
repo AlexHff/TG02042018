@@ -110,10 +110,10 @@
 1522769878 source:c:\users\alex\documents\tg02042018\graph.cpp
 	"graph.h"
 
-1522787310 source:c:\users\alhff\documents\tg02042018\graph.cpp
+1522789463 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
-1522787066 c:\users\alhff\documents\tg02042018\graph.h
+1522788376 c:\users\alhff\documents\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
@@ -162,7 +162,7 @@
 1522776184 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522787434 source:c:\users\alhff\documents\tg02042018\main.cpp
+1522789926 source:c:\users\alhff\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"

@@ -171,7 +171,7 @@ void Graph::read_file(const std::string& nom_fichier)
         for(unsigned int i(0); i<nbVertices; ++i)
         {
             fic >> idx >> value >> x >> y >> pic_name;
-            add_interfaced_vertex(idx, value , x , y, pic_name);
+            add_interfaced_vertex(idx, value, x, y, pic_name);
             m_vertices[i].m_value=value;
         }
 
@@ -184,6 +184,7 @@ void Graph::read_file(const std::string& nom_fichier)
             m_edges[i].m_weight = weight;
         }
     }
+    findIn();
 }
 
 void Graph::write_file()
@@ -267,6 +268,33 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
 }
 
+void Graph::findIn()
+{
+    for(auto &e : m_vertices)
+    {
+        for(auto &f : m_edges)
+        {
+            if(e.first==f.second.m_from)
+                e.second.m_out.push_back(f.second.m_to);
+        }
+    }
+
+    for(auto &e : m_vertices)
+    {
+        std::cout << e.first << " est succede par ";
+        if(e.second.m_out.size()==0)
+            std::cout << "aucun autre sommet." << std::endl;
+        else
+        {
+            for(unsigned int j(0); j < e.second.m_out.size(); ++j)
+            {
+                std::cout << e.second.m_out[j] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+}
+
 void Graph::fort_connexe()
 {
     // On utilise un stack étant donné son principe LIFO
@@ -282,13 +310,4 @@ void Graph::fort_connexe()
         {
             visited[i] = true;
         }
-    for(auto &e : m_vertices)
-    {
-        std::cout << "Loop 1" << std::endl;
-        for(unsigned int j(0); j < e.second.m_out.size(); ++j)
-        {
-            std::cout << "Loop 2" << std::endl;
-            std::cout << e.second.m_out[j] << std::endl;
-        }
-    }
 }

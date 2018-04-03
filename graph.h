@@ -321,6 +321,9 @@ class Graph
         /// methode pour la detection des composantes fortement connexes
         void fort_connexe();
 
+        /// implémentation de la liste des indices des arcs arrivant au sommet
+        void findIn();
+
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
 };
