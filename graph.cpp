@@ -152,11 +152,11 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
 void Graph::read_file(const std::string& nom_fichier)
 {
-    //m_nomFichier=nom_fichier;
+    m_nomFichier=nom_fichier;
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
 
     /// Tentative d'ouverture du fichier
-    std::ifstream fic(nom_fichier.c_str());
+    std::fstream fic(m_nomFichier, std::ios_base::in);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
     /// Traitement du fichier
@@ -171,23 +171,22 @@ void Graph::read_file(const std::string& nom_fichier)
         for(unsigned int i(0); i<m_nbVertices; ++i)
         {
             fic >> idx >> value >> x >> y >> pic_name;
-            std::cout << idx << " ; " << value << " ; " << x << " ; " << y << " ; " << pic_name << std::endl;
-            //add_interfaced_vertex(idx, value , x , y, pic_name);
-            //m_vertices[i].m_value=value;
+            add_interfaced_vertex(idx, value , x , y, pic_name);
+            m_vertices[i].m_value=value;
         }
 
         for(unsigned int i(0); i<m_nbEdges; ++i)
         {
             fic >> idx >> vert1 >> vert2 >> weight;
-            //add_interfaced_edge(idx, vert1, vert2, weight);
+            add_interfaced_edge(idx, vert1, vert2, weight);
             m_edges[i].m_from = vert1;
             m_edges[i].m_to = vert2;
             m_edges[i].m_weight = weight;
         }
     }
 }
-/*
-void Graph::write_file(const std::string& nom_fichier)
+
+void Graph::write_file()
 {
     /// Tentative d'ouverture du fichier
     std::fstream fic(m_nomFichier, std::ios_base::out);
@@ -213,7 +212,7 @@ void Graph::write_file(const std::string& nom_fichier)
         }
     }
 }
-*/
+
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
 void Graph::update()
 {

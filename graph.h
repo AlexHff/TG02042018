@@ -303,7 +303,7 @@ class Graph
         unsigned int m_nbEdges;
 
         /// nom du fichier
-        //std::string m_nomFichier;
+        std::string m_nomFichier;
 
     public:
 
@@ -319,7 +319,7 @@ class Graph
         void read_file(const std::string& nom_fichier);
 
         /// enregistrement des fichiers
-        void write_file(const std::string& nom_fichier);
+        void write_file();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

@@ -13,7 +13,7 @@ int main()
 
     /// Un exemple de graphe
     Graph g;
-    g.read_file("graphe1.txt");
+    g.read_file("graph1.txt");
 
 
     /// Vous gardez la main sur la "boucle de jeu"
@@ -28,12 +28,11 @@ int main()
     }
 
     /// enregistrement du graphe
-    //g.write_file("graphe1.txt");
+    g.write_file();
 
     grman::fermer_allegro();
 
     return 0;
 }
-END_OF_MAIN();
-
+END_OF_MAIN()
 
