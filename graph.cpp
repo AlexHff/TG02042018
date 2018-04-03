@@ -199,16 +199,16 @@ void Graph::write_file()
         double value, weight;
         std::string pic_name;
 
-        fic >> m_nbVertices;
-        fic >> m_nbEdges;
-        for(unsigned int i(0); i<m_nbVertices; ++i)
+        fic << m_nbVertices << std::endl;
+        fic << m_nbEdges << std::endl;
+        for(auto &e : m_vertices)
         {
-
+            fic << e.first << " " << e.second.m_value << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
         }
 
-        for(unsigned int i(0); i<m_nbEdges; ++i)
+        for(auto &e : m_edges)
         {
-
+            fic << e.first << " " << e.second.m_from << " " << e.second.m_to << " " << e.second.m_weight << std::endl;
         }
     }
 }
