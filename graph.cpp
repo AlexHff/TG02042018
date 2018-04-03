@@ -269,5 +269,26 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
 void Graph::fort_connexe()
 {
+    // On utilise un stack étant donné son principe LIFO
+    std::stack<int> Stack;
 
+    // Marquer toutes les aretes comme non visitées
+    bool *visited = new bool[m_vertices.size()];
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        if(visited[i] == false)
+        {
+            visited[i] = true;
+        }
+    for(auto &e : m_vertices)
+    {
+        std::cout << "Loop 1" << std::endl;
+        for(unsigned int j(0); j < e.second.m_out.size(); ++j)
+        {
+            std::cout << "Loop 2" << std::endl;
+            std::cout << e.second.m_out[j] << std::endl;
+        }
+    }
 }

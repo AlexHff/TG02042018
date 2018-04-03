@@ -26,6 +26,9 @@ int main()
         /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
         workg.update();
 
+        if(key[KEY_SPACE])
+            workg.fort_connexe();
+
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
     }
