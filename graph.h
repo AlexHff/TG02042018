@@ -75,6 +75,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <fstream>
 
 #include "grman/grman.h"
 
@@ -140,6 +141,9 @@ class Vertex
 
         /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
         double m_value;
+
+        /// booleen pour desactiver les sommets
+        bool m_activeVertex;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
@@ -216,8 +220,12 @@ class Edge
         /// indice du sommet d'arrivée de l'arc
         int m_to;
 
-        /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
+        /// poids de l'arc
         double m_weight;
+
+        /// booleen pour desactiver les arcs
+        bool m_activeEdge;
+
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
@@ -288,6 +296,14 @@ class Graph
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
+        /// nombre de sommets
+        unsigned int m_nbVertices;
+
+        /// nombre d'aretes
+        unsigned int m_nbEdges;
+
+        /// nom du fichier
+        //std::string m_nomFichier;
 
     public:
 
@@ -299,12 +315,11 @@ class Graph
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
-        /// Méthode spéciale qui construit un graphe arbitraire (démo)
-        /// Voir implémentation dans le .cpp
-        /// Cette méthode est à enlever et remplacer par un système
-        /// de chargement de fichiers par exemple.
-        void make_example();
+        /// chargement des fichiers
+        void read_file(const std::string& nom_fichier);
 
+        /// enregistrement des fichiers
+        void write_file(const std::string& nom_fichier);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

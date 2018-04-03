@@ -14,7 +14,7 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0 , 100.0); // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -92,7 +92,7 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 
     // Le slider de réglage de valeur
     m_box_edge.add_child( m_slider_weight );
-    m_slider_weight.set_range(0.0 , 100.0); // Valeurs arbitraires, à adapter...
+    m_slider_weight.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
     m_slider_weight.set_dim(16,40);
     m_slider_weight.set_gravity_y(grman::GravityY::Up);
 
@@ -150,43 +150,70 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_main_box.set_bg_color(BLANCJAUNE);
 }
 
-
-/// Méthode spéciale qui construit un graphe arbitraire (démo)
-/// Cette méthode est à enlever et remplacer par un système
-/// de chargement de fichiers par exemple.
-/// Bien sûr on ne veut pas que vos graphes soient construits
-/// "à la main" dans le code comme ça.
-void Graph::make_example()
+void Graph::read_file(const std::string& nom_fichier)
 {
+    //m_nomFichier=nom_fichier;
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne précédente est en gros équivalente à :
-    // m_interface = new GraphInterface(50, 0, 750, 600);
 
-    /// Les sommets doivent être définis avant les arcs
-    // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
-    add_interfaced_vertex(0, 30.0, 200, 100, "clown1.jpg");
-    add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
-    add_interfaced_vertex(2,  50.0, 200, 300, "clown3.jpg");
-    add_interfaced_vertex(3,  0.0, 400, 300, "clown4.jpg");
-    add_interfaced_vertex(4,  100.0, 600, 300, "clown5.jpg");
-    add_interfaced_vertex(5,  0.0, 100, 500, "bad_clowns_xx3xx.jpg", 0);
-    add_interfaced_vertex(6,  0.0, 300, 500, "bad_clowns_xx3xx.jpg", 1);
-    add_interfaced_vertex(7,  0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2);
+    /// Tentative d'ouverture du fichier
+    std::ifstream fic(nom_fichier.c_str());
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// Traitement du fichier
+    else
+    {
+        int idx, x, y, vert1, vert2;
+        double value, weight;
+        std::string pic_name;
 
-    /// Les arcs doivent être définis entre des sommets qui existent !
-    // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-    add_interfaced_edge(0, 1, 2, 50.0);
-    add_interfaced_edge(1, 0, 1, 50.0);
-    add_interfaced_edge(2, 1, 3, 75.0);
-    add_interfaced_edge(3, 4, 1, 25.0);
-    add_interfaced_edge(4, 6, 3, 25.0);
-    add_interfaced_edge(5, 7, 3, 25.0);
-    add_interfaced_edge(6, 3, 4, 0.0);
-    add_interfaced_edge(7, 2, 0, 100.0);
-    add_interfaced_edge(8, 5, 2, 20.0);
-    add_interfaced_edge(9, 3, 7, 80.0);
+        fic >> m_nbVertices;
+        fic >> m_nbEdges;
+        for(unsigned int i(0); i<m_nbVertices; ++i)
+        {
+            fic >> idx >> value >> x >> y >> pic_name;
+            std::cout << idx << " ; " << value << " ; " << x << " ; " << y << " ; " << pic_name << std::endl;
+            //add_interfaced_vertex(idx, value , x , y, pic_name);
+            //m_vertices[i].m_value=value;
+        }
+
+        for(unsigned int i(0); i<m_nbEdges; ++i)
+        {
+            fic >> idx >> vert1 >> vert2 >> weight;
+            //add_interfaced_edge(idx, vert1, vert2, weight);
+            m_edges[i].m_from = vert1;
+            m_edges[i].m_to = vert2;
+            m_edges[i].m_weight = weight;
+        }
+    }
 }
+/*
+void Graph::write_file(const std::string& nom_fichier)
+{
+    /// Tentative d'ouverture du fichier
+    std::fstream fic(m_nomFichier, std::ios_base::out);
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// Traitement du fichier
+    else
+    {
+        int idx, x, y, pic_idx, vert1, vert2;
+        double value, weight;
+        std::string pic_name;
 
+        fic >> m_nbVertices;
+        fic >> m_nbEdges;
+        for(unsigned int i(0); i<m_nbVertices; ++i)
+        {
+
+        }
+
+        for(unsigned int i(0); i<m_nbEdges; ++i)
+        {
+
+        }
+    }
+}
+*/
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
 void Graph::update()
 {
