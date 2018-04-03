@@ -94,12 +94,12 @@
 1522749909 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522763591 source:c:\users\alex\documents\tg02042018\main.cpp
+1522763952 source:c:\users\alex\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 
-1522763545 c:\users\alex\documents\tg02042018\graph.h
+1522764054 c:\users\alex\documents\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
