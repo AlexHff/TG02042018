@@ -110,3 +110,75 @@
 1522769878 source:c:\users\alex\documents\tg02042018\graph.cpp
 	"graph.h"
 
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
+	"graph.h"
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	"grman/grman.h"
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman_couleurs.h
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\coords.h
+	<cmath>
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\coords.cpp
+	"coords.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
+	"widget.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522795280 source:c:\users\adrie\desktop\ing2\info\piscine\button.cpp
+	"Button.h"
+
+1522794367 c:\users\adrie\desktop\ing2\info\piscine\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+
+1522796047 source:c:\users\adrie\desktop\ing2\info\piscine\taskbar.cpp
+	"Taskbar.h"
+
+1522796257 c:\users\adrie\desktop\ing2\info\piscine\taskbar.h
+	<iostream>
+	<string>
+	"Button.h"
+
