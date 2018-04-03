@@ -185,6 +185,7 @@ void Graph::read_file(const std::string& nom_fichier)
         }
     }
     findIn();
+    findOut();
 }
 
 void Graph::write_file()
@@ -273,10 +274,8 @@ void Graph::findIn()
     for(auto &e : m_vertices)
     {
         for(auto &f : m_edges)
-        {
             if(e.first==f.second.m_from)
                 e.second.m_out.push_back(f.second.m_to);
-        }
     }
 
     for(auto &e : m_vertices)
@@ -287,9 +286,30 @@ void Graph::findIn()
         else
         {
             for(unsigned int j(0); j < e.second.m_out.size(); ++j)
-            {
                 std::cout << e.second.m_out[j] << " ";
-            }
+            std::cout << std::endl;
+        }
+    }
+}
+
+void Graph::findOut()
+{
+    for(auto &e : m_vertices)
+    {
+        for(auto &f : m_edges)
+            if(e.first==f.second.m_to)
+                e.second.m_in.push_back(f.second.m_from);
+    }
+
+    for(auto &e : m_vertices)
+    {
+        std::cout << e.first << " est precede par ";
+        if(e.second.m_in.size()==0)
+            std::cout << "aucun autre sommet." << std::endl;
+        else
+        {
+            for(unsigned int j(0); j < e.second.m_in.size(); ++j)
+                std::cout << e.second.m_in[j] << " ";
             std::cout << std::endl;
         }
     }

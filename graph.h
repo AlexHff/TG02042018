@@ -324,6 +324,9 @@ class Graph
         /// implémentation de la liste des indices des arcs arrivant au sommet
         void findIn();
 
+        /// implémentation de la liste des indices des arcs sortant du sommet
+        void findOut();
+
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
 };
