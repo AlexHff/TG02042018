@@ -162,20 +162,20 @@ void Graph::read_file(const std::string& nom_fichier)
     /// Traitement du fichier
     else
     {
-        int idx, x, y, vert1, vert2;
+        unsigned int idx, x, y, vert1, vert2, nbVertices, nbEdges;
         double value, weight;
         std::string pic_name;
 
-        fic >> m_nbVertices;
-        fic >> m_nbEdges;
-        for(unsigned int i(0); i<m_nbVertices; ++i)
+        fic >> nbVertices;
+        fic >> nbEdges;
+        for(unsigned int i(0); i<nbVertices; ++i)
         {
             fic >> idx >> value >> x >> y >> pic_name;
             add_interfaced_vertex(idx, value , x , y, pic_name);
             m_vertices[i].m_value=value;
         }
 
-        for(unsigned int i(0); i<m_nbEdges; ++i)
+        for(unsigned int i(0); i<nbEdges; ++i)
         {
             fic >> idx >> vert1 >> vert2 >> weight;
             add_interfaced_edge(idx, vert1, vert2, weight);
@@ -188,19 +188,15 @@ void Graph::read_file(const std::string& nom_fichier)
 
 void Graph::write_file()
 {
-    /// Tentative d'ouverture du fichier
+    /// test d'ouverture du fichier
     std::fstream fic(m_nomFichier, std::ios_base::out);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
-    /// Traitement du fichier
+    /// ecriture dans le fichier
     else
     {
-        int idx, x, y, pic_idx, vert1, vert2;
-        double value, weight;
-        std::string pic_name;
-
-        fic << m_nbVertices << std::endl;
-        fic << m_nbEdges << std::endl;
+        fic << m_vertices.size() << std::endl;
+        fic << m_edges.size() << std::endl;
         for(auto &e : m_vertices)
         {
             fic << e.first << " " << e.second.m_value << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
@@ -271,3 +267,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
 }
 
+void Graph::fort_connexe()
+{
+
+}

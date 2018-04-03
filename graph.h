@@ -145,6 +145,9 @@ class Vertex
         /// booleen pour desactiver les sommets
         bool m_activeVertex;
 
+        /// population
+        int m_population;
+
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
 
@@ -226,7 +229,6 @@ class Edge
         /// booleen pour desactiver les arcs
         bool m_activeEdge;
 
-
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
 
@@ -296,12 +298,6 @@ class Graph
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
-        /// nombre de sommets
-        unsigned int m_nbVertices;
-
-        /// nombre d'aretes
-        unsigned int m_nbEdges;
-
         /// nom du fichier
         std::string m_nomFichier;
 
@@ -320,6 +316,9 @@ class Graph
 
         /// enregistrement des fichiers
         void write_file();
+
+        /// methode pour la detection des composantes fortement connexes
+        void fort_connexe();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

@@ -339,6 +339,7 @@ class WidgetImage : public Widget
 
         void set_pic_idx(int pic_idx) { m_pic_idx=pic_idx; }
 
+        /// on a besoin d'un getter pour write_file()
         std::string get_pic_name() { return m_pic_name; }
 };
 
