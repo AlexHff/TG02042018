@@ -2,13 +2,15 @@
 #include <iostream>
 
 #include "graph.h"
+#include "Taskbar.h"
+#include "Button.h"
 
 int main()
 {
     /// A appeler en 1er avant d'instancier des objets graphiques etc...
     grman::init();
 
-    /// Le nom du répertoire où se trouvent les images à charger
+    /// Le nom du rÃ©pertoire oÃ¹ se trouvent les images Ã  charger
     grman::set_pictures_path("pics");
 
     /// 3 graphes au total et un graphe "actif"
@@ -20,11 +22,14 @@ int main()
     workg=g1;
     workg.fort_connexe();
 
+    /// La taskbar qui regroupe les boutons
+    Taskbar TB;
+
     /// Vous gardez la main sur la "boucle de jeu"
-    /// ( contrairement à des frameworks plus avancés )
+    /// ( contrairement Ã  des frameworks plus avancÃ©s )
     while ( !key[KEY_ESC] )
     {
-        /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
+        /// Il faut appeler les mÃ©thodes d'update des objets qui comportent des widgets
         workg.update();
 
         if(key[KEY_SPACE])
