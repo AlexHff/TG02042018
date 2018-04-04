@@ -75,6 +75,8 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <fstream>
+#include <stack>
 
 #include "grman/grman.h"
 
@@ -132,14 +134,23 @@ class Vertex
     friend class EdgeInterface;
 
     private :
-        /// liste des indices des arcs arrivant au sommet : accès aux prédécesseurs
+        /// liste des indices des sommets arrivant au sommet : accès aux prédécesseurs
         std::vector<int> m_in;
 
-        /// liste des indices des arcs partant du sommet : accès aux successeurs
+        /// liste des indices des sommets partant du sommet : accès aux successeurs
         std::vector<int> m_out;
 
-        /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
+        /// valeur de sommet
         double m_value;
+
+        /// booleen pour desactiver les sommets
+        bool m_isVertex;
+
+        /// population
+        int m_population;
+
+        /// groupe d'appartenance pour la forte connexite
+        int m_group;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
@@ -154,7 +165,7 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Vertex (double value=0, VertexInterface *interface=nullptr) :
-            m_value(value), m_interface(interface)  {  }
+            m_value(value), m_isVertex(true), m_interface(interface)  {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)
@@ -216,8 +227,11 @@ class Edge
         /// indice du sommet d'arrivée de l'arc
         int m_to;
 
-        /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
+        /// poids de l'arc
         double m_weight;
+
+        /// booleen pour desactiver les arcs
+        bool m_isEdge;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
@@ -288,6 +302,8 @@ class Graph
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
+        /// nom du fichier
+        std::string m_nomFichier;
 
     public:
 
@@ -299,12 +315,35 @@ class Graph
         void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
-        /// Méthode spéciale qui construit un graphe arbitraire (démo)
-        /// Voir implémentation dans le .cpp
-        /// Cette méthode est à enlever et remplacer par un système
-        /// de chargement de fichiers par exemple.
-        void make_example();
+        /// chargement des fichiers
+        void read_file(const std::string& nom_fichier);
 
+        /// enregistrement des fichiers
+        void write_file();
+
+        /// methode pour la detection des composantes fortement connexes
+        void fort_connexe();
+
+        /// implémentation de la liste des indices des arcs arrivant au sommet
+        void findIn();
+
+        /// implémentation de la liste des indices des arcs sortant du sommet
+        void findOut();
+
+        /// creation d'un stack contenant tous les sommets dans un ordre particulier pour l'algorithme de Kosaraju
+        void fillOrder(int i, bool visited[], std::stack<int> &Stack);
+
+        /// inversion de toutes les aretes du graph pour l'algorithme de Kosaraju
+        Graph getTranspose();
+
+        /// implémentation dfs
+        void dfs(int v, bool visited[], int k);
+
+        /// k-sommet-connexite récurrence
+        void kVertexConnexRecur(int v, bool visited[], int k, int j);
+
+        /// k-sommet-connexite
+        void kVertexConnex();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

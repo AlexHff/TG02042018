@@ -2,35 +2,45 @@
 #include <iostream>
 
 #include "graph.h"
+#include "Taskbar.h"
+#include "Button.h"
 
 int main()
 {
     /// A appeler en 1er avant d'instancier des objets graphiques etc...
     grman::init();
 
-    /// Le nom du répertoire où se trouvent les images à charger
+    /// Le nom du rÃ©pertoire oÃ¹ se trouvent les images Ã  charger
     grman::set_pictures_path("pics");
 
-    /// Un exemple de graphe
-    Graph g;
-    g.make_example();
+    /// 3 graphes au total et un graphe "actif"
+    Graph g1, g2, g3, workg;
+    g1.read_file("graph1.txt");
+    g2.read_file("graph2.txt");
+    g3.read_file("graph3.txt");
+
+    workg=g1;
+    workg.fort_connexe();
+    workg.kVertexConnex();
 
 
     /// Vous gardez la main sur la "boucle de jeu"
-    /// ( contrairement à des frameworks plus avancés )
+    /// ( contrairement Ã  des frameworks plus avancÃ©s )
     while ( !key[KEY_ESC] )
     {
-        /// Il faut appeler les méthodes d'update des objets qui comportent des widgets
-        g.update();
+        /// Il faut appeler les mÃ©thodes d'update des objets qui comportent des widgets
+        workg.update();
 
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
     }
 
+    /// enregistrement du graphe
+    workg.write_file();
+
     grman::fermer_allegro();
 
     return 0;
 }
-END_OF_MAIN();
-
+END_OF_MAIN()
 

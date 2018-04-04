@@ -54,3 +54,213 @@
 	<iostream>
 	"graph.h"
 
+1522771508 D
+	<stack>
+	"grman/grman.h"
+
+1522749909 source:c:\users\alex\documents\tg02042018\grman\coords.cpp
+	"coords.h"
+
+1522749909 c:\users\alex\documents\tg02042018\grman\coords.h
+	<cmath>
+
+1522749909 source:c:\users\alex\documents\tg02042018\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522749909 c:\users\alex\documents\tg02042018\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522749909 c:\users\alex\documents\tg02042018\grman\grman_couleurs.h
+
+1522768176 c:\users\alex\documents\tg02042018\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522749909 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
+	"widget.h"
+
+1522768057 source:c:\users\alex\documents\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522770682 c:\users\alex\documents\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	"grman/grman.h"
+
+1522769878 source:c:\users\alex\documents\tg02042018\graph.cpp
+	"graph.h"
+
+1522877170 source:c:\users\alhff\documents\tg02042018\graph.cpp
+	"graph.h"
+
+1522877068 c:\users\alhff\documents\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	"grman/grman.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
+	"graph.h"
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\graph.h
+
+1522796257 ien
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+
+1522876850 c:\users\alhff\documents\tg02042018\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman.h
+
+1522876850 c:\users\alhff\documents\tg02042018\grman\grman_couleurs.h
+
+1522876850 c:\users\alhff\documents\tg02042018\grman\coords.h
+	<cmath>
+
+1522877135 c:\users\alhff\documents\tg02042018\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman_couleurs.h
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\coords.h
+	<cmath>
+
+1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\widget.h
+
+1522876850 source:c:\users\alhff\documents\tg02042018\grman\coords.cpp
+	"coords.h"
+
+1522876850 source:c:\users\alhff\documents\tg02042018\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\coords.cpp
+	"coords.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\grman.cpp
+
+1522876850 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
+	"widget.h"
+
+1522877364 source:c:\users\alhff\documents\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Taskbar.h"
+	"Button.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
+	"widget.h"
+
+1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\main.cpp
+
+1522795280 source:c:\users\adrie\desktop\ing2\info\piscine\button.cpp
+	"Button.h"
+
+1522794367 c:\users\adrie\desktop\ing2\info\piscine\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+
+1522796047 source:c:\users\adrie\desktop\ing2\info\piscine\taskbar.cpp
+	"Taskbar.h"
+
+1522796257 c:\users\adrie\desktop\ing2\info\piscine\taskbar.h
+	<iostream>
+	<string>
+	"Button.h"
+
+1522833339 source:c:\users\alhff\documents\tg02042018\button.cpp
+	"Button.h"
+
+1522876884 c:\users\alhff\documents\tg02042018\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+
+1522876884 source:c:\users\alhff\documents\tg02042018\taskbar.cpp
+	"Taskbar.h"
+
+1522876884 c:\users\alhff\documents\tg02042018\taskbar.h
+	<iostream>
+	<string>
+	"Button.h"
+
+1522833339 elop
+

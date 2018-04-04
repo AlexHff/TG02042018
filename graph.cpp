@@ -14,7 +14,7 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0 , 100.0); // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -92,7 +92,7 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 
     // Le slider de réglage de valeur
     m_box_edge.add_child( m_slider_weight );
-    m_slider_weight.set_range(0.0 , 100.0); // Valeurs arbitraires, à adapter...
+    m_slider_weight.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
     m_slider_weight.set_dim(16,40);
     m_slider_weight.set_gravity_y(grman::GravityY::Up);
 
@@ -150,41 +150,65 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_main_box.set_bg_color(BLANCJAUNE);
 }
 
-
-/// Méthode spéciale qui construit un graphe arbitraire (démo)
-/// Cette méthode est à enlever et remplacer par un système
-/// de chargement de fichiers par exemple.
-/// Bien sûr on ne veut pas que vos graphes soient construits
-/// "à la main" dans le code comme ça.
-void Graph::make_example()
+void Graph::read_file(const std::string& nom_fichier)
 {
+    m_nomFichier=nom_fichier;
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
-    // La ligne précédente est en gros équivalente à :
-    // m_interface = new GraphInterface(50, 0, 750, 600);
 
-    /// Les sommets doivent être définis avant les arcs
-    // Ajouter le sommet d'indice 0 de valeur 30 en x=200 et y=100 avec l'image clown1.jpg etc...
-    add_interfaced_vertex(0, 30.0, 200, 100, "clown1.jpg");
-    add_interfaced_vertex(1, 60.0, 400, 100, "clown2.jpg");
-    add_interfaced_vertex(2,  50.0, 200, 300, "clown3.jpg");
-    add_interfaced_vertex(3,  0.0, 400, 300, "clown4.jpg");
-    add_interfaced_vertex(4,  100.0, 600, 300, "clown5.jpg");
-    add_interfaced_vertex(5,  0.0, 100, 500, "bad_clowns_xx3xx.jpg", 0);
-    add_interfaced_vertex(6,  0.0, 300, 500, "bad_clowns_xx3xx.jpg", 1);
-    add_interfaced_vertex(7,  0.0, 500, 500, "bad_clowns_xx3xx.jpg", 2);
+    /// Tentative d'ouverture du fichier
+    std::fstream fic(m_nomFichier, std::ios_base::in);
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// Traitement du fichier
+    else
+    {
+        unsigned int idx, x, y, vert1, vert2, nbVertices, nbEdges;
+        double value, weight;
+        std::string pic_name;
 
-    /// Les arcs doivent être définis entre des sommets qui existent !
-    // AJouter l'arc d'indice 0, allant du sommet 1 au sommet 2 de poids 50 etc...
-    add_interfaced_edge(0, 1, 2, 50.0);
-    add_interfaced_edge(1, 0, 1, 50.0);
-    add_interfaced_edge(2, 1, 3, 75.0);
-    add_interfaced_edge(3, 4, 1, 25.0);
-    add_interfaced_edge(4, 6, 3, 25.0);
-    add_interfaced_edge(5, 7, 3, 25.0);
-    add_interfaced_edge(6, 3, 4, 0.0);
-    add_interfaced_edge(7, 2, 0, 100.0);
-    add_interfaced_edge(8, 5, 2, 20.0);
-    add_interfaced_edge(9, 3, 7, 80.0);
+        fic >> nbVertices;
+        fic >> nbEdges;
+        for(unsigned int i(0); i<nbVertices; ++i)
+        {
+            fic >> idx >> value >> x >> y >> pic_name;
+            add_interfaced_vertex(idx, value, x, y, pic_name);
+            m_vertices[i].m_value=value;
+        }
+
+        for(unsigned int i(0); i<nbEdges; ++i)
+        {
+            fic >> idx >> vert1 >> vert2 >> weight;
+            add_interfaced_edge(idx, vert1, vert2, weight);
+            m_edges[i].m_from = vert1;
+            m_edges[i].m_to = vert2;
+            m_edges[i].m_weight = weight;
+        }
+    }
+    findIn();
+    findOut();
+}
+
+void Graph::write_file()
+{
+    /// test d'ouverture du fichier
+    std::fstream fic(m_nomFichier, std::ios_base::out);
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// ecriture dans le fichier
+    else
+    {
+        fic << m_vertices.size() << std::endl;
+        fic << m_edges.size() << std::endl;
+        for(auto &e : m_vertices)
+        {
+            fic << e.first << " " << e.second.m_value << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
+        }
+
+        for(auto &e : m_edges)
+        {
+            fic << e.first << " " << e.second.m_from << " " << e.second.m_to << " " << e.second.m_weight << std::endl;
+        }
+    }
 }
 
 /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
@@ -245,3 +269,175 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
 }
 
+void Graph::findOut()
+{
+    for(auto &e : m_vertices)
+    {
+        for(auto &f : m_edges)
+            if(e.first==f.second.m_from)
+                e.second.m_out.push_back(f.second.m_to);
+    }
+
+    /*for(auto &e : m_vertices)
+    {
+        std::cout << e.first << " est succede par ";
+        if(e.second.m_out.size()==0)
+            std::cout << "aucun autre sommet." << std::endl;
+        else
+        {
+            for(unsigned int j(0); j < e.second.m_out.size(); ++j)
+                std::cout << e.second.m_out[j] << " ";
+            std::cout << std::endl;
+        }
+    }*/
+}
+
+void Graph::findIn()
+{
+    for(auto &e : m_vertices)
+    {
+        for(auto &f : m_edges)
+            if(e.first==f.second.m_to)
+                e.second.m_in.push_back(f.second.m_from);
+    }
+
+    /*for(auto &e : m_vertices)
+    {
+        std::cout << e.first << " est precede par ";
+        if(e.second.m_in.size()==0)
+            std::cout << "aucun autre sommet." << std::endl;
+        else
+        {
+            for(unsigned int j(0); j < e.second.m_in.size(); ++j)
+                std::cout << e.second.m_in[j] << " ";
+            std::cout << std::endl;
+        }
+    }*/
+}
+
+void Graph::dfs(int v, bool visited[],int k)
+{
+    visited[v] = true;
+    m_vertices[v].m_group = k;
+    std::cout << v << " ";
+
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+        if(!visited[m_vertices[v].m_out[i]])
+            dfs(m_vertices[v].m_out[i], visited, k);
+}
+
+Graph Graph::getTranspose()
+{
+    Graph g = *this;
+
+    for(auto &e : g.m_vertices)
+        std::swap(e.second.m_out,e.second.m_in);
+    for(auto &e : g.m_edges)
+        std::swap(e.second.m_from,e.second.m_to);
+
+    return g;
+}
+
+void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
+{
+    visited[v] = true;
+
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+        if(!visited[m_vertices[v].m_out[i]])
+            fillOrder(m_vertices[v].m_out[i], visited, Stack);
+
+    Stack.push(v);
+}
+
+/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspiré de https://www.geeksforgeeks.org/strongly-connected-components/
+void Graph::fort_connexe()
+{
+    // On utilise un stack étant donné son principe LIFO
+    std::stack<int> Stack;
+
+    // Marquer toutes les aretes comme non visitées
+    bool *visited = new bool[m_vertices.size()];
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    // Ajouter tous les sommets dans le stack
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        if(!visited[i])
+            fillOrder(i, visited, Stack);
+
+    Graph g = getTranspose();
+
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    int k = 0;
+    std::cout << "Les composantes fortement connexes :" << std::endl;
+    while (!Stack.empty())
+    {
+        // Pop a vertex from stack
+        int v = Stack.top();
+        Stack.pop();
+
+        // Print Strongly connected component of the popped vertex
+        if (!visited[v])
+        {
+            g.dfs(v, visited, k);
+            std::cout << std::endl;
+            k++;
+        }
+    }
+
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        m_vertices[i].m_group = g.m_vertices[i].m_group;
+}
+
+void Graph::kVertexConnexRecur(int v, bool visited[], int k, int j)
+{
+    std::cout << "Nous visitons le sommet " << v << ". k = " << k << std::endl;
+    visited[v] = true;
+    k++;
+
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+    {
+        std::cout << "Sommet suivant : " << m_vertices[v].m_out[i] << std::endl;
+        if(!visited[m_vertices[v].m_out[i]] && m_vertices[v].m_out[i]!=j)
+        {
+            kVertexConnexRecur(m_vertices[v].m_out[i], visited, k, j);
+        }
+    }
+
+    for(unsigned int i(0); i < m_vertices[v].m_in.size(); ++i)
+    {
+        std::cout << "Sommet precedent : " << m_vertices[v].m_in[i] << std::endl;
+        if(!visited[m_vertices[v].m_in[i]] && m_vertices[v].m_in[i]!=j)
+        {
+            kVertexConnexRecur(m_vertices[v].m_in[i], visited, k, j);
+        }
+    }
+}
+
+/// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe inspiré de https://www.sanfoundry.com/cpp-program-find-vertex-connectivity-graph/
+void Graph::kVertexConnex()
+{
+    // Marquer toutes les aretes comme non visitées
+    bool *visited = new bool[m_vertices.size()];
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    int k = 0, kmin = 0;
+
+    for(unsigned int j(0); j < m_vertices.size(); ++j)
+    {
+        m_vertices[j].m_isVertex=false;
+        std::cout << "Nous desactivons le sommet " << j << std::endl;
+        for(unsigned int i(0); i < m_vertices.size(); ++i)
+        {
+            if(!visited[i] && m_vertices[i].m_isVertex)
+                kVertexConnexRecur(i, visited, k, j);
+            for(unsigned int t(0); t < m_vertices.size(); ++t)
+                visited[t] = false;
+        }
+        //m_vertices[j].m_isVertex=true;
+        std::cout << std::endl;
+    }
+}
