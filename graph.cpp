@@ -9,9 +9,11 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 {
     // La boite englobante
     m_top_box.set_pos(x, y);
-    m_top_box.set_dim(130, 100);
+    m_top_box.set_dim(160, 100);
     m_top_box.set_moveable();
 
+
+    /*** VALUE ***/
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
     m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
@@ -22,18 +24,31 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     m_top_box.add_child( m_label_value );
     m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
 
+    /*** POPULATION ***/
+    // Le slider de réglage de la pop
+    m_top_box.add_child( m_slider_pop );
+    m_slider_pop.set_range(0.0, 1000.0);  // Valeurs arbitraires, à adapter...
+    m_slider_pop.set_dim(20,80);
+    m_slider_pop.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
+
+    // Label de visualisation de la pop
+    m_top_box.add_child( m_label_pop );
+    m_label_pop.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Down);
+
+    /*** IMG ***/
     // Une illustration...
     if (pic_name!="")
     {
         m_top_box.add_child( m_img );
         m_img.set_pic_name(pic_name);
         m_img.set_pic_idx(pic_idx);
-        m_img.set_gravity_x(grman::GravityX::Right);
+        m_img.set_gravity_x(grman::GravityX::Center);
     }
 
+    /*** IDX ***/
     // Label de visualisation d'index du sommet dans une boite
     m_top_box.add_child( m_box_label_idx );
-    m_box_label_idx.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Down);
+    m_box_label_idx.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Down);
     m_box_label_idx.set_dim(20,12);
     m_box_label_idx.set_bg_color(BLANC);
 
@@ -48,13 +63,20 @@ void Vertex::pre_update()
     if (!m_interface)
         return;
 
+        // Value
     /// Copier la valeur locale de la donnée m_value vers le slider associé
     m_interface->m_slider_value.set_value(m_value);
 
     /// Copier la valeur locale de la donnée m_value vers le label sous le slider
     m_interface->m_label_value.set_message( std::to_string( (int)m_value) );
-}
 
+        // Pop
+    /// Copier la valeur locale de la donnée m_population vers le slider associé
+    m_interface->m_slider_pop.set_value(m_population);
+
+    /// Copier la valeur locale de la donnée m_population vers le label sous le slider
+    m_interface->m_label_pop.set_message( std::to_string( (int)m_population) );
+}
 
 /// Gestion du Vertex après l'appel à l'interface
 void Vertex::post_update()
@@ -64,9 +86,9 @@ void Vertex::post_update()
 
     /// Reprendre la valeur du slider dans la donnée m_value locale
     m_value = m_interface->m_slider_value.get_value();
+
+    m_population = m_interface->m_slider_pop.get_value();
 }
-
-
 
 /***************************************************
                     EDGE
@@ -186,6 +208,12 @@ void Graph::read_file(const std::string& nom_fichier)
     }
     findIn();
     findOut();
+
+    /// A FAIRE : charger la valeur depuis les fichiers
+    for(auto &e : m_vertices)
+    {
+        e.second.m_population = 100;
+    }
 }
 
 void Graph::write_file()
@@ -216,6 +244,8 @@ void Graph::update()
 {
     if (!m_interface)
         return;
+
+    update_pop();
 
     for (auto &elt : m_vertices)
         elt.second.pre_update();
@@ -269,7 +299,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
 }
 
-void Graph::findIn()
+void Graph::findOut()
 {
     for(auto &e : m_vertices)
     {
@@ -292,7 +322,7 @@ void Graph::findIn()
     }
 }
 
-void Graph::findOut()
+void Graph::findIn()
 {
     for(auto &e : m_vertices)
     {
@@ -330,4 +360,82 @@ void Graph::fort_connexe()
         {
             visited[i] = true;
         }
+}
+
+double Graph::calcul_sommeKIn(int to)
+{
+    double k = 0;
+    double weight;
+
+    // Sommet des K des aretes pointant vers le sommet
+    for(auto &e : m_vertices[to].m_in)
+    {
+        weight = findWeight(e, to);
+        k += weight * m_vertices[e].m_population;
+    }
+
+    return k;
+}
+
+double Graph::calcul_sommeKOut(int from)
+{
+    double k = 0;
+    double weight;
+
+    // Somme des K des aretes sortant du sommet
+    for(auto &e : m_vertices[from].m_out)
+    {
+        weight = findWeight(from, e);
+        k += weight * m_vertices[e].m_population;
+    }
+
+    return k;
+}
+
+void Graph::update_pop()
+{
+    double Kin = 0.0;
+    double quotient = 0.0;
+
+    for(auto &e : m_vertices)
+    {
+        Kin = calcul_sommeKIn(e.first);
+
+        if(e.second.m_in.size() == 0) /// Si pas d'aretes pointant vers le sommet => ne mange personne
+        {
+            quotient = 1.0;
+        }
+        else if(Kin == 0) /// => plus de nourriture
+        {
+            quotient = 2.0;
+        }
+        else
+        {
+            quotient = e.second.m_population/Kin;
+        }
+
+        /// calcul de la nouvelle population (ceil() -> arrondi supérieur)
+        e.second.m_population += e.second.m_value * e.second.m_population * ceil(1 - quotient) - e.second.m_value * calcul_sommeKOut(e.first);
+
+        if(e.second.m_population < 0)
+        {
+            e.second.m_population = 0;
+        }
+
+    }
+
+}
+
+double Graph::findWeight(int from, int to)
+{
+    for(auto &e : m_edges)
+    {
+        if(e.second.m_from == from && e.second.m_to == to)
+        {
+            return e.second.m_weight;
+        }
+    }
+
+    /// Si a pas trouvé, on retourne 0
+    return 0;
 }

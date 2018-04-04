@@ -250,3 +250,81 @@
 	<string>
 	"Button.h"
 
+1522835874 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.cpp
+	"Button.h"
+
+1522835874 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman_couleurs.h
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\coords.h
+	<cmath>
+
+1522771328 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1522870565 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
+	"graph.h"
+
+1522869225 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	"grman/grman.h"
+	"constants.h"
+
+1522771292 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\coords.cpp
+	"coords.h"
+
+1522771292 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1522771292 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.cpp
+	"widget.h"
+
+1522835874 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Taskbar.h"
+	"Button.h"
+
+1522835874 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\taskbar.h
+	<iostream>
+	<string>
+	"Button.h"
+
+1522835874 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\taskbar.cpp
+	"Taskbar.h"
+
+1522862470 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
+
