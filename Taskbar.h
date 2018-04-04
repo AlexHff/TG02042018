@@ -3,23 +3,24 @@
 
 #include <iostream>
 #include <string>
-#include "Button.h"
+#include "grman/grman.h"
 
 class Taskbar
 {
     public:
         Taskbar();
         virtual ~Taskbar();
+        void show();
 
     protected:
 
     private:
-        Button * m_connexite;
-        Button * m_G1;
-        Button * m_G2;
-        Button * m_G3;
-        Button * m_simu;
-        Button * m_differe;
+        grman::WidgetButton m_g1;
+        grman::WidgetButton m_g2;
+        grman::WidgetButton m_g3;
+        grman::WidgetButton m_connexite;
+        grman::WidgetButton m_simu;
+        grman::WidgetButton m_differe;
 };
 
 #endif // TASKBAR_H

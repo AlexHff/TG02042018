@@ -148,6 +148,68 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_main_box.set_dim(908,720);
     m_main_box.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
     m_main_box.set_bg_color(BLANCJAUNE);
+
+    m_tool_box.add_child(m_boite_boutons);
+    m_boite_boutons.set_dim(80,700);
+    m_boite_boutons.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
+    m_boite_boutons.set_bg_color(BLANC);
+
+    /// bouton g1
+    m_boite_boutons.add_child(m_bouton_g1);
+    m_bouton_g1.set_frame(20, 0, 40, 40);
+    m_bouton_g1.set_bg_color(VERTCLAIR);
+
+    m_bouton_g1.add_child(m_bouton_g1_label);
+    m_bouton_g1_label.set_message("Graphe 1");
+
+    /// bouton g2
+    m_boite_boutons.add_child(m_bouton_g2);
+    m_bouton_g2.set_frame(20, 100, 40, 40);
+    m_bouton_g2.set_bg_color(VERTCLAIR);
+
+    m_bouton_g2.add_child(m_bouton_g2_label);
+    m_bouton_g2_label.set_message("Graphe 2");
+
+    /// bouton g3
+    m_boite_boutons.add_child(m_bouton_g3);
+    m_bouton_g3.set_frame(20, 200, 40, 40);
+    m_bouton_g3.set_bg_color(VERTCLAIR);
+
+    m_bouton_g3.add_child(m_bouton_g3_label);
+    m_bouton_g3_label.set_message("Graphe 3");
+
+    /// bouton save
+    m_boite_boutons.add_child(m_bouton_save);
+    m_bouton_save.set_frame(20, 300, 40, 40);
+    m_bouton_save.set_bg_color(BLEUCLAIR);
+
+    m_bouton_save.add_child(m_bouton_save_label);
+    m_bouton_save_label.set_message("Sauvegarde");
+
+    /// bouton simulation
+    m_boite_boutons.add_child(m_bouton_simu);
+    m_bouton_simu.set_frame(20, 400, 40, 40);
+    m_bouton_simu.set_bg_color(JAUNECLAIR);
+
+    m_bouton_simu.add_child(m_bouton_simu_label);
+    m_bouton_simu_label.set_message("Temps reel");
+
+    /// bouton diff
+    m_boite_boutons.add_child(m_bouton_diff);
+    m_bouton_diff.set_frame(20, 500, 40, 40);
+    m_bouton_diff.set_bg_color(ROSECLAIR);
+
+    m_bouton_diff.add_child(m_bouton_diff_label);
+    m_bouton_diff_label.set_message("Differee");
+
+    /// bouton afficher connexite
+    m_boite_boutons.add_child(m_bouton_connex);
+    m_bouton_connex.set_frame(20, 600, 40, 40);
+    m_bouton_connex.set_bg_color(ROSECLAIR);
+
+    m_bouton_connex.add_child(m_bouton_connex_label);
+    m_bouton_connex_label.set_message("Afficher connexite");
+
 }
 
 void Graph::read_file(const std::string& nom_fichier)
@@ -197,6 +259,7 @@ void Graph::write_file()
     /// ecriture dans le fichier
     else
     {
+        std::cout << "Sauvegarde dans \"" << m_nomFichier << "\"." << std::endl;
         fic << m_vertices.size() << std::endl;
         fic << m_edges.size() << std::endl;
         for(auto &e : m_vertices)

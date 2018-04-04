@@ -6,6 +6,9 @@ namespace constants
     const int TB_ACTION_LOAD_GRAPH_1 = 0;
     const int TB_ACTION_LOAD_GRAPH_2 = 1;
     const int TB_ACTION_LOAD_GRAPH_3 = 2;
+    const int TB_ACTION_SAVE = 3;
+    const int TB_ACTION_NOTHING = 9999;
+
 
 }
 

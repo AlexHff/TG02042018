@@ -19,7 +19,7 @@ int main()
     g2.read_file("graph2.txt");
     g3.read_file("graph3.txt");
 
-    workg=g1;
+    workg=g3;
     workg.fort_connexe();
 
     /// La taskbar qui regroupe les boutons
@@ -32,11 +32,14 @@ int main()
         /// Il faut appeler les mÃ©thodes d'update des objets qui comportent des widgets
         workg.update();
 
+
         if(key[KEY_SPACE])
             workg.fort_connexe();
 
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
+
+        get_buttons_actions(workg, g1, g2, g3);
     }
 
     /// enregistrement du graphe
