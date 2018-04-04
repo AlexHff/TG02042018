@@ -277,7 +277,6 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
-
         // A compléter éventuellement par des widgets de décoration ou
         // d'édition (boutons ajouter/enlever ...)
 
@@ -286,6 +285,39 @@ class GraphInterface
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         GraphInterface(int x, int y, int w, int h);
+
+        // wrapper pour les boutons
+        grman::WidgetBox m_boite_boutons;
+
+        // bouton pour charger le graphe 1
+        grman::WidgetButton m_bouton_g1;
+        grman::WidgetText m_bouton_g1_label;
+
+        // bouton pour charger le graphe 2
+        grman::WidgetButton m_bouton_g2;
+        grman::WidgetText m_bouton_g2_label;
+
+        // bouton pour charger le graphe 3
+        grman::WidgetButton m_bouton_g3;
+        grman::WidgetText m_bouton_g3_label;
+
+        // bouton pour sauvegarder le graphe actuel
+        grman::WidgetButton m_bouton_save;
+        grman::WidgetText m_bouton_save_label;
+
+        // bouton pour lancer la simulation temporelle
+        grman::WidgetButton m_bouton_simu;
+        grman::WidgetText m_bouton_simu_label;
+
+        // bouton pour lancer la simulation differee
+        grman::WidgetButton m_bouton_diff;
+        grman::WidgetText m_bouton_diff_label;
+
+        // bouton pour afficher la forte connexite
+        grman::WidgetButton m_bouton_connex;
+        grman::WidgetText m_bouton_connex_label;
+
+
 };
 
 
@@ -306,7 +338,8 @@ class Graph
         std::string m_nomFichier;
 
     public:
-
+        std::string getNomFichier() {return m_nomFichier; }
+        std::shared_ptr<GraphInterface> getInterface() {return m_interface;}
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Graph (GraphInterface *interface=nullptr) :

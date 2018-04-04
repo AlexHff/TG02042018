@@ -1,48 +1,57 @@
 #include "Button.h"
 
-Button::Button(int _x, int _y, int _w, int _h, std::string _text)
-{
-    m_x = _x;
-    m_y = _y;
-    m_w = _w;
-    m_h = _h;
-    m_text = _text;
-    m_curstate = false;
-    m_prevstate = false;
-    m_hover = false;
-}
-
-Button::~Button()
-{
-    //dtor
-}
-
-void Button::update() {
-    // update hover state
-    if (mouse_x > m_x && mouse_x < m_x + m_w && mouse_y > m_y && mouse_y < m_y + m_h) {
-        m_hover = true;
-    } else {
-        m_hover = false;
+int getclicks(Graph &workg) {
+    if (workg.getInterface()->m_bouton_g1.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_1;
     }
 
-    // update clicstate
+    if (workg.getInterface()->m_bouton_g2.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_2;
+    }
 
-    // save the previous click state
-    m_prevstate = m_curstate;
-    // get the new one
-    m_curstate = (mouse_b&1);
+    if (workg.getInterface()->m_bouton_g3.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_3;
+    }
+
+    if (workg.getInterface()->m_bouton_save.clicked()) {
+        return constants::TB_ACTION_SAVE;
+    }
+
+    return constants::TB_ACTION_NOTHING;
 }
 
-bool Button::isClicked() {
-    /* button has been clicked if :
-     *  1. the mouse button is currently being held down
-     *  2. AND the mouse button was not previously being held down
-     *  3. AND the button is being hovered by the cursor
-    */
-    return (m_curstate && !m_prevstate && m_hover);
+void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
+    int message = getclicks(workg);
+
+    if (message == constants::TB_ACTION_LOAD_GRAPH_1) {
+        if (workg.getNomFichier() != "graph1.txt") {
+            if (workg.getNomFichier() == "graph2.txt") {
+                g2 = workg;
+            } else {
+                g3 = workg;
+            }
+            workg = g1;
+        }
+    } else if (message == constants::TB_ACTION_LOAD_GRAPH_2) {
+        if (workg.getNomFichier() != "graph2.txt") {
+            if (workg.getNomFichier() == "graph1.txt") {
+                g1 = workg;
+            } else {
+                g3 = workg;
+            }
+            workg = g2;
+        }
+    } else if (message == constants::TB_ACTION_LOAD_GRAPH_3) {
+        if (workg.getNomFichier() != "graph3.txt") {
+            if (workg.getNomFichier() == "graph1.txt") {
+                g1 = workg;
+            } else {
+                g2 = workg;
+            }
+            workg = g3;
+        }
+    } else if (message == constants::TB_ACTION_SAVE) {
+        workg.write_file();
+    }
 }
 
-void Button::show() {
-    std::cout << "Affichage du bouton " << m_text << std::endl;
-    //rect(page, 0, 0, 10, 10, makecol(255, 255, 255));
-}
