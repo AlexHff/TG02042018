@@ -14,8 +14,8 @@ int main()
     /// 3 graphes au total et un graphe "actif"
     Graph g1, g2, g3, workg;
     g1.read_file("graph1.txt");
-    //g2.read_file("graph2.txt");
-    //g3.read_file("graph3.txt");
+    g2.read_file("graph2.txt");
+    g3.read_file("graph3.txt");
 
     workg=g1;
     workg.fort_connexe();
