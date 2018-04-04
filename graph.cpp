@@ -315,6 +315,15 @@ void Graph::findOut()
     }
 }
 
+void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
+{
+    visited[v] = true;
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+        if(!visited[m_vertices[v].m_out[i]])
+            fillOrder(m_vertices[v].m_out[i], visited, Stack);
+    Stack.push(v);
+}
+
 void Graph::fort_connexe()
 {
     // On utilise un stack étant donné son principe LIFO
@@ -328,6 +337,6 @@ void Graph::fort_connexe()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         if(visited[i] == false)
         {
-            visited[i] = true;
+            fillOrder(i, visited, Stack);
         }
 }

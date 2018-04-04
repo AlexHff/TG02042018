@@ -114,10 +114,17 @@
 	<stack>
 	"grman/grman.h"
 
-1522790585 source:c:\users\alhff\documents\tg02042018\graph.cpp
+1522833295 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
-1522790422 c:\users\alhff\documents\tg02042018\graph.h
+1522834275 c:\users\alhff\documents\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	"grman/grman.h"
 
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
 	"graph.h"
@@ -211,7 +218,12 @@
 1522833279 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522789926 source:c:\users\alhff\documents\tg02042018\main.cpp
+1522833422 source:c:\users\alhff\documents\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Taskbar.h"
+	"Button.h"
 
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
 	"widget.h"
