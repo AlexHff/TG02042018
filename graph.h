@@ -134,13 +134,13 @@ class Vertex
     friend class EdgeInterface;
 
     private :
-        /// liste des indices des arcs arrivant au sommet : accès aux prédécesseurs
+        /// liste des indices des sommets arrivant au sommet : accès aux prédécesseurs
         std::vector<int> m_in;
 
-        /// liste des indices des arcs partant du sommet : accès aux successeurs
+        /// liste des indices des sommets partant du sommet : accès aux successeurs
         std::vector<int> m_out;
 
-        /// un exemple de donnée associée à l'arc, on peut en ajouter d'autres...
+        /// valeur de sommet
         double m_value;
 
         /// booleen pour desactiver les sommets
@@ -327,7 +327,14 @@ class Graph
         /// implémentation de la liste des indices des arcs sortant du sommet
         void findOut();
 
+        /// creation d'un stack contenant tous les sommets dans un ordre particulier pour l'algorithme de Kosaraju
         void fillOrder(int i, bool visited[], std::stack<int> &Stack);
+
+        /// inversion de toutes les aretes du graph pour l'algorithme de Kosaraju
+        Graph getTranspose();
+
+        /// implémentation dfs
+        void dfs(int v, bool visited[]);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

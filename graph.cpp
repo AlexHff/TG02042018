@@ -269,7 +269,7 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     m_edges[idx] = Edge(weight, ei);
 }
 
-void Graph::findIn()
+void Graph::findOut()
 {
     for(auto &e : m_vertices)
     {
@@ -292,7 +292,7 @@ void Graph::findIn()
     }
 }
 
-void Graph::findOut()
+void Graph::findIn()
 {
     for(auto &e : m_vertices)
     {
@@ -315,15 +315,39 @@ void Graph::findOut()
     }
 }
 
+void Graph::dfs(int v, bool visited[])
+{
+    visited[v] = true;
+    std::cout << v << " ";
+
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+        if(!visited[m_vertices[v].m_out[i]])
+            dfs(m_vertices[v].m_out[i], visited);
+}
+
+Graph Graph::getTranspose()
+{
+    Graph g = *this;
+
+    for(auto &e : g.m_vertices)
+        std::swap(e.second.m_out,e.second.m_in);
+    for(auto &e : g.m_edges)
+        std::swap(e.second.m_from,e.second.m_to);
+
+    return g;
+}
+
 void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
 {
     visited[v] = true;
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
         if(!visited[m_vertices[v].m_out[i]])
             fillOrder(m_vertices[v].m_out[i], visited, Stack);
+
     Stack.push(v);
 }
 
+/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspiré par https://www.geeksforgeeks.org/strongly-connected-components/
 void Graph::fort_connexe()
 {
     // On utilise un stack étant donné son principe LIFO
@@ -336,7 +360,26 @@ void Graph::fort_connexe()
 
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         if(visited[i] == false)
-        {
             fillOrder(i, visited, Stack);
+
+    Graph g = getTranspose();
+
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    std::cout << "Les composantes suivantes sont fortement connexes :" << std::endl;
+
+    while (!Stack.empty())
+    {
+        // Pop a vertex from stack
+        int v = Stack.top();
+        Stack.pop();
+
+        // Print Strongly connected component of the popped vertex
+        if (visited[v] == false)
+        {
+            g.dfs(v, visited);
+            std::cout << std::endl;
         }
+    }
 }
