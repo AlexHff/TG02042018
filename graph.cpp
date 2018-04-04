@@ -278,7 +278,7 @@ void Graph::findOut()
                 e.second.m_out.push_back(f.second.m_to);
     }
 
-    for(auto &e : m_vertices)
+    /*for(auto &e : m_vertices)
     {
         std::cout << e.first << " est succede par ";
         if(e.second.m_out.size()==0)
@@ -289,7 +289,7 @@ void Graph::findOut()
                 std::cout << e.second.m_out[j] << " ";
             std::cout << std::endl;
         }
-    }
+    }*/
 }
 
 void Graph::findIn()
@@ -301,7 +301,7 @@ void Graph::findIn()
                 e.second.m_in.push_back(f.second.m_from);
     }
 
-    for(auto &e : m_vertices)
+    /*for(auto &e : m_vertices)
     {
         std::cout << e.first << " est precede par ";
         if(e.second.m_in.size()==0)
@@ -312,13 +312,14 @@ void Graph::findIn()
                 std::cout << e.second.m_in[j] << " ";
             std::cout << std::endl;
         }
-    }
+    }*/
 }
 
 void Graph::dfs(int v, bool visited[],int k)
 {
     visited[v] = true;
     m_vertices[v].m_group = k;
+    std::cout << v << " ";
 
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
         if(!visited[m_vertices[v].m_out[i]])
@@ -340,6 +341,7 @@ Graph Graph::getTranspose()
 void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
 {
     visited[v] = true;
+
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
         if(!visited[m_vertices[v].m_out[i]])
             fillOrder(m_vertices[v].m_out[i], visited, Stack);
@@ -347,7 +349,7 @@ void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
     Stack.push(v);
 }
 
-/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspiré par https://www.geeksforgeeks.org/strongly-connected-components/
+/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspiré de https://www.geeksforgeeks.org/strongly-connected-components/
 void Graph::fort_connexe()
 {
     // On utilise un stack étant donné son principe LIFO
@@ -360,7 +362,7 @@ void Graph::fort_connexe()
 
     // Ajouter tous les sommets dans le stack
     for(unsigned int i(0); i < m_vertices.size(); ++i)
-        if(visited[i] == false)
+        if(!visited[i])
             fillOrder(i, visited, Stack);
 
     Graph g = getTranspose();
@@ -368,7 +370,8 @@ void Graph::fort_connexe()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         visited[i] = false;
 
-    int k=0;
+    int k = 0;
+    std::cout << "Les composantes fortement connexes :" << std::endl;
     while (!Stack.empty())
     {
         // Pop a vertex from stack
@@ -376,11 +379,65 @@ void Graph::fort_connexe()
         Stack.pop();
 
         // Print Strongly connected component of the popped vertex
-        if (visited[v] == false)
+        if (!visited[v])
+        {
             g.dfs(v, visited, k);
-        k++;
+            std::cout << std::endl;
+            k++;
+        }
     }
 
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         m_vertices[i].m_group = g.m_vertices[i].m_group;
+}
+
+void Graph::kVertexConnexRecur(int v, bool visited[], int k, int j)
+{
+    std::cout << "Nous visitons le sommet " << v << ". k = " << k << std::endl;
+    visited[v] = true;
+    k++;
+
+    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
+    {
+        std::cout << "Sommet suivant : " << m_vertices[v].m_out[i] << std::endl;
+        if(!visited[m_vertices[v].m_out[i]] && m_vertices[v].m_out[i]!=j)
+        {
+            kVertexConnexRecur(m_vertices[v].m_out[i], visited, k, j);
+        }
+    }
+
+    for(unsigned int i(0); i < m_vertices[v].m_in.size(); ++i)
+    {
+        std::cout << "Sommet precedent : " << m_vertices[v].m_in[i] << std::endl;
+        if(!visited[m_vertices[v].m_in[i]] && m_vertices[v].m_in[i]!=j)
+        {
+            kVertexConnexRecur(m_vertices[v].m_in[i], visited, k, j);
+        }
+    }
+}
+
+/// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe inspiré de https://www.sanfoundry.com/cpp-program-find-vertex-connectivity-graph/
+void Graph::kVertexConnex()
+{
+    // Marquer toutes les aretes comme non visitées
+    bool *visited = new bool[m_vertices.size()];
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    int k = 0, kmin = 0;
+
+    for(unsigned int j(0); j < m_vertices.size(); ++j)
+    {
+        m_vertices[j].m_isVertex=false;
+        std::cout << "Nous desactivons le sommet " << j << std::endl;
+        for(unsigned int i(0); i < m_vertices.size(); ++i)
+        {
+            if(!visited[i] && m_vertices[i].m_isVertex)
+                kVertexConnexRecur(i, visited, k, j);
+            for(unsigned int t(0); t < m_vertices.size(); ++t)
+                visited[t] = false;
+        }
+        //m_vertices[j].m_isVertex=true;
+        std::cout << std::endl;
+    }
 }

@@ -144,7 +144,7 @@ class Vertex
         double m_value;
 
         /// booleen pour desactiver les sommets
-        bool m_activeVertex;
+        bool m_isVertex;
 
         /// population
         int m_population;
@@ -165,7 +165,7 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Vertex (double value=0, VertexInterface *interface=nullptr) :
-            m_value(value), m_interface(interface)  {  }
+            m_value(value), m_isVertex(true), m_interface(interface)  {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)
@@ -231,7 +231,7 @@ class Edge
         double m_weight;
 
         /// booleen pour desactiver les arcs
-        bool m_activeEdge;
+        bool m_isEdge;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<EdgeInterface> m_interface = nullptr;
@@ -338,6 +338,12 @@ class Graph
 
         /// implémentation dfs
         void dfs(int v, bool visited[], int k);
+
+        /// k-sommet-connexite récurrence
+        void kVertexConnexRecur(int v, bool visited[], int k, int j);
+
+        /// k-sommet-connexite
+        void kVertexConnex();
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
