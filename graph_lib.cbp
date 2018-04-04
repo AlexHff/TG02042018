@@ -41,8 +41,6 @@
 		</Linker>
 		<Unit filename="Button.cpp" />
 		<Unit filename="Button.h" />
-		<Unit filename="Taskbar.cpp" />
-		<Unit filename="Taskbar.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="graph.cpp" />
 		<Unit filename="graph.h" />

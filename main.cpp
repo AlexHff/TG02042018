@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "graph.h"
-#include "Taskbar.h"
 #include "Button.h"
 
 int main()
@@ -22,18 +21,12 @@ int main()
     workg=g1;
     workg.fort_connexe();
 
-    /// La taskbar qui regroupe les boutons
-    Taskbar TB;
-
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement Ã  des frameworks plus avancÃ©s )
     while ( !key[KEY_ESC] )
     {
         /// Il faut appeler les mÃ©thodes d'update des objets qui comportent des widgets
         workg.update();
-
-        if(key[KEY_SPACE])
-            workg.fort_connexe();
 
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();

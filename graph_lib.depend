@@ -114,10 +114,18 @@
 	<stack>
 	"grman/grman.h"
 
-1522790585 source:c:\users\alhff\documents\tg02042018\graph.cpp
+1522883600 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
-1522790422 c:\users\alhff\documents\tg02042018\graph.h
+1522883600 c:\users\alhff\documents\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	"grman/grman.h"
+	"constants.h"
 
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
 	"graph.h"
@@ -157,7 +165,7 @@
 	<iostream>
 	"graph.h"
 
-1522833279 c:\users\alhff\documents\tg02042018\grman\grman.h
+1522883600 c:\users\alhff\documents\tg02042018\grman\grman.h
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
@@ -166,12 +174,12 @@
 
 1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman.h
 
-1522833279 c:\users\alhff\documents\tg02042018\grman\grman_couleurs.h
+1522883600 c:\users\alhff\documents\tg02042018\grman\grman_couleurs.h
 
-1522833279 c:\users\alhff\documents\tg02042018\grman\coords.h
+1522883600 c:\users\alhff\documents\tg02042018\grman\coords.h
 	<cmath>
 
-1522833279 c:\users\alhff\documents\tg02042018\grman\widget.h
+1522883600 c:\users\alhff\documents\tg02042018\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -186,10 +194,10 @@
 
 1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\widget.h
 
-1522833279 source:c:\users\alhff\documents\tg02042018\grman\coords.cpp
+1522883600 source:c:\users\alhff\documents\tg02042018\grman\coords.cpp
 	"coords.h"
 
-1522833279 source:c:\users\alhff\documents\tg02042018\grman\grman.cpp
+1522883600 source:c:\users\alhff\documents\tg02042018\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -208,10 +216,15 @@
 
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\grman.cpp
 
-1522833279 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
+1522883600 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522789926 source:c:\users\alhff\documents\tg02042018\main.cpp
+1522883600 source:c:\users\alhff\documents\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Taskbar.h"
+	"Button.h"
 
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
 	"widget.h"
@@ -234,18 +247,18 @@
 	<string>
 	"Button.h"
 
-1522833339 source:c:\users\alhff\documents\tg02042018\button.cpp
+1522883599 source:c:\users\alhff\documents\tg02042018\button.cpp
 	"Button.h"
 
-1522833339 c:\users\alhff\documents\tg02042018\button.h
+1522883599 c:\users\alhff\documents\tg02042018\button.h
 	<iostream>
 	<string>
 	"grman/grman.h"
 
-1522833339 source:c:\users\alhff\documents\tg02042018\taskbar.cpp
+1522883599 source:c:\users\alhff\documents\tg02042018\taskbar.cpp
 	"Taskbar.h"
 
-1522833339 c:\users\alhff\documents\tg02042018\taskbar.h
+1522883599 c:\users\alhff\documents\tg02042018\taskbar.h
 	<iostream>
 	<string>
 	"Button.h"
@@ -327,4 +340,6 @@
 	"Taskbar.h"
 
 1522862470 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
+
+1522883600 c:\users\alhff\documents\tg02042018\constants.h
 
