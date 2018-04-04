@@ -205,10 +205,10 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     /// bouton afficher connexite
     m_boite_boutons.add_child(m_bouton_connex);
     m_bouton_connex.set_frame(20, 600, 40, 40);
-    m_bouton_connex.set_bg_color(ROSECLAIR);
+    m_bouton_connex.set_bg_color(ORANGECLAIR);
 
     m_bouton_connex.add_child(m_bouton_connex_label);
-    m_bouton_connex_label.set_message("Afficher connexite");
+    m_bouton_connex_label.set_message("Connexite");
 
 }
 
