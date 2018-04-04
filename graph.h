@@ -79,6 +79,7 @@
 #include <stack>
 
 #include "grman/grman.h"
+#include "constants.h"
 
 /***************************************************
                     VERTEX
@@ -101,15 +102,25 @@ class VertexInterface
         // La boite qui contient toute l'interface d'un sommet
         grman::WidgetBox m_top_box;
 
+        /*** VALUE ***/
         // Un slider de visualisation/modification de la valeur du sommet
         grman::WidgetVSlider m_slider_value;
 
         // Un label de visualisation de la valeur du sommet
         grman::WidgetText m_label_value;
 
+        /*** POPULATION ***/
+        // Un slider de visualisation/modification de la pop du sommet
+        grman::WidgetVSlider m_slider_pop;
+
+        // Un label de visualisation de la valeur du sommet
+        grman::WidgetText m_label_pop;
+
+        /*** IMG ***/
         // Une image de "remplissage"
         grman::WidgetImage m_img;
 
+        /*** IDX ***/
         // Un label indiquant l'index du sommet
         grman::WidgetText m_label_idx;
 
@@ -172,6 +183,7 @@ class Vertex
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+
 };
 
 
@@ -380,6 +392,16 @@ class Graph
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
+
+        /// Permet de mettre à jour la population de tous les sommets
+        void update_pop();
+
+        /// Calcul de K, capacité de portage de l'environnement
+        double calcul_sommeKIn(int to);
+        double calcul_sommeKOut(int from);
+
+        /// Permet de chercher le poids de l'arete formé par les 2 sommets (s'il existe, 0 sinon)
+        double findWeight(int from, int to);
 };
 
 
