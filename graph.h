@@ -149,6 +149,9 @@ class Vertex
         /// population
         int m_population;
 
+        /// groupe d'appartenance pour la forte connexite
+        int m_group;
+
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<VertexInterface> m_interface = nullptr;
 
@@ -334,7 +337,7 @@ class Graph
         Graph getTranspose();
 
         /// implémentation dfs
-        void dfs(int v, bool visited[]);
+        void dfs(int v, bool visited[], int k);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

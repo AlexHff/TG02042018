@@ -315,14 +315,14 @@ void Graph::findIn()
     }
 }
 
-void Graph::dfs(int v, bool visited[])
+void Graph::dfs(int v, bool visited[],int k)
 {
     visited[v] = true;
-    std::cout << v << " ";
+    m_vertices[v].m_group = k;
 
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
         if(!visited[m_vertices[v].m_out[i]])
-            dfs(m_vertices[v].m_out[i], visited);
+            dfs(m_vertices[v].m_out[i], visited, k);
 }
 
 Graph Graph::getTranspose()
@@ -358,6 +358,7 @@ void Graph::fort_connexe()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         visited[i] = false;
 
+    // Ajouter tous les sommets dans le stack
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         if(visited[i] == false)
             fillOrder(i, visited, Stack);
@@ -367,8 +368,7 @@ void Graph::fort_connexe()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         visited[i] = false;
 
-    std::cout << "Les composantes suivantes sont fortement connexes :" << std::endl;
-
+    int k=0;
     while (!Stack.empty())
     {
         // Pop a vertex from stack
@@ -377,9 +377,10 @@ void Graph::fort_connexe()
 
         // Print Strongly connected component of the popped vertex
         if (visited[v] == false)
-        {
-            g.dfs(v, visited);
-            std::cout << std::endl;
-        }
+            g.dfs(v, visited, k);
+        k++;
     }
+
+    for(unsigned int i(0); i < m_vertices.size(); ++i)
+        m_vertices[i].m_group = g.m_vertices[i].m_group;
 }
