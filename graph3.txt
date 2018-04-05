@@ -1,10 +1,10 @@
 5
 7
-0 30 335 307 clown1.jpg
-1 50 769 25 clown2.jpg
-2 40 754 602 clown3.jpg
-3 80 3 609 clown3.jpg
-4 50 32 24 clown2.jpg
+0 30 389 280 clown1.jpg
+1 50 437 53 clown2.jpg
+2 40 152 81 clown3.jpg
+3 80 75 366 clown3.jpg
+4 50 677 263 clown2.jpg
 0 0 1 30
 1 0 2 50
 2 1 2 70

@@ -385,10 +385,12 @@ class Graph
         void dfs(int v, bool visited[], int k);
 
         /// k-sommet-connexite récurrence
-        void kVertexConnexRecur(int v, bool visited[], int k, int j);
+        void kVertexConnexRecur(int v, bool visited[], unsigned int &visitedVertices);
 
         /// k-sommet-connexite
         void kVertexConnex();
+
+        int binomialCoeff(int n, int k);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

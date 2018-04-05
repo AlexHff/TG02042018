@@ -63,14 +63,14 @@ void Vertex::pre_update()
     if (!m_interface)
         return;
 
-        // Value
+    // Value
     /// Copier la valeur locale de la donnée m_value vers le slider associé
     m_interface->m_slider_value.set_value(m_value);
 
     /// Copier la valeur locale de la donnée m_value vers le label sous le slider
     m_interface->m_label_value.set_message( std::to_string( (int)m_value) );
 
-        // Pop
+    // Pop
     /// Copier la valeur locale de la donnée m_population vers le slider associé
     m_interface->m_slider_pop.set_value(m_population);
 
@@ -271,7 +271,7 @@ void Graph::read_file(const std::string& nom_fichier)
     findIn();
     findOut();
 
-    /// A FAIRE : charger la valeur depuis les fichiers
+    ///////////////////////////////////////// A FAIRE : charger la valeur depuis les fichiers
     for(auto &e : m_vertices)
     {
         e.second.m_population = 100;
@@ -283,7 +283,7 @@ void Graph::write_file()
     /// test d'ouverture du fichier
     std::fstream fic(m_nomFichier, std::ios_base::out);
     if ( !fic.is_open() )
-       throw "Probleme ouverture fichier !";
+        throw "Probleme ouverture fichier !";
     /// ecriture dans le fichier
 
     else
@@ -485,32 +485,51 @@ void Graph::fort_connexe()
         m_vertices[i].m_group = g.m_vertices[i].m_group;
 }
 
-void Graph::kVertexConnexRecur(int v, bool visited[], int k, int j)
+void Graph::kVertexConnexRecur(int v, bool visited[], unsigned int &visitedVertices)
 {
-    std::cout << "Nous visitons le sommet " << v << ". k = " << k << std::endl;
+    visitedVertices++;
+    std::cout << "Nous visitons le sommet " << v << ". Nombre de sommets visites = " << visitedVertices << std::endl;
     visited[v] = true;
-    k++;
 
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
     {
         std::cout << "Sommet suivant : " << m_vertices[v].m_out[i] << std::endl;
-        if(!visited[m_vertices[v].m_out[i]] && m_vertices[v].m_out[i]!=j)
+        if(!visited[m_vertices[v].m_out[i]] && m_vertices[m_vertices[v].m_out[i]].m_isVertex)
         {
-            kVertexConnexRecur(m_vertices[v].m_out[i], visited, k, j);
+            kVertexConnexRecur(m_vertices[v].m_out[i], visited, visitedVertices);
         }
     }
 
     for(unsigned int i(0); i < m_vertices[v].m_in.size(); ++i)
     {
         std::cout << "Sommet precedent : " << m_vertices[v].m_in[i] << std::endl;
-        if(!visited[m_vertices[v].m_in[i]] && m_vertices[v].m_in[i]!=j)
+        if(!visited[m_vertices[v].m_in[i]] && m_vertices[m_vertices[v].m_in[i]].m_isVertex)
         {
-            kVertexConnexRecur(m_vertices[v].m_in[i], visited, k, j);
+            kVertexConnexRecur(m_vertices[v].m_in[i], visited, visitedVertices);
         }
     }
 }
 
-/// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe inspiré de https://www.sanfoundry.com/cpp-program-find-vertex-connectivity-graph/
+/// Calcul C(n,k), source https://www.geeksforgeeks.org/space-and-time-efficient-binomial-coefficient/
+int Graph::binomialCoeff(int n, int k)
+{
+    int res = 1;
+
+    // Since C(n, k) = C(n, n-k)
+    if ( k > n - k )
+        k = n - k;
+
+    // Calculate value of [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
+    for (int i = 0; i < k; ++i)
+    {
+        res *= (n - i);
+        res /= (i + 1);
+    }
+
+    return res;
+}
+
+/// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
 void Graph::kVertexConnex()
 {
     // Marquer toutes les aretes comme non visitées
@@ -518,22 +537,52 @@ void Graph::kVertexConnex()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         visited[i] = false;
 
-    int k = 0, kmin = 0;
+    unsigned int k = 0, kmin = 0, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
 
-    for(unsigned int j(0); j < m_vertices.size(); ++j)
+    do
     {
-        m_vertices[j].m_isVertex=false;
-        std::cout << "Nous desactivons le sommet " << j << std::endl;
-        for(unsigned int i(0); i < m_vertices.size(); ++i)
+        for(k = 1; k < m_vertices.size()-1; ++k)
         {
-            if(!visited[i] && m_vertices[i].m_isVertex)
-                kVertexConnexRecur(i, visited, k, j);
-            for(unsigned int t(0); t < m_vertices.size(); ++t)
-                visited[t] = false;
+            int c=binomialCoeff(m_vertices.size(), k);
+            std::cout << "Coefficient binomial pour k = " << k << " ==> " << c << std::endl;
+
+            for(unsigned int j(0); j < m_vertices.size(); ++j)
+            {
+                m_vertices[j].m_isVertex=false;
+                //m_vertices[2].m_isVertex=false;
+                std::cout << "Nous desactivons le sommet " << j << std::endl;
+
+                // Mise à jour du nombre d'aretes actives
+                nbVertices = 0;
+                for(unsigned int cpt(0); cpt < m_vertices.size(); ++cpt)
+                    if(!m_vertices[cpt].m_isVertex)
+                        nbVertices++;
+
+                std::cout << "Nombre de sommets desactives : " << nbVertices << std::endl;
+                for(unsigned int i(0); i < m_vertices.size(); ++i)
+                {
+                    if(!visited[i] && m_vertices[i].m_isVertex)
+                    {
+                        kVertexConnexRecur(i, visited, visitedVertices);
+                        if(visitedVerticesMax < visitedVertices)
+                            visitedVerticesMax = visitedVertices;
+                        if(kmin > nbVertices)
+                            kmin = nbVertices;
+                        visitedVertices = 0;
+                    }
+                    for(unsigned int t(0); t < m_vertices.size(); ++t)
+                        visited[t] = false;
+                    std::cout << "Nombre de sommets max visites : " << visitedVerticesMax << std::endl;
+                }
+                std::cout << std::endl;
+
+
+                for(unsigned int i(0); i < m_vertices.size(); ++i)
+                    m_vertices[i].m_isVertex=true;
+            }
         }
-        //m_vertices[j].m_isVertex=true;
-        std::cout << std::endl;
     }
+    while(visitedVerticesMax == m_vertices.size());
 }
 
 double Graph::calcul_sommeKIn(int to)
