@@ -16,13 +16,13 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     /*** VALUE ***/
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 0.15);  // Valeurs arbitraires, à adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
     // Label de visualisation de valeur
-    m_top_box.add_child( m_label_value );
-    m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
+    //m_top_box.add_child( m_label_value );
+    //m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
 
     /*** POPULATION ***/
     // Le slider de réglage de la pop
@@ -589,7 +589,7 @@ void Graph::update_pop()
         }
 
         /// calcul de la nouvelle population (ceil() -> arrondi supérieur)
-        e.second.m_population += e.second.m_value * e.second.m_population * ceil(1 - quotient) - e.second.m_value * calcul_sommeKOut(e.first);
+        e.second.m_population += e.second.m_value * e.second.m_population * ceil(1 - quotient);// - e.second.m_value * calcul_sommeKOut(e.first);
 
         if(e.second.m_population < 0)
         {
