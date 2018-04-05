@@ -151,8 +151,12 @@ class Vertex
         /// liste des indices des sommets partant du sommet : accès aux successeurs
         std::vector<int> m_out;
 
-        /// valeur de sommet
-        double m_value;
+        /// coef In -> "mange"
+        double m_coefIn;
+        /// coef Out -> "est mangé"
+        double m_coefOut;
+        /// compteur incrémentation pop
+        double m_cptPop;
 
         /// booleen pour desactiver les sommets
         bool m_isVertex;
@@ -175,8 +179,8 @@ class Vertex
 
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Vertex (double value=0, VertexInterface *interface=nullptr) :
-            m_value(value), m_isVertex(true), m_interface(interface)  {  }
+        Vertex (double coefIn=0, double coefOut=0, int population=0, VertexInterface *interface=nullptr) :
+            m_coefIn(coefIn), m_coefOut(coefOut), m_population(population), m_isVertex(true), m_interface(interface)  {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)
@@ -357,7 +361,7 @@ class Graph
         Graph (GraphInterface *interface=nullptr) :
             m_interface(interface)  {  }
 
-        void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
+        void add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
         /// chargement des fichiers

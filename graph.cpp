@@ -9,14 +9,14 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 {
     // La boite englobante
     m_top_box.set_pos(x, y);
-    m_top_box.set_dim(160, 100);
+    m_top_box.set_dim(200, 100);
     m_top_box.set_moveable();
 
 
     /*** VALUE ***/
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0, 0.15);  // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -65,10 +65,10 @@ void Vertex::pre_update()
 
         // Value
     /// Copier la valeur locale de la donnée m_value vers le slider associé
-    m_interface->m_slider_value.set_value(m_value);
+    m_interface->m_slider_value.set_value(m_coefIn);
 
     /// Copier la valeur locale de la donnée m_value vers le label sous le slider
-    m_interface->m_label_value.set_message( std::to_string( (int)m_value) );
+    m_interface->m_label_value.set_message( std::to_string( (int)m_coefIn) );
 
         // Pop
     /// Copier la valeur locale de la donnée m_population vers le slider associé
@@ -85,7 +85,7 @@ void Vertex::post_update()
         return;
 
     /// Reprendre la valeur du slider dans la donnée m_value locale
-    m_value = m_interface->m_slider_value.get_value();
+    m_coefIn = m_interface->m_slider_value.get_value();
 
     m_population = m_interface->m_slider_pop.get_value();
 }
@@ -247,16 +247,22 @@ void Graph::read_file(const std::string& nom_fichier)
     else
     {
         unsigned int idx, x, y, vert1, vert2, nbVertices, nbEdges;
-        double value, weight;
+        double coefIn, coefOut, weight;
+        int pop;
         std::string pic_name;
 
         fic >> nbVertices;
         fic >> nbEdges;
         for(unsigned int i(0); i<nbVertices; ++i)
         {
-            fic >> idx >> value >> x >> y >> pic_name;
-            add_interfaced_vertex(idx, value, x, y, pic_name);
-            m_vertices[i].m_value=value;
+            fic >> idx >> coefIn >> coefOut >> pop >> x >> y >> pic_name;
+            add_interfaced_vertex(idx, coefIn, coefOut, pop, x, y, pic_name);
+            m_vertices[i].m_coefIn = coefIn;
+            m_vertices[i].m_coefOut = coefOut;
+            m_vertices[i].m_population = pop;
+
+            m_vertices[i].m_cptPop = 0.0;
+
         }
 
         for(unsigned int i(0); i<nbEdges; ++i)
@@ -271,11 +277,6 @@ void Graph::read_file(const std::string& nom_fichier)
     findIn();
     findOut();
 
-    /// A FAIRE : charger la valeur depuis les fichiers
-    for(auto &e : m_vertices)
-    {
-        e.second.m_population = 100;
-    }
 }
 
 void Graph::write_file()
@@ -293,7 +294,7 @@ void Graph::write_file()
         fic << m_edges.size() << std::endl;
         for(auto &e : m_vertices)
         {
-            fic << e.first << " " << e.second.m_value << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
+            fic << e.first << " " << e.second.m_coefIn << " " << e.second.m_coefOut << " " << e.second.m_population << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
         }
 
         for(auto &e : m_edges)
@@ -328,7 +329,7 @@ void Graph::update()
 }
 
 /// Aide à l'ajout de sommets interfacés
-void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
+void Graph::add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name, int pic_idx )
 {
     if ( m_vertices.find(idx)!=m_vertices.end() )
     {
@@ -340,7 +341,7 @@ void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::stri
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
     // On peut ajouter directement des vertices dans la map avec la notation crochet :
-    m_vertices[idx] = Vertex(value, vi);
+    m_vertices[idx] = Vertex(coefIn, coefOut, pop, vi);
 }
 
 /// Aide à l'ajout d'arcs interfacés
@@ -592,25 +593,25 @@ void Graph::update_pop()
             quotient = e.second.m_population/Kin;
         }
 
-        /// calcul de la nouvelle population (ceil() -> arrondi supérieur)
+        /// calcul de la nouvelle population
 
-        if(1 - quotient < 0.0)
+        e.second.m_cptPop += e.second.m_coefIn * e.second.m_population * (1 - quotient) - e.second.m_coefOut * calcul_sommeKOut(e.first);
+
+        if(e.second.m_cptPop >= 1.0)
         {
-            arrondi = floor(1 - quotient);
+            e.second.m_population++;
+            e.second.m_cptPop = 0.0;
         }
-        else if(1 - quotient > 0.0)
+        else if(e.second.m_cptPop <= -1.0)
         {
-            arrondi = ceil(1 - quotient);
+           e.second.m_population--;
+           e.second.m_cptPop = 0.0;
         }
 
-        e.second.m_population += e.second.m_value * e.second.m_population * arrondi;// - e.second.m_value * calcul_sommeKOut(e.first);
-//std::cout << std::endl << e.second.m_value * e.second.m_population * arrondi;
-//std::cout << std::endl << 1 - quotient;
-        if(e.second.m_population < 0)
+        if(e.second.m_population < 0) /// Pas de pop négative
         {
             e.second.m_population = 0;
         }
-
     }
 
 }
