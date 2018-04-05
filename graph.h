@@ -190,6 +190,7 @@ class Vertex
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+        int getPopulation() { return m_population; }
 
 };
 
@@ -420,6 +421,8 @@ class Graph
 
         void invertSimu() { m_simu_temp = !m_simu_temp; }
         void resetColors();
+
+        std::map<int, Vertex> getVertices() { return m_vertices; }
 };
 
 

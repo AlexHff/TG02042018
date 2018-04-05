@@ -7,7 +7,7 @@
 #include "graph.h"
 #include "grman/grman.h"
 
-void differe();
+void differe(Graph workg);
 
 
 #endif // DIFFERE_H_INCLUDED

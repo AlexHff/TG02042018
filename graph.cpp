@@ -475,6 +475,7 @@ void Graph::fort_connexe()
 {
     // On utilise un stack étant donné son principe LIFO
     std::stack<int> Stack;
+    std::vector<int> colors = {0x00FF00,0x0000FF,0xFF0000,0x01FFFE,0xFFA6FE,0xFFDB66,0x006401,0x010067,0x95003A,0x007DB5,0xFF00F6,0xFFEEE8,0x774D00,0x90FB92,0x0076FF,0xD5FF00,0xFF937E,0x6A826C,0xFF029D,0xFE8900,0x7A4782,0x7E2DD2,0x85A900,0xFF0056,0xA42400,0x00AE7E,0x683D3B,0xBDC6FF,0x263400,0xBDD393,0x00B917,0x9E008E,0x001544,0xC28C9F,0xFF74A3};
 
     // Marquer toutes les aretes comme non visitées
     bool *visited = new bool[m_vertices.size()];
@@ -495,6 +496,7 @@ void Graph::fort_connexe()
     std::cout << "Les composantes fortement connexes :" << std::endl;
     while (!Stack.empty())
     {
+
         // Pop a vertex from stac->setBgCol(col)k
         int v = Stack.top();
         Stack.pop();
@@ -502,7 +504,7 @@ void Graph::fort_connexe()
         // Print Strongly connected component of the popped vertex
         if (!visited[v])
         {
-            int col = 0xCCCCCC + rand() % 0xCCCCCC;
+            int col = colors[v % colors.size()];
             g.dfs(v, visited, k, col);
             std::cout << std::endl;
             k++;
@@ -658,6 +660,10 @@ void Graph::update_pop()
         if(e.second.m_population < 0) /// Pas de pop négative
         {
             e.second.m_population = 0;
+        }
+
+        if (e.second.m_population > 50000) {
+            e.second.m_population = 50000;
         }
     }
 

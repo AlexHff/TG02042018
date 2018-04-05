@@ -1,5 +1,20 @@
 #include "Differe.h"
 
+int findMaxVal(Graph workg, int duree) {
+    Graph g = workg;
+    int maxVal = 0;
+    for (unsigned int i = 0; i < duree; i++) {
+        for(auto &e : g.getVertices()) {
+            int nb = e.second.getPopulation();
+            if (nb > maxVal) {
+                maxVal = nb;
+            }
+        }
+        g.update_pop();
+    }
+    return maxVal;
+}
+
 bool isInt(std::string s) {
     int firstZeroes = 0;
     bool firstOtherThanZeroFound = false;
@@ -38,12 +53,15 @@ void preparePlot(BITMAP * graphique, int maxVal, int duree) {
     if (duree <= 10) divUnit = 1;
     if (duree > 10 && duree < 200) divUnit = 10;
     if (duree >= 200 && duree < 500) divUnit = 50;
-    if (duree >= 500) divUnit = 100;
+    if (duree >= 500 && duree < 2000) divUnit = 100;
+    if (duree >= 2000 && duree < 5000) divUnit = 500;
+    if (duree >= 5000) divUnit = 1000;
     int lar = graphique->w - 200;
     int unitW = (int)((float)lar / ((float)duree / (float)divUnit));
 
     for (unsigned int i = 0; i * unitW < lar; i++) {
         line(graphique, 100 + i * unitW, graphique->h - 100, 100 + i * unitW, graphique->h - 90, makecol(0, 0, 0));
+        line(graphique, 100 + i * unitW, graphique->h - 100, 100 + i * unitW, 100, 0xEEEEEE);
         textout_centre_ex(graphique, font, std::to_string(i * divUnit).c_str(), 100 + i * unitW, graphique->h - 80, NOIR, BLANC);
     }
 
@@ -51,27 +69,62 @@ void preparePlot(BITMAP * graphique, int maxVal, int duree) {
     if (maxVal <= 10) divUnit = 1;
     if (maxVal > 10 && maxVal < 200) divUnit = 10;
     if (maxVal >= 200 && maxVal < 500) divUnit = 50;
-    if (maxVal >= 500) divUnit = 100;
+    if (maxVal >= 500 && maxVal < 2000) divUnit = 100;
+    if (maxVal >= 2000 && maxVal < 5000) divUnit = 500;
+    if (maxVal >= 5000 && maxVal < 20000) divUnit = 1000;
+    if (maxVal >= 20000) divUnit = 5000;
     int haut = graphique->h - 200;
     int unitH = (int)((float)haut / ((float)maxVal / (float)divUnit));
 
     for (unsigned int i = 0; i * unitH < haut; i++) {
         line(graphique, 100, graphique->h - 100 - i * unitH, 90, graphique->h - 100 - i * unitH, makecol(0, 0, 0));
+        line(graphique, 100, graphique->h - 100 - i * unitH, graphique->w - 100, graphique->h - 100 - i * unitH, 0xEEEEEE);
         textout_centre_ex(graphique, font, std::to_string(i * divUnit).c_str(), 80, graphique->h - 100 - i * unitH, NOIR, BLANC);
     }
 
 }
 
+int mapInt(int val, int minval, int maxval, int minres, int maxres) {
+    return (int)(   ((float)val - (float)minval) / ((float)maxval - (float)minval) * ((float)maxres - (float)minres) + (float)minres   );
+}
+
 void valsToCoords(BITMAP * graphique, int maxVal, int duree, int * x, int * y, int xval, int yval) {
     int lar = graphique->w - 200;
     int haut = graphique->h - 200;
-    *x = 100 + (int)((float)lar / ((float)duree / (float)xval));
-    *y = graphique->h - 100 - (int)((float)haut / ((float)maxVal / (float)yval));
+    *x = 100 + mapInt(xval, 0, duree, 0, lar);
+    *y = graphique->h - 100 - mapInt(yval, 0, maxVal, 0, haut);
 }
 
-void differe() {
+void dessinerCourbes(BITMAP * graphique, Graph workg, int maxVal, int duree) {
+    Graph g = workg;
+    std::vector<int> colors = {0x00FF00,0x0000FF,0xFF0000,0x01FFFE,0xFFA6FE,0xFFDB66,0x006401,0x010067,0x95003A,0x007DB5,0xFF00F6,0xFFEEE8,0x774D00,0x90FB92,0x0076FF,0xD5FF00,0xFF937E,0x6A826C,0xFF029D,0xFE8900,0x7A4782,0x7E2DD2,0x85A900,0xFF0056,0xA42400,0x00AE7E,0x683D3B,0xBDC6FF,0x263400,0xBDD393,0x00B917,0x9E008E,0x001544,0xC28C9F,0xFF74A3};
+    for (unsigned int i = 0; i < duree - 1; i++) {
+        std::vector<std::pair<int, int>> first;
+        std::vector<std::pair<int, int>> second;
+        for(auto &e : g.getVertices()) {
+            int x, y;
+            valsToCoords(graphique, maxVal, duree, &x, &y, i, e.second.getPopulation());
+            std::pair<int, int> temp(x, y);
+            first.push_back(temp);
+            //std::cout << e.second.getPopulation() << std::endl;
+        }
+        g.update_pop();
+        for(auto &e : g.getVertices()) {
+            int x, y;
+            valsToCoords(graphique, maxVal, duree, &x, &y, i, e.second.getPopulation());
+            std::pair<int, int> temp(x, y);
+            second.push_back(temp);
+        }
+
+        for (unsigned int i = 0; i < first.size(); i++) {
+            line(graphique, first[i].first, first[i].second, second[i].first, second[i].second, colors[i % colors.size()]);
+        }
+    }
+}
+
+void differe(Graph workg) {
     int duree = 0;
-    int maxVal = 1000;
+    int maxVal = 0;
     BITMAP * graphique = create_bitmap(SCREEN_W, SCREEN_H);
     clear_to_color(graphique, makecol(255, 255, 255));
     while (duree == 0) {
@@ -82,17 +135,12 @@ void differe() {
     }
     std::cout << "Creation du graphique pour " << duree << " etapes..." << std::endl;
 
+    maxVal = findMaxVal(workg, duree);
+    std::cout << "MAXVAL " << maxVal << std::endl;
+
     preparePlot(graphique, maxVal, duree);
 
-    /////////////////////////////////////////
-    /// DESSIN DES POINTS DU GRAPHIQUE ///
-    /////////////////////////////////////////
-
-
-
-    /////////////////////////////////////////
-    ///    FIN DU DESSIN DES POINTS    ///
-    /////////////////////////////////////////
+    dessinerCourbes(graphique, workg, maxVal, duree);
 
     // affichage du graphique final
     clear_to_color(screen, makecol(255, 255, 255));
