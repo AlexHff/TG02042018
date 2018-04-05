@@ -115,10 +115,10 @@
 	"grman/grman.h"
 	"constants.h"
 
-1522956589 source:c:\users\alhff\documents\tg02042018\graph.cpp
+1522959785 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
-1522958947 c:\users\alhff\documents\tg02042018\graph.h
+1522959785 c:\users\alhff\documents\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
@@ -170,10 +170,10 @@
 	<string>
 	"grman/grman.h"
 
-1522862011 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
+1522938299 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
 	"graph.h"
 
-1522861094 c:\users\adrie\desktop\ing2\info\piscine\graph.h
+1522938093 c:\users\adrie\desktop\ing2\info\piscine\graph.h
 	<vector>
 	<map>
 	<string>
@@ -181,6 +181,7 @@
 	<fstream>
 	<stack>
 	"grman/grman.h"
+	"constants.h"
 
 1522796257 ien
 	<vector>
@@ -272,7 +273,7 @@
 	"widget.h"
 	"widget.h"
 
-1522884390 source:c:\users\alhff\documents\tg02042018\main.cpp
+1522959784 source:c:\users\alhff\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
@@ -283,22 +284,22 @@
 1522852298 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
 	"widget.h"
 
-1522859064 source:c:\users\adrie\desktop\ing2\info\piscine\main.cpp
+1522937209 source:c:\users\adrie\desktop\ing2\info\piscine\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
-	"Taskbar.h"
 	"Button.h"
 
-1522861094 source:c:\users\adrie\desktop\ing2\info\piscine\button.cpp
+1522938168 source:c:\users\adrie\desktop\ing2\info\piscine\button.cpp
 	"Button.h"
 
-1522858490 c:\users\adrie\desktop\ing2\info\piscine\button.h
+1522926865 c:\users\adrie\desktop\ing2\info\piscine\button.h
 	<iostream>
 	<string>
 	"grman/grman.h"
 	"graph.h"
 	"constants.h"
+	"Differe.h"
 
 1522852001 source:c:\users\adrie\desktop\ing2\info\piscine\taskbar.cpp
 	"Taskbar.h"
@@ -308,15 +309,16 @@
 	<string>
 	"grman/grman.h"
 
-1522884390 source:c:\users\alhff\documents\tg02042018\button.cpp
+1522959784 source:c:\users\alhff\documents\tg02042018\button.cpp
 	"Button.h"
 
-1522884390 c:\users\alhff\documents\tg02042018\button.h
+1522959784 c:\users\alhff\documents\tg02042018\button.h
 	<iostream>
 	<string>
 	"grman/grman.h"
 	"graph.h"
 	"constants.h"
+	"Differe.h"
 
 1522883599 source:c:\users\alhff\documents\tg02042018\taskbar.cpp
 	"Taskbar.h"
@@ -324,9 +326,9 @@
 
 1522883599 c:\users\alhff\documents\tg02042018\taskbar.h
 
-1522859805 c:\users\adrie\desktop\ing2\info\piscine\constants.h
+1522917454 c:\users\adrie\desktop\ing2\info\piscine\constants.h
 
-1522884390 c:\users\alhff\documents\tg02042018\constants.h
+1522959784 c:\users\alhff\documents\tg02042018\constants.h
 
 1522835874 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.cpp
 	"Button.h"
@@ -405,4 +407,24 @@
 	"Taskbar.h"
 
 1522862470 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
+
+1522934191 source:c:\users\adrie\desktop\ing2\info\piscine\differe.cpp
+	"Differe.h"
+
+1522926895 c:\users\adrie\desktop\ing2\info\piscine\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1522959784 c:\users\alhff\documents\tg02042018\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1522959784 source:c:\users\alhff\documents\tg02042018\differe.cpp
+	"Differe.h"
 

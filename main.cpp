@@ -19,7 +19,6 @@ int main()
     g3.read_file("graph3.txt");
 
     workg=g1;
-    workg.fort_connexe();
     workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
