@@ -101,7 +101,7 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
 
     /// Simulation differee
     else if (message == constants::TB_ACTION_DIFF) {
-
+        differe();
     }
 
     /// Afficher les composantes connexes
