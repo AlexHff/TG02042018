@@ -420,6 +420,25 @@ void Graph::dfs(int v, bool visited[],int k)
             dfs(m_vertices[v].m_out[i], visited, k);
 }
 
+void Graph::kdfs(int v, bool visited[],int k)
+{
+    k--;
+    visited[v] = true;
+    std::cout << v << " ";
+    unsigned int i = 0;
+
+    for(unsigned j = 0; j < k; ++j)
+    {
+        for(i; i < m_vertices[v].m_out.size(); ++i)
+            if(!visited[m_vertices[v].m_out[i]])
+                kdfs(m_vertices[v].m_out[i], visited, k);
+
+        for(i; i < m_vertices[v].m_in.size(); ++i)
+            if(!visited[m_vertices[v].m_in[i]])
+                kdfs(m_vertices[v].m_in[i], visited, k);
+    }
+}
+
 Graph Graph::getTranspose()
 {
     Graph g = *this;
@@ -488,45 +507,15 @@ void Graph::fort_connexe()
 void Graph::kVertexConnexRecur(int v, bool visited[], unsigned int &visitedVertices)
 {
     visitedVertices++;
-    std::cout << "Nous visitons le sommet " << v << ". Nombre de sommets visites = " << visitedVertices << std::endl;
     visited[v] = true;
 
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
-    {
-        std::cout << "Sommet suivant : " << m_vertices[v].m_out[i] << std::endl;
         if(!visited[m_vertices[v].m_out[i]] && m_vertices[m_vertices[v].m_out[i]].m_isVertex)
-        {
             kVertexConnexRecur(m_vertices[v].m_out[i], visited, visitedVertices);
-        }
-    }
 
     for(unsigned int i(0); i < m_vertices[v].m_in.size(); ++i)
-    {
-        std::cout << "Sommet precedent : " << m_vertices[v].m_in[i] << std::endl;
         if(!visited[m_vertices[v].m_in[i]] && m_vertices[m_vertices[v].m_in[i]].m_isVertex)
-        {
             kVertexConnexRecur(m_vertices[v].m_in[i], visited, visitedVertices);
-        }
-    }
-}
-
-/// Calcul C(n,k), source https://www.geeksforgeeks.org/space-and-time-efficient-binomial-coefficient/
-int Graph::binomialCoeff(int n, int k)
-{
-    int res = 1;
-
-    // Since C(n, k) = C(n, n-k)
-    if ( k > n - k )
-        k = n - k;
-
-    // Calculate value of [n * (n-1) *---* (n-k+1)] / [k * (k-1) *----* 1]
-    for (int i = 0; i < k; ++i)
-    {
-        res *= (n - i);
-        res /= (i + 1);
-    }
-
-    return res;
 }
 
 /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
@@ -537,28 +526,31 @@ void Graph::kVertexConnex()
     for(unsigned int i(0); i < m_vertices.size(); ++i)
         visited[i] = false;
 
-    unsigned int k = 0, kmin = 0, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
+    unsigned int k = 0, kmin = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
+    std::vector<int>allComponents;
 
     do
     {
-        for(k = 1; k < m_vertices.size()-1; ++k)
+        for(k = 1; k < m_vertices.size(); ++k)
         {
-            int c=binomialCoeff(m_vertices.size(), k);
-            std::cout << "Coefficient binomial pour k = " << k << " ==> " << c << std::endl;
-
-            for(unsigned int j(0); j < m_vertices.size(); ++j)
+            for(unsigned int j = 0; j < m_vertices.size(); ++j)
+            {
+                std::cout << "k = " << k << std::endl;
+                kdfs(j, visited, k);
+                std::cout << std::endl;
+                for(unsigned int t(0); t < m_vertices.size(); ++t)
+                        visited[t] = false;
+            }
+            for(unsigned int j(0); j < m_vertices.size() ; ++j)
             {
                 m_vertices[j].m_isVertex=false;
-                //m_vertices[2].m_isVertex=false;
-                std::cout << "Nous desactivons le sommet " << j << std::endl;
 
                 // Mise à jour du nombre d'aretes actives
                 nbVertices = 0;
-                for(unsigned int cpt(0); cpt < m_vertices.size(); ++cpt)
-                    if(!m_vertices[cpt].m_isVertex)
+                for(unsigned int i(0); i < m_vertices.size(); ++i)
+                    if(!m_vertices[i].m_isVertex)
                         nbVertices++;
 
-                std::cout << "Nombre de sommets desactives : " << nbVertices << std::endl;
                 for(unsigned int i(0); i < m_vertices.size(); ++i)
                 {
                     if(!visited[i] && m_vertices[i].m_isVertex)
@@ -566,16 +558,13 @@ void Graph::kVertexConnex()
                         kVertexConnexRecur(i, visited, visitedVertices);
                         if(visitedVerticesMax < visitedVertices)
                             visitedVerticesMax = visitedVertices;
-                        if(kmin > nbVertices)
+                        if((kmin > nbVertices) && (visitedVertices < nbVertices))
                             kmin = nbVertices;
                         visitedVertices = 0;
                     }
                     for(unsigned int t(0); t < m_vertices.size(); ++t)
                         visited[t] = false;
-                    std::cout << "Nombre de sommets max visites : " << visitedVerticesMax << std::endl;
                 }
-                std::cout << std::endl;
-
 
                 for(unsigned int i(0); i < m_vertices.size(); ++i)
                     m_vertices[i].m_isVertex=true;
@@ -583,6 +572,7 @@ void Graph::kVertexConnex()
         }
     }
     while(visitedVerticesMax == m_vertices.size());
+    std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 
 double Graph::calcul_sommeKIn(int to)

@@ -77,6 +77,7 @@
 #include <memory>
 #include <fstream>
 #include <stack>
+#include <array>
 
 #include "grman/grman.h"
 #include "constants.h"
@@ -390,7 +391,7 @@ class Graph
         /// k-sommet-connexite
         void kVertexConnex();
 
-        int binomialCoeff(int n, int k);
+        void kdfs(int v, bool visited[],int k);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
