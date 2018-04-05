@@ -562,26 +562,30 @@ double Graph::calcul_sommeKOut(int from)
         weight = findWeight(from, e);
         k += weight * m_vertices[e].m_population;
     }
-
+/// A FAIRE : plusieurs cas particuliers ( + quand le poids des aretes est nul, plus de nouriture, pas de sommet pointant vers)
     return k;
 }
 
 void Graph::update_pop()
 {
-    double Kin = 0.0;
-    double quotient = 0.0;
+    double Kin;
+    double quotient;
+    double arrondi;
 
     for(auto &e : m_vertices)
     {
+        arrondi = 0;
         Kin = calcul_sommeKIn(e.first);
 
         if(e.second.m_in.size() == 0) /// Si pas d'aretes pointant vers le sommet => ne mange personne
         {
             quotient = 1.0;
+
         }
         else if(Kin == 0) /// => plus de nourriture
         {
             quotient = 2.0;
+
         }
         else
         {
@@ -589,8 +593,19 @@ void Graph::update_pop()
         }
 
         /// calcul de la nouvelle population (ceil() -> arrondi supérieur)
-        e.second.m_population += e.second.m_value * e.second.m_population * ceil(1 - quotient);// - e.second.m_value * calcul_sommeKOut(e.first);
 
+        if(1 - quotient < 0.0)
+        {
+            arrondi = floor(1 - quotient);
+        }
+        else if(1 - quotient > 0.0)
+        {
+            arrondi = ceil(1 - quotient);
+        }
+
+        e.second.m_population += e.second.m_value * e.second.m_population * arrondi;// - e.second.m_value * calcul_sommeKOut(e.first);
+//std::cout << std::endl << e.second.m_value * e.second.m_population * arrondi;
+//std::cout << std::endl << 1 - quotient;
         if(e.second.m_population < 0)
         {
             e.second.m_population = 0;
