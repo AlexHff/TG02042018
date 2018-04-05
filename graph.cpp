@@ -313,7 +313,9 @@ void Graph::update()
     if (!m_interface)
         return;
 
-    update_pop();
+    if (m_simu_temp) {
+        update_pop();
+    }
 
     for (auto &elt : m_vertices)
         elt.second.pre_update();

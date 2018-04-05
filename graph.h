@@ -357,6 +357,7 @@ class Graph
         std::string m_nomFichier;
 
         bool m_afficheConnexite = false;
+        bool m_simu_temp = false;
 
     public:
         std::string getNomFichier() {return m_nomFichier; }
@@ -416,6 +417,8 @@ class Graph
 
         bool getAfficheConnexite() { return m_afficheConnexite; }
         void setAfficheConnexite(bool val) { m_afficheConnexite = val; }
+
+        void invertSimu() { m_simu_temp = !m_simu_temp; }
         void resetColors();
 };
 
