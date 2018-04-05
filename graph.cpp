@@ -327,7 +327,7 @@ void Graph::update()
 
 }
 
-/// Aide à l'ajout de sommets interfacés
+/// Aide à lresetColors()'ajout de sommets interfacés
 void Graph::add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name, int pic_idx )
 {
     if ( m_vertices.find(idx)!=m_vertices.end() )
@@ -409,15 +409,17 @@ void Graph::findIn()
     }*/
 }
 
-void Graph::dfs(int v, bool visited[],int k)
+void Graph::dfs(int v, bool visited[],int k, int col)
 {
     visited[v] = true;
     m_vertices[v].m_group = k;
     std::cout << v << " ";
 
+    m_vertices[v].getInterface()->setBgCol(col);
+
     for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
         if(!visited[m_vertices[v].m_out[i]])
-            dfs(m_vertices[v].m_out[i], visited, k);
+            dfs(m_vertices[v].m_out[i], visited, k, col);
 }
 
 Graph Graph::getTranspose()
@@ -468,14 +470,15 @@ void Graph::fort_connexe()
     std::cout << "Les composantes fortement connexes :" << std::endl;
     while (!Stack.empty())
     {
-        // Pop a vertex from stack
+        // Pop a vertex from stac->setBgCol(col)k
         int v = Stack.top();
         Stack.pop();
 
         // Print Strongly connected component of the popped vertex
         if (!visited[v])
         {
-            g.dfs(v, visited, k);
+            int col = 0xCCCCCC + rand() % 0xCCCCCC;
+            g.dfs(v, visited, k, col);
             std::cout << std::endl;
             k++;
         }
@@ -612,4 +615,11 @@ double Graph::findWeight(int from, int to)
 
     /// Si a pas trouvé, on retourne 0
     return 0;
+}
+
+void Graph::resetColors() {
+    for(auto &e : m_vertices)
+    {
+        e.second.getInterface()->setBgCol(BLANC);
+    }
 }

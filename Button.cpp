@@ -106,7 +106,14 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
 
     /// Afficher les composantes connexes
     else if (message == constants::TB_ACTION_CONNEX) {
-
+        // si on ne montre pas la connexite, on l'affiche
+        if (!workg.getAfficheConnexite()) {
+            workg.fort_connexe();
+        } else {
+            workg.resetColors();
+        }
+        // on inverse la variable qui traque l'affichage
+        workg.setAfficheConnexite(!workg.getAfficheConnexite());
     }
 }
 

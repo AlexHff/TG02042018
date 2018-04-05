@@ -128,7 +128,7 @@ class VertexInterface
         grman::WidgetText m_box_label_idx;
 
     public :
-
+        void setBgCol(int val) {m_top_box.set_bg_color(val); }
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         VertexInterface(int idx, int x, int y, std::string pic_name="", int pic_idx=0);
@@ -172,7 +172,7 @@ class Vertex
 
 
     public:
-
+        std::shared_ptr<VertexInterface> getInterface() { return m_interface; }
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Vertex (double value=0, VertexInterface *interface=nullptr) :
@@ -349,6 +349,8 @@ class Graph
         /// nom du fichier
         std::string m_nomFichier;
 
+        bool m_afficheConnexite = false;
+
     public:
         std::string getNomFichier() {return m_nomFichier; }
         std::shared_ptr<GraphInterface> getInterface() {return m_interface;}
@@ -382,7 +384,7 @@ class Graph
         Graph getTranspose();
 
         /// implémentation dfs
-        void dfs(int v, bool visited[], int k);
+        void dfs(int v, bool visited[], int k, int col);
 
         /// k-sommet-connexite récurrence
         void kVertexConnexRecur(int v, bool visited[], int k, int j);
@@ -402,6 +404,10 @@ class Graph
 
         /// Permet de chercher le poids de l'arete formé par les 2 sommets (s'il existe, 0 sinon)
         double findWeight(int from, int to);
+
+        bool getAfficheConnexite() { return m_afficheConnexite; }
+        void setAfficheConnexite(bool val) { m_afficheConnexite = val; }
+        void resetColors();
 };
 
 
