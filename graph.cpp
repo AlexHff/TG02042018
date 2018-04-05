@@ -564,7 +564,7 @@ double Graph::calcul_sommeKOut(int from)
     for(auto &e : m_vertices[from].m_out)
     {
         weight = findWeight(from, e);
-        k += weight * m_vertices[e].m_population;
+        k += m_vertices[e].m_coefIn * weight * m_vertices[e].m_population;
     }
 /// A FAIRE : plusieurs cas particuliers ( + quand le poids des aretes est nul, plus de nouriture, pas de sommet pointant vers)
     return k;
