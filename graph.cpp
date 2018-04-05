@@ -178,7 +178,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton g1
     m_boite_boutons.add_child(m_bouton_g1);
-    m_bouton_g1.set_frame(20, 0, 40, 40);
+    m_bouton_g1.set_frame(5, 0, 70, 40);
     m_bouton_g1.set_bg_color(VERTCLAIR);
 
     m_bouton_g1.add_child(m_bouton_g1_label);
@@ -186,7 +186,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton g2
     m_boite_boutons.add_child(m_bouton_g2);
-    m_bouton_g2.set_frame(20, 100, 40, 40);
+    m_bouton_g2.set_frame(5, 100, 70, 40);
     m_bouton_g2.set_bg_color(VERTCLAIR);
 
     m_bouton_g2.add_child(m_bouton_g2_label);
@@ -194,7 +194,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton g3
     m_boite_boutons.add_child(m_bouton_g3);
-    m_bouton_g3.set_frame(20, 200, 40, 40);
+    m_bouton_g3.set_frame(5, 200, 70, 40);
     m_bouton_g3.set_bg_color(VERTCLAIR);
 
     m_bouton_g3.add_child(m_bouton_g3_label);
@@ -202,7 +202,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton save
     m_boite_boutons.add_child(m_bouton_save);
-    m_bouton_save.set_frame(20, 300, 40, 40);
+    m_bouton_save.set_frame(5, 300, 70, 40);
     m_bouton_save.set_bg_color(BLEUCLAIR);
 
     m_bouton_save.add_child(m_bouton_save_label);
@@ -210,7 +210,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton simulation
     m_boite_boutons.add_child(m_bouton_simu);
-    m_bouton_simu.set_frame(20, 400, 40, 40);
+    m_bouton_simu.set_frame(5, 400, 70, 40);
     m_bouton_simu.set_bg_color(JAUNECLAIR);
 
     m_bouton_simu.add_child(m_bouton_simu_label);
@@ -218,7 +218,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton diff
     m_boite_boutons.add_child(m_bouton_diff);
-    m_bouton_diff.set_frame(20, 500, 40, 40);
+    m_bouton_diff.set_frame(5, 500, 70, 40);
     m_bouton_diff.set_bg_color(ROSECLAIR);
 
     m_bouton_diff.add_child(m_bouton_diff_label);
@@ -226,7 +226,7 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton afficher connexite
     m_boite_boutons.add_child(m_bouton_connex);
-    m_bouton_connex.set_frame(20, 600, 40, 40);
+    m_bouton_connex.set_frame(5, 600, 70, 40);
     m_bouton_connex.set_bg_color(ORANGECLAIR);
 
     m_bouton_connex.add_child(m_bouton_connex_label);
