@@ -687,6 +687,6 @@ void Graph::resetColors()
 {
     for(auto &e : m_vertices)
     {
-        e.second.getInterface()->setBgCol(BLANC);
+        e.second.getInterface()->setBgCol(BLANCJAUNE);
     }
 }
