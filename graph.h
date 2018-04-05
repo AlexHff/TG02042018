@@ -155,14 +155,16 @@ class Vertex
         double m_coefIn;
         /// coef Out -> "est mangé"
         double m_coefOut;
+
+        /// population
+        int m_population;
+
         /// compteur incrémentation pop
         double m_cptPop;
 
         /// booleen pour desactiver les sommets
         bool m_isVertex;
 
-        /// population
-        int m_population;
 
         /// groupe d'appartenance pour la forte connexite
         int m_group;

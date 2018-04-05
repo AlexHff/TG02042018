@@ -16,7 +16,7 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     /*** VALUE ***/
     // Le slider de réglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 0.02);  // Valeurs arbitraires, à adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -27,7 +27,7 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     /*** POPULATION ***/
     // Le slider de réglage de la pop
     m_top_box.add_child( m_slider_pop );
-    m_slider_pop.set_range(0.0, 1000.0);  // Valeurs arbitraires, à adapter...
+    m_slider_pop.set_range(0.0, 10000.0);  // Valeurs arbitraires, à adapter...
     m_slider_pop.set_dim(20,80);
     m_slider_pop.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
 
@@ -276,7 +276,10 @@ void Graph::read_file(const std::string& nom_fichier)
     }
     findIn();
     findOut();
-
+for(auto &elem : m_vertices)
+{
+    elem.second.m_coefOut = 0.00009;
+}
 }
 
 void Graph::write_file()
@@ -571,11 +574,9 @@ void Graph::update_pop()
 {
     double Kin;
     double quotient;
-    double arrondi;
 
     for(auto &e : m_vertices)
     {
-        arrondi = 0;
         Kin = calcul_sommeKIn(e.first);
 
         if(e.second.m_in.size() == 0) /// Si pas d'aretes pointant vers le sommet => ne mange personne
@@ -599,12 +600,14 @@ void Graph::update_pop()
 
         if(e.second.m_cptPop >= 1.0)
         {
-            e.second.m_population++;
+            e.second.m_population += e.second.m_cptPop;
+            //e.second.m_population++;
             e.second.m_cptPop = 0.0;
         }
         else if(e.second.m_cptPop <= -1.0)
         {
-           e.second.m_population--;
+            e.second.m_population += e.second.m_cptPop;
+           //e.second.m_population--;
            e.second.m_cptPop = 0.0;
         }
 
