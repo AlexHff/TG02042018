@@ -345,7 +345,7 @@ void Graph::update()
     /*** BOUTONS ***/
     for(auto &elt : m_vertices)
     {
-        if(elt.second.m_interface->m_bouton_delete.clicked())
+        if(elt.second.m_interface->m_bouton_delete.clicked() && m_vertices.size() > 1)
         {
             delete_vertex(elt.first);
         }
