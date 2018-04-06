@@ -94,13 +94,13 @@
 1522771270 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1523011699 source:c:\users\alex\documents\tg02042018\main.cpp
+1523023333 source:c:\users\alex\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 	"Button.h"
 
-1523011699 c:\users\alex\documents\tg02042018\graph.h
+1523034632 c:\users\alex\documents\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
@@ -108,10 +108,11 @@
 	<fstream>
 	<stack>
 	<array>
+	<list>
 	"grman/grman.h"
 	"constants.h"
 
-1523011699 source:c:\users\alex\documents\tg02042018\graph.cpp
+1523034912 source:c:\users\alex\documents\tg02042018\graph.cpp
 	"graph.h"
 
 1522883599 D
@@ -438,10 +439,10 @@
 1522959784 source:c:\users\alhff\documents\tg02042018\differe.cpp
 	"Differe.h"
 
-1523011698 source:c:\users\alex\documents\tg02042018\button.cpp
+1523013000 source:c:\users\alex\documents\tg02042018\button.cpp
 	"Button.h"
 
-1523011698 c:\users\alex\documents\tg02042018\button.h
+1523012839 c:\users\alex\documents\tg02042018\button.h
 	<iostream>
 	<string>
 	"grman/grman.h"
@@ -449,15 +450,15 @@
 	"constants.h"
 	"Differe.h"
 
-1523011699 c:\users\alex\documents\tg02042018\constants.h
+1523012839 c:\users\alex\documents\tg02042018\constants.h
 
-1523011698 c:\users\alex\documents\tg02042018\differe.h
+1523013000 c:\users\alex\documents\tg02042018\differe.h
 	<iostream>
 	<string>
 	<vector>
 	"graph.h"
 	"grman/grman.h"
 
-1523011698 source:c:\users\alex\documents\tg02042018\differe.cpp
+1523013000 source:c:\users\alex\documents\tg02042018\differe.cpp
 	"Differe.h"
 

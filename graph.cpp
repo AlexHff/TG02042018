@@ -313,7 +313,8 @@ void Graph::update()
     if (!m_interface)
         return;
 
-    if (m_simu_temp) {
+    if (m_simu_temp)
+    {
         update_pop();
     }
 
@@ -428,24 +429,21 @@ void Graph::dfs(int v, bool visited[],int k, int col)
             dfs(m_vertices[v].m_out[i], visited, k, col);
 }
 
-void Graph::kdfs(int v, bool visited[],int k)
+void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb)
 {
-    k--;
-    visited[v] = true;
-    std::cout << v << " ";
-    unsigned int i = 0;
-
-    for(unsigned int j = 0; j < k; ++j)
+    if(k < nb)
     {
-        for(i = 0; i < m_vertices[v].m_out.size(); ++i)
-            if(!visited[m_vertices[v].m_out[i]])
-                kdfs(m_vertices[v].m_out[i], visited, k);
-
-        for(i = 0; i < m_vertices[v].m_in.size(); ++i)
-            if(!visited[m_vertices[v].m_in[i]])
-                kdfs(m_vertices[v].m_in[i], visited, k);
+        for(int i = j; i < m_vertices.size(); i++)
+        {
+            tab.push_back(i);
+            recu(allComponents, tab, i+1, k+1, nb);
+            if(tab.size() == nb)
+                allComponents.push_back(tab);
+            tab.pop_back();
+        }
     }
 }
+
 
 Graph Graph::getTranspose()
 {
@@ -513,46 +511,101 @@ void Graph::fort_connexe()
         m_vertices[i].m_group = g.m_vertices[i].m_group;
 }
 
-void Graph::kVertexConnexRecur(int v, bool visited[], unsigned int &visitedVertices)
+/// Implementation BFS inspiré de https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+void Graph::bfs(int v, unsigned int &visitedVertices)
 {
-    visitedVertices++;
+    // Marquer toutes les aretes comme non visitées
+    bool *visited = new bool[m_vertices.size()];
+    for(unsigned int i = 0; i < m_vertices.size(); ++i)
+        visited[i] = false;
+
+    // Create a queue for BFS
+    std::list<int> queue;
+
+    // Mark the current node as visited and enqueue it
     visited[v] = true;
+    queue.push_back(v);
 
-    for(unsigned int i(0); i < m_vertices[v].m_out.size(); ++i)
-        if(!visited[m_vertices[v].m_out[i]] && m_vertices[m_vertices[v].m_out[i]].m_isVertex)
-            kVertexConnexRecur(m_vertices[v].m_out[i], visited, visitedVertices);
+    while(!queue.empty())
+    {
+        // Dequeue a vertex from queue and print it
+        v = queue.front();
+        std::cout << v << " ";
+        queue.pop_front();
 
-    for(unsigned int i(0); i < m_vertices[v].m_in.size(); ++i)
-        if(!visited[m_vertices[v].m_in[i]] && m_vertices[m_vertices[v].m_in[i]].m_isVertex)
-            kVertexConnexRecur(m_vertices[v].m_in[i], visited, visitedVertices);
+        // Get all adjacent vertices of the dequeued
+        // vertex s. If a adjacent has not been visited,
+        // then mark it visited and enqueue it
+        for(unsigned int i = 0; i < m_vertices[v].m_out.size(); ++i)
+        {
+            if(!visited[m_vertices[v].m_out[i]] && m_vertices[m_vertices[v].m_out[i]].m_isVertex)
+            {
+                visited[m_vertices[v].m_out[i]] = true;
+                queue.push_back(m_vertices[v].m_out[i]);
+                visitedVertices++;
+            }
+        }
+
+        for(unsigned int i = 0; i < m_vertices[v].m_in.size(); ++i)
+        {
+            if(!visited[m_vertices[v].m_in[i]] && m_vertices[m_vertices[v].m_in[i]].m_isVertex)
+            {
+                visited[m_vertices[v].m_in[i]] = true;
+                queue.push_back(m_vertices[v].m_in[i]);
+                visitedVertices++;
+            }
+        }
+    }
 }
 
 /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
 void Graph::kVertexConnex()
 {
-    // Marquer toutes les aretes comme non visitées
-    bool *visited = new bool[m_vertices.size()];
-    for(unsigned int i(0); i < m_vertices.size(); ++i)
-        visited[i] = false;
-
     unsigned int k = 0, kmin = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
-    std::vector<int>allComponents;
+    std::vector< std::vector<int> > allComponents;
 
     do
     {
-        for(k = 1; k < m_vertices.size(); ++k)
+        // Trouver toutes les combinaisons entre les sommets
+        for(unsigned int j = 0; j < m_vertices.size(); ++j)
         {
-            for(unsigned int j = 0; j < m_vertices.size(); ++j)
+            std::vector<int> temp;
+            recu(allComponents, temp, 0, 0, j);
+        }
+
+        for (auto &components : allComponents)
+        {
+            for (auto &id : components)
+                m_vertices[id].m_isVertex = false;
+
+            for(unsigned int i = 0; i < m_vertices.size(); ++i)
             {
-                std::cout << "k = " << k << std::endl;
-                kdfs(j, visited, k);
-                std::cout << std::endl;
-                for(unsigned int t(0); t < m_vertices.size(); ++t)
-                    visited[t] = false;
+                if(m_vertices[i].m_isVertex)
+                {
+                    bfs(i, visitedVertices);
+                    std::cout << std::endl;
+                    i = m_vertices.size();
+                }
             }
-            for(unsigned int j(0); j < m_vertices.size() ; ++j)
+
+            if(visitedVerticesMax < visitedVertices)
+                visitedVerticesMax = visitedVertices;
+            //if((kmin > nbVertices) && (visitedVertices < nbVertices))
+                //kmin = nbVertices;
+            visitedVertices = 0;
+
+            // Si pas connex truc
+
+            for (auto &id : components)
+                m_vertices[id].m_isVertex = true;
+        }
+
+        /*for(k = 1; k < m_vertices.size(); ++k)
+        {
+            for(unsigned int o = 0; o < allComponents.size(); ++o)
             {
-                m_vertices[j].m_isVertex=false;
+                for(unsigned int p = 0; p < allComponents[o].size(); ++p)
+                    m_vertices[allComponents[k][p]].m_isVertex=false;
 
                 // Mise à jour du nombre d'aretes actives
                 nbVertices = 0;
@@ -578,7 +631,7 @@ void Graph::kVertexConnex()
                 for(unsigned int i(0); i < m_vertices.size(); ++i)
                     m_vertices[i].m_isVertex=true;
             }
-        }
+        }*/
     }
     while(visitedVerticesMax == m_vertices.size());
     std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;

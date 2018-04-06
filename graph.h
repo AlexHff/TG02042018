@@ -78,6 +78,7 @@
 #include <fstream>
 #include <stack>
 #include <array>
+#include <list>
 
 #include "grman/grman.h"
 #include "constants.h"
@@ -394,13 +395,13 @@ class Graph
         /// implémentation dfs
         void dfs(int v, bool visited[], int k, int col);
 
-        /// k-sommet-connexite récurrence
-        void kVertexConnexRecur(int v, bool visited[], unsigned int &visitedVertices);
+        void bfs(int v, unsigned int &visitedVertices);
 
         /// k-sommet-connexite
         void kVertexConnex();
 
-        void kdfs(int v, bool visited[],int k);
+        /// trouver les différentes combinaisons
+        void recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();

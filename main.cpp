@@ -18,7 +18,7 @@ int main()
     g2.read_file("graph2.txt");
     g3.read_file("graph3.txt");
 
-    workg=g1;
+    workg=g3;
     workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
