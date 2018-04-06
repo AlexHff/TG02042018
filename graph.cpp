@@ -260,9 +260,7 @@ void Graph::read_file(const std::string& nom_fichier)
             m_vertices[i].m_coefIn = coefIn;
             m_vertices[i].m_coefOut = coefOut;
             m_vertices[i].m_population = pop;
-
             m_vertices[i].m_cptPop = 0.0;
-
         }
 
         for(unsigned int i(0); i<nbEdges; ++i)
@@ -277,9 +275,7 @@ void Graph::read_file(const std::string& nom_fichier)
     findIn();
     findOut();
     for(auto &elem : m_vertices)
-    {
         elem.second.m_coefOut = 0.00009;
-    }
 }
 
 void Graph::write_file()
@@ -314,9 +310,7 @@ void Graph::update()
         return;
 
     if (m_simu_temp)
-    {
         update_pop();
-    }
 
     for (auto &elt : m_vertices)
         elt.second.pre_update();
@@ -433,7 +427,7 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
 {
     if(k < nb)
     {
-        for(int i = j; i < m_vertices.size(); i++)
+        for(unsigned int i = j; i < m_vertices.size(); i++)
         {
             tab.push_back(i);
             recu(allComponents, tab, i+1, k+1, nb);
@@ -530,7 +524,6 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
     {
         // Dequeue a vertex from queue and print it
         v = queue.front();
-        std::cout << v << " ";
         queue.pop_front();
 
         // Get all adjacent vertices of the dequeued
@@ -561,13 +554,13 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
 /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
 void Graph::kVertexConnex()
 {
-    unsigned int k = 0, kmin = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
-    std::vector< std::vector<int> > allComponents;
+    unsigned int kmin = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
+    std::vector< std::vector<int> > allComponents, critPoints;
 
     do
     {
         // Trouver toutes les combinaisons entre les sommets
-        for(unsigned int j = 0; j < m_vertices.size(); ++j)
+        for(unsigned int j = 0; j < m_vertices.size()-1; ++j)
         {
             std::vector<int> temp;
             recu(allComponents, temp, 0, 0, j);
@@ -578,20 +571,28 @@ void Graph::kVertexConnex()
             for (auto &id : components)
                 m_vertices[id].m_isVertex = false;
 
+            // Mise à jour du nombre d'aretes actives
+            nbVertices = 0;
+            for(unsigned int i = 0; i < m_vertices.size(); ++i)
+                if(!m_vertices[i].m_isVertex)
+                    nbVertices++;
+
             for(unsigned int i = 0; i < m_vertices.size(); ++i)
             {
                 if(m_vertices[i].m_isVertex)
                 {
                     bfs(i, visitedVertices);
-                    std::cout << std::endl;
                     i = m_vertices.size();
                 }
             }
 
+            if(visitedVertices < nbVertices)
+                critPoints.push_back(components);
+
             if(visitedVerticesMax < visitedVertices)
                 visitedVerticesMax = visitedVertices;
-            //if((kmin > nbVertices) && (visitedVertices < nbVertices))
-                //kmin = nbVertices;
+            if((kmin > nbVertices) && (visitedVertices < nbVertices))
+                kmin = nbVertices;
             visitedVertices = 0;
 
             // Si pas connex truc
@@ -634,6 +635,14 @@ void Graph::kVertexConnex()
         }*/
     }
     while(visitedVerticesMax == m_vertices.size());
+
+    for (auto &components : critPoints)
+    {
+        for (auto &id : components)
+            std::cout << id;
+        std::cout << std::endl;
+    }
+
     std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 

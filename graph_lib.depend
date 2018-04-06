@@ -94,7 +94,7 @@
 1522771270 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1523023333 source:c:\users\alex\documents\tg02042018\main.cpp
+1523035778 source:c:\users\alex\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
@@ -112,7 +112,7 @@
 	"grman/grman.h"
 	"constants.h"
 
-1523034912 source:c:\users\alex\documents\tg02042018\graph.cpp
+1523040664 source:c:\users\alex\documents\tg02042018\graph.cpp
 	"graph.h"
 
 1522883599 D
