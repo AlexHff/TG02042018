@@ -128,9 +128,13 @@ class VertexInterface
         // Une boite pour le label précédent
         grman::WidgetText m_box_label_idx;
 
-        /*** Buttun DELETE ***/
+        /*** Button DELETE ***/
         grman::WidgetButton m_bouton_delete;
         grman::WidgetText m_bouton_label_delete;
+
+        /*** Button ADD EDGE ***/
+        grman::WidgetButton m_bouton_addEdge;
+        grman::WidgetText m_bouton_label_addEdge;
 
     public :
         void setBgCol(int val) {m_top_box.set_bg_color(val); }
@@ -340,6 +344,10 @@ class GraphInterface
         grman::WidgetButton m_bouton_connex;
         grman::WidgetText m_bouton_connex_label;
 
+        // bouton pour ajouter des aretes
+        grman::WidgetButton m_bouton_addEdges;
+        grman::WidgetText m_bouton_label_addEdges;
+
 
 };
 
@@ -374,6 +382,10 @@ class Graph
         void add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
+        void add_edges();
+
+        bool edge_exist(int from, int to);
+
         /// Supprime toutes les aretes comportant le sommet d'indice idx
         void delete_vertex_allEdges(int idx);
         /// Supprime le sommet d'indice idx
@@ -387,6 +399,8 @@ class Graph
 
         /// methode pour la detection des composantes fortement connexes
         void fort_connexe();
+
+        int find_idxMax_edges();
 
         /// implémentation de la liste des indices des arcs arrivant au sommet
         void findIn();
@@ -413,6 +427,9 @@ class Graph
 
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
+
+        /// Permet d'update les boutons des sommets
+        void update_buttons();
 
         /// Permet de mettre à jour la population de tous les sommets
         void update_pop();
