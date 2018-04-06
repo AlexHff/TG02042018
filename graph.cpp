@@ -484,6 +484,8 @@ void Graph::add_edges()
             if(!edge_exist(f, t))
             {
                 add_interfaced_edge(idxMax+1, f, t, 0);
+                m_edges[idxMax+1].m_from = f;
+                m_edges[idxMax+1].m_to = t;
                 std::cout << std::endl << "Edge ADDED " << f << " - " << t;
                 m_vertices[f].m_out.push_back(t);
                 m_vertices[t].m_in.push_back(f);
