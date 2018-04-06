@@ -7,7 +7,9 @@
 #include "graph.h"
 #include "grman/grman.h"
 
-void differe();
+void differe(Graph workg);
+
+int mapInt(int val, int minval, int maxval, int minres, int maxres);
 
 
 #endif // DIFFERE_H_INCLUDED
