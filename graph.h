@@ -232,6 +232,10 @@ class EdgeInterface
         // Un label de visualisation du poids de l'arc
         grman::WidgetText m_label_weight;
 
+        // bouton pour supprimer l'arete
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
+
     public :
 
         // Le constructeur met en place les éléments de l'interface
@@ -348,6 +352,10 @@ class GraphInterface
         grman::WidgetButton m_bouton_addEdges;
         grman::WidgetText m_bouton_label_addEdges;
 
+         // bouton pour supprimer les sommets/aretes selectionnes
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
+
 
 };
 
@@ -386,10 +394,14 @@ class Graph
 
         bool edge_exist(int from, int to);
 
+        /// Supprime le sommet d'indice idx
+        void delete_edge(int idx);
         /// Supprime toutes les aretes comportant le sommet d'indice idx
         void delete_vertex_allEdges(int idx);
         /// Supprime le sommet d'indice idx
         void delete_vertex(int idx);
+        /// Supprimes tous les sommets selectionnés
+        void delete_vertices();
 
         /// chargement des fichiers
         void read_file(const std::string& nom_fichier);

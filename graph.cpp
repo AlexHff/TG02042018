@@ -142,6 +142,16 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
     m_box_edge.add_child( m_label_weight );
     m_label_weight.set_gravity_y(grman::GravityY::Down);
 
+    /*** Button DELETE ***/
+    m_top_edge.add_child(m_bouton_delete);
+    m_bouton_delete.set_frame(10, -32, 12, 12);
+    m_bouton_delete.set_bg_color(ROUGESOMBRE);
+
+    m_bouton_delete.add_child(m_bouton_label_delete);
+    m_bouton_label_delete.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+    m_bouton_label_delete.set_color(BLANC);
+    m_bouton_label_delete.set_message("X");
+
 }
 
 
@@ -254,15 +264,23 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// Button ADD EDGE
     m_top_box.add_child(m_bouton_addEdges);
-    //m_bouton_addEdges.set_frame(400, 650, 50, 50);
-    m_bouton_addEdges.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Down);
-    m_bouton_addEdges.set_dim(30, 30);
+    m_bouton_addEdges.set_frame(450, 710, 30, 30);
     m_bouton_addEdges.set_bg_color(BLEUCLAIR);
 
     m_bouton_addEdges.add_child(m_bouton_label_addEdges);
     m_bouton_label_addEdges.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
     m_bouton_label_addEdges.set_color(BLANC);
     m_bouton_label_addEdges.set_message("+");
+
+    /// Button DELETE
+    m_top_box.add_child(m_bouton_delete);
+    m_bouton_delete.set_frame(500, 710, 30, 30);
+    m_bouton_delete.set_bg_color(ROUGESOMBRE);
+
+    m_bouton_delete.add_child(m_bouton_label_delete);
+    m_bouton_label_delete.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+    m_bouton_label_delete.set_color(BLANC);
+    m_bouton_label_delete.set_message("X");
 
 }
 
@@ -376,6 +394,7 @@ void Graph::update_buttons()
         if(elt.second.m_interface->m_bouton_delete.clicked() && m_vertices.size() > 1)
         {
             delete_vertex(elt.first);
+            break;
         }
         /// Bouton add edge
         if(elt.second.m_interface->m_bouton_addEdge.clicked())
@@ -392,6 +411,17 @@ void Graph::update_buttons()
             {
                 elt.second.m_interface->m_bouton_label_addEdge.set_message("");
             }
+        }
+    }
+
+    /*** BOUTONS ARETES ***/
+    for(auto &elt : m_edges)
+    {
+        /// Bouton suppr
+        if(elt.second.m_interface->m_bouton_delete.clicked())
+        {
+            delete_edge(elt.first);
+            break;
         }
     }
 }
@@ -434,7 +464,6 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
 
 void Graph::add_edges()
 {
-    std::cout << std::endl << m_edges.size();
     std::vector<int> from;
     std::vector<int> to;
     int idxMax = 0;
@@ -466,7 +495,6 @@ void Graph::add_edges()
             }
         }
     }
-    std::cout << std::endl << m_edges.size();
 }
 
 bool Graph::edge_exist(int from, int to)
@@ -480,6 +508,42 @@ bool Graph::edge_exist(int from, int to)
     }
 
     return false;
+}
+
+void Graph::delete_edge(int idx)
+{
+    if(m_edges.find(idx)!=m_edges.end())
+    {
+        Edge &edge = m_edges.at(idx);
+
+        /// référence au tableau m_out
+        std::vector<int> &tabFrom = m_vertices[edge.m_from].m_out;
+        /// référence au tableau m_out
+        std::vector<int> &tabTo = m_vertices[edge.m_to].m_in;
+
+
+        auto it = find(tabTo.begin(), tabTo.end(), edge.m_from);
+        if(it != tabTo.end())
+        {
+            tabTo.erase(it);
+        }
+
+        auto it2 = find(tabFrom.begin(), tabFrom.end(), edge.m_to);
+        if(it2 != tabFrom.end())
+        {
+            tabFrom.erase(it2);
+        }
+
+        /// Si les interfaces existent
+        if(m_interface && edge.m_interface)
+        {
+            /// On supprime l'interface de l'arete
+            m_interface->m_main_box.remove_child(edge.m_interface->m_top_edge);
+        }
+        std::cout << std::endl << "Edge[" <<idx << "] deleted";
+        m_edges.erase(idx); /// On supprime l'arete de la map
+    }
+
 }
 
 void Graph::delete_vertex_allEdges(int idx)
@@ -546,6 +610,30 @@ void Graph::delete_vertex(int idx)
     m_vertices.erase(idx);
     std::cout << std::endl << "Vertex[" << idx << "] deleted";
 
+}
+
+void Graph::delete_vertices()
+{
+    for (auto it = m_vertices.cbegin(); it != m_vertices.cend();)
+    {
+        if((it->second.m_interface->m_bouton_label_addEdge.get_message() == "1" || it->second.m_interface->m_bouton_label_addEdge.get_message() == "2") && m_vertices.size() > 1)
+        {
+            it->second.m_interface->m_bouton_label_addEdge.set_message("");
+            delete_vertex((it++)->first);
+        }
+        else
+        {
+            ++it;
+        }
+    }/*
+    for(auto &e : m_vertices)
+    {
+        if(e.second.m_interface->m_bouton_label_addEdge.get_message() == "1" || e.second.m_interface->m_bouton_label_addEdge.get_message() == "2")
+        {
+            e.second.m_interface->m_bouton_label_addEdge.set_message("");
+            delete_vertex(e.first);
+        }
+    }*/
 }
 
 int Graph::find_idxMax_edges()

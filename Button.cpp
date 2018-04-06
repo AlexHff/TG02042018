@@ -54,6 +54,10 @@ int getclicks(Graph &workg) {
         return constants::TB_ACTION_ADD_EDGES;
     }
 
+    if (workg.getInterface()->m_bouton_delete.clicked()) {
+        return constants::TB_ACTION_DELETE;
+    }
+
     return constants::TB_ACTION_NOTHING;
 }
 
@@ -120,8 +124,15 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
         workg.setAfficheConnexite(!workg.getAfficheConnexite());
     }
 
+    /// Ajouter les aretes selons les sommets selectionnés
     else if (message == constants::TB_ACTION_ADD_EDGES) {
         workg.add_edges();
     }
+
+    /// Supprimer tous les sommets et les aretes selectionnées
+    else if (message == constants::TB_ACTION_DELETE) {
+        workg.delete_vertices();
+    }
+
 }
 
