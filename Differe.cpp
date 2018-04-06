@@ -39,7 +39,7 @@ bool isInt(std::string s) {
     return (firstZeroes == 0);
 }
 
-void preparePlot(BITMAP * graphique, int maxVal, int duree) {
+void preparePlot(BITMAP * graphique, int maxVal, int duree, Graph workg) {
     clear_to_color(screen, BLANC);
     // dessin des axes
     line(graphique, 100, graphique->h - 100, graphique->w - 100, graphique->h - 100, makecol(0, 0, 0));
@@ -90,6 +90,22 @@ void preparePlot(BITMAP * graphique, int maxVal, int duree) {
         line(graphique, 100, graphique->h - 100 - i * unitH, graphique->w - 100, graphique->h - 100 - i * unitH, 0xEEEEEE);
         textout_centre_ex(graphique, font, std::to_string(i * divUnit).c_str(), 80, graphique->h - 100 - i * unitH, NOIR, BLANC);
     }
+
+    /// legende couleurs
+    std::vector<int> colors = {0x00FF00,0x0000FF,0xFF0000,0x01FFFE,0xFFA6FE,0xFFDB66,0x006401,0x010067,0x95003A,0x007DB5,0xFF00F6,0xFFEEE8,0x774D00,0x90FB92,0x0076FF,0xD5FF00,0xFF937E,0x6A826C,0xFF029D,0xFE8900,0x7A4782,0x7E2DD2,0x85A900,0xFF0056,0xA42400,0x00AE7E,0x683D3B,0xBDC6FF,0x263400,0xBDD393,0x00B917,0x9E008E,0x001544,0xC28C9F,0xFF74A3};
+    int xoff = 100;
+    int yoff = graphique->h - 60;
+    for(auto &e : workg.getVertices()) {
+        rectfill(graphique, xoff, yoff, xoff + 10, yoff + 10, colors[e.first % colors.size()]);
+        textout_ex(graphique, font, std::to_string(e.first).c_str(), xoff + 15, yoff + 2, NOIR, BLANC);
+        xoff += 50;
+        if (xoff > graphique->w - 100) {
+            xoff = 100;
+            yoff += 20;
+        }
+    }
+
+    /// affichage du graphique cree
     blit(graphique, screen, 0, 0, 0, 0, SCREEN_W, SCREEN_H);
 }
 
@@ -147,7 +163,7 @@ void differe(Graph workg) {
 
     maxVal = findMaxVal(workg, duree);
 
-    preparePlot(graphique, maxVal, duree);
+    preparePlot(graphique, maxVal, duree, workg);
 
     dessinerCourbes(graphique, workg, maxVal, duree);
 
