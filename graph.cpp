@@ -307,19 +307,19 @@ void Graph::read_file(const std::string& nom_fichier)
         {
             fic >> idx >> coefIn >> coefOut >> pop >> x >> y >> pic_name;
             add_interfaced_vertex(idx, coefIn, coefOut, pop, x, y, pic_name);
-            m_vertices[i].m_coefIn = coefIn;
-            m_vertices[i].m_coefOut = coefOut;
-            m_vertices[i].m_population = pop;
-            m_vertices[i].m_cptPop = 0.0;
+            m_vertices[idx].m_coefIn = coefIn;
+            m_vertices[idx].m_coefOut = coefOut;
+            m_vertices[idx].m_population = pop;
+            m_vertices[idx].m_cptPop = 0.0;
         }
 
         for(unsigned int i(0); i<nbEdges; ++i)
         {
             fic >> idx >> vert1 >> vert2 >> weight;
             add_interfaced_edge(idx, vert1, vert2, weight);
-            m_edges[i].m_from = vert1;
-            m_edges[i].m_to = vert2;
-            m_edges[i].m_weight = weight;
+            m_edges[idx].m_from = vert1;
+            m_edges[idx].m_to = vert2;
+            m_edges[idx].m_weight = weight;
         }
     }
     findIn();
