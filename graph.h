@@ -128,6 +128,10 @@ class VertexInterface
         // Une boite pour le label précédent
         grman::WidgetText m_box_label_idx;
 
+        /*** Buttun DELETE ***/
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
+
     public :
         void setBgCol(int val) {m_top_box.set_bg_color(val); }
         // Le constructeur met en place les éléments de l'interface
@@ -369,6 +373,11 @@ class Graph
 
         void add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
+
+        /// Supprime toutes les aretes comportant le sommet d'indice idx
+        void delete_vertex_allEdges(int idx);
+        /// Supprime le sommet d'indice idx
+        void delete_vertex(int idx);
 
         /// chargement des fichiers
         void read_file(const std::string& nom_fichier);

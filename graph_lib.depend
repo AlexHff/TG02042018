@@ -331,15 +331,16 @@
 
 1522959784 c:\users\alhff\documents\tg02042018\constants.h
 
-1522921461 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.cpp
+1522963880 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.cpp
 	"Button.h"
 
-1522921461 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.h
+1522963880 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.h
 	<iostream>
 	<string>
 	"grman/grman.h"
 	"graph.h"
 	"constants.h"
+	"Differe.h"
 
 1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman.h
 	<allegro.h>
@@ -353,7 +354,7 @@
 1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\coords.h
 	<cmath>
 
-1522771328 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.h
+1523025334 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -361,16 +362,17 @@
 	<algorithm>
 	<allegro.h>
 
-1522949311 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
+1523025645 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
 	"graph.h"
 
-1522933325 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
+1523024360 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
 	<memory>
 	<fstream>
 	<stack>
+	<array>
 	"grman/grman.h"
 	"constants.h"
 
@@ -394,7 +396,7 @@
 1522922099 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522921462 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
+1523023469 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
@@ -408,7 +410,7 @@
 1522835874 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\taskbar.cpp
 	"Taskbar.h"
 
-1522949621 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
+1522963881 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
 
 1522948593 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\test_k-connexe.cpp
 	<iostream>
@@ -432,5 +434,15 @@
 	"grman/grman.h"
 
 1522959784 source:c:\users\alhff\documents\tg02042018\differe.cpp
+	"Differe.h"
+
+1522963880 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1522963880 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\differe.cpp
 	"Differe.h"
 

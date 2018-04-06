@@ -35,7 +35,7 @@ int main()
     }
 
     /// enregistrement du graphe
-    workg.write_file();
+   // workg.write_file();
 
     grman::fermer_allegro();
 

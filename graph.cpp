@@ -54,6 +54,16 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 
     m_box_label_idx.add_child( m_label_idx );
     m_label_idx.set_message( std::to_string(idx) );
+
+    /*** Button DELETE ***/
+    m_top_box.add_child(m_bouton_delete);
+    m_bouton_delete.set_frame(203, 0, 20, 20);
+    m_bouton_delete.set_bg_color(ROUGESOMBRE);
+
+    m_bouton_delete.add_child(m_bouton_label_delete);
+    m_bouton_label_delete.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+    m_bouton_label_delete.set_color(BLANC);
+    m_bouton_label_delete.set_message("X");
 }
 
 
@@ -331,6 +341,16 @@ void Graph::update()
     for (auto &elt : m_edges)
         elt.second.post_update();
 
+
+    /*** BOUTONS ***/
+    for(auto &elt : m_vertices)
+    {
+        if(elt.second.m_interface->m_bouton_delete.clicked())
+        {
+            delete_vertex(elt.first);
+        }
+    }
+
 }
 
 /// Aide à l'ajout de sommets interfacés
@@ -367,6 +387,72 @@ void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weig
     EdgeInterface *ei = new EdgeInterface(m_vertices[id_vert1], m_vertices[id_vert2]);
     m_interface->m_main_box.add_child(ei->m_top_edge);
     m_edges[idx] = Edge(weight, ei);
+}
+
+void Graph::delete_vertex_allEdges(int idx)
+{
+    /// Parcourt de toutes les aretes
+    for (auto it = m_edges.cbegin(); it != m_edges.cend();)
+    {
+        /// Si un des sommet de cet arete correspond au sommet d'indice idx
+        if (it->second.m_from == idx || it->second.m_to == idx)
+        {
+            /// Si le sommet est un sommet de départ de l'arete
+            if(it->second.m_from == idx)
+            {
+                /// référence au tableau m_in
+                std::vector<int> &tab = m_vertices[it->second.m_to].m_in;
+
+                auto it2 = find(tab.begin(), tab.end(), idx);
+                if(it2 != tab.end())
+                {
+                    tab.erase(it2);
+                }
+            }
+            else if(it->second.m_to == idx) /// Si le sommet est un sommet d'arrivé
+            {
+                /// référence au tableau m_out
+                std::vector<int> &tab = m_vertices[it->second.m_from].m_out;
+
+                auto it2 = find(tab.begin(), tab.end(), idx);
+                if(it2 != tab.end())
+                {
+                    tab.erase(it2);
+                }
+            }
+
+            /// Si les interfaces existent
+            if(m_interface && it->second.m_interface)
+            {
+                /// On supprime l'interface de l'arete
+                m_interface->m_main_box.remove_child(it->second.m_interface->m_top_edge);
+            }
+            std::cout << std::endl << "Edge[" << it->first << "] deleted";
+            m_edges.erase(it++); /// On supprime l'arete de la map
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void Graph::delete_vertex(int idx)
+{
+    /// On supprime toutes les aretes comportant le sommet idx
+    delete_vertex_allEdges(idx);
+
+    /// Si les interfaces existent
+    if(m_interface && m_vertices[idx].m_interface)
+    {
+        /// On supprime l'interface du sommet
+        m_interface->m_main_box.remove_child(m_vertices[idx].m_interface->m_top_box);
+    }
+
+    /// On supprime le sommet de la map
+    m_vertices.erase(idx);
+    std::cout << std::endl << "Vertex[" << idx << "] deleted";
+
 }
 
 void Graph::findOut()
