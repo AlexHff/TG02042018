@@ -54,13 +54,13 @@
 	<iostream>
 	"graph.h"
 
-1522749909 source:c:\users\alex\documents\tg02042018\grman\coords.cpp
+1522771270 source:c:\users\alex\documents\tg02042018\grman\coords.cpp
 	"coords.h"
 
-1522749909 c:\users\alex\documents\tg02042018\grman\coords.h
+1522771270 c:\users\alex\documents\tg02042018\grman\coords.h
 	<cmath>
 
-1522749909 source:c:\users\alex\documents\tg02042018\grman\grman.cpp
+1522771270 source:c:\users\alex\documents\tg02042018\grman\grman.cpp
 	<cmath>
 	<unordered_map>
 	<unordered_set>
@@ -74,16 +74,16 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
-1522749909 c:\users\alex\documents\tg02042018\grman\grman.h
+1522771270 c:\users\alex\documents\tg02042018\grman\grman.h
 	<allegro.h>
 	<string>
 	"grman_couleurs.h"
 	"coords.h"
 	"widget.h"
 
-1522749909 c:\users\alex\documents\tg02042018\grman\grman_couleurs.h
+1522771270 c:\users\alex\documents\tg02042018\grman\grman_couleurs.h
 
-1522768176 c:\users\alex\documents\tg02042018\grman\widget.h
+1522771270 c:\users\alex\documents\tg02042018\grman\widget.h
 	"grman.h"
 	<iostream>
 	<string>
@@ -91,23 +91,27 @@
 	<algorithm>
 	<allegro.h>
 
-1522749909 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
+1522771270 source:c:\users\alex\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1522768057 source:c:\users\alex\documents\tg02042018\main.cpp
+1523011699 source:c:\users\alex\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
+	"Button.h"
 
-1522770682 c:\users\alex\documents\tg02042018\graph.h
+1523011699 c:\users\alex\documents\tg02042018\graph.h
 	<vector>
 	<map>
 	<string>
 	<memory>
 	<fstream>
+	<stack>
+	<array>
 	"grman/grman.h"
+	"constants.h"
 
-1522769878 source:c:\users\alex\documents\tg02042018\graph.cpp
+1523011699 source:c:\users\alex\documents\tg02042018\graph.cpp
 	"graph.h"
 
 1522883599 D
@@ -432,5 +436,28 @@
 	"grman/grman.h"
 
 1522959784 source:c:\users\alhff\documents\tg02042018\differe.cpp
+	"Differe.h"
+
+1523011698 source:c:\users\alex\documents\tg02042018\button.cpp
+	"Button.h"
+
+1523011698 c:\users\alex\documents\tg02042018\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+	"graph.h"
+	"constants.h"
+	"Differe.h"
+
+1523011699 c:\users\alex\documents\tg02042018\constants.h
+
+1523011698 c:\users\alex\documents\tg02042018\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1523011698 source:c:\users\alex\documents\tg02042018\differe.cpp
 	"Differe.h"
 

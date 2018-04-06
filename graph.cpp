@@ -435,13 +435,13 @@ void Graph::kdfs(int v, bool visited[],int k)
     std::cout << v << " ";
     unsigned int i = 0;
 
-    for(unsigned j = 0; j < k; ++j)
+    for(unsigned int j = 0; j < k; ++j)
     {
-        for(i; i < m_vertices[v].m_out.size(); ++i)
+        for(i = 0; i < m_vertices[v].m_out.size(); ++i)
             if(!visited[m_vertices[v].m_out[i]])
                 kdfs(m_vertices[v].m_out[i], visited, k);
 
-        for(i; i < m_vertices[v].m_in.size(); ++i)
+        for(i = 0; i < m_vertices[v].m_in.size(); ++i)
             if(!visited[m_vertices[v].m_in[i]])
                 kdfs(m_vertices[v].m_in[i], visited, k);
     }
