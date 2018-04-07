@@ -76,6 +76,38 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     m_bouton_label_addEdge.set_message("");
 }
 
+/// Le constructeur met en place les éléments de l'interface
+VertexAddInterface::VertexAddInterface(int idx, std::string pic_name)
+{
+    m_idx = idx;
+    m_value = false;
+
+    // La boite englobante
+    m_top_box.set_dim(100, 100);
+
+    /*** IMG ***/
+    // Une illustration...
+    if (pic_name!="")
+    {
+        m_top_box.add_child(m_icon);
+        m_icon.set_pic_name(pic_name);
+        m_icon.set_gravity_x(grman::GravityX::Center);
+    }
+
+    /*** ICON ***/
+    // Label de visualisation d'index du sommet dans une boite
+    m_top_box.add_child(m_box_label_icon);
+    m_box_label_icon.set_gravity_x(grman::GravityX::Center);
+    m_box_label_icon.set_posy(m_top_box.get_dimy()+5);
+    m_box_label_icon.set_dim(12, 12);
+    m_box_label_icon.set_bg_color(BLANC);
+
+    m_box_label_icon.add_child( m_label_icon );
+    m_label_icon.set_gravity_x(grman::GravityX::Center);
+    m_label_icon.set_message( std::to_string(idx) );
+}
+
+
 
 /// Gestion du Vertex avant l'appel à l'interface
 void Vertex::pre_update()
@@ -179,7 +211,6 @@ void Edge::post_update()
 }
 
 
-
 /***************************************************
                     GRAPH
 ****************************************************/
@@ -205,6 +236,11 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_boite_boutons.set_dim(80,700);
     m_boite_boutons.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
     m_boite_boutons.set_bg_color(BLANC);
+
+    /// box add vertices
+    m_addVertices_box.set_dim(745,600);
+    m_addVertices_box.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+    m_addVertices_box.set_bg_color(BLANC);
 
     /// bouton g1
     m_boite_boutons.add_child(m_bouton_g1);
@@ -282,6 +318,16 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
     m_bouton_label_delete.set_color(BLANC);
     m_bouton_label_delete.set_message("X");
 
+    /// Button ADD VERTICES
+    m_top_box.add_child(m_bouton_addVertices);
+    m_bouton_addVertices.set_frame(550, 710, 30, 30);
+    m_bouton_addVertices.set_bg_color(VERTFLUOSOMBRE);
+
+    m_bouton_addVertices.add_child(m_bouton_label_addVertices);
+    m_bouton_label_addVertices.set_gravity_xy(grman::GravityX::Center, grman::GravityY::Center);
+    m_bouton_label_addVertices.set_color(BLANC);
+    m_bouton_label_addVertices.set_message("+");
+
 }
 
 void Graph::read_file(const std::string& nom_fichier)
@@ -324,8 +370,8 @@ void Graph::read_file(const std::string& nom_fichier)
     }
     findIn();
     findOut();
-    for(auto &elem : m_vertices)
-        elem.second.m_coefOut = 0.00009;
+
+    fic.close();
 }
 
 void Graph::write_file()
@@ -338,7 +384,7 @@ void Graph::write_file()
 
     else
     {
-        std::cout << "Sauvegarde dans \"" << m_nomFichier << "\"." << std::endl;
+        std::cout << std::endl << "Sauvegarde dans \"" << m_nomFichier << "\"." << std::endl;
         fic << m_vertices.size() << std::endl;
         fic << m_edges.size() << std::endl;
         for(auto &e : m_vertices)
@@ -350,6 +396,59 @@ void Graph::write_file()
         {
             fic << e.first << " " << e.second.m_from << " " << e.second.m_to << " " << e.second.m_weight << std::endl;
         }
+
+        fic.close();
+    }
+}
+
+/*** FICHIERS SOMMETS DELETED ***/
+void Graph::read_file_del()
+{
+    std::string nomFichier = "del_" + m_nomFichier;
+
+    /// Tentative d'ouverture du fichier
+    std::fstream fic(nomFichier, std::ios_base::in);
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// Traitement du fichier
+    else
+    {
+        int nbVertices, idx, x, y;
+        double coefIn, coefOut;
+        int pop;
+        std::string pic_name;
+
+        fic >> nbVertices;
+        for(unsigned int i(0); i<nbVertices; ++i)
+        {
+            fic >> idx >> coefIn >> coefOut >> pop >> x >> y >> pic_name;
+            add_vertex_mapDel(idx, coefIn, coefOut, pop, x, y, pic_name);
+        }
+
+        fic.close();
+    }
+}
+
+void Graph::write_file_del()
+{
+    std::string nomFichier = "del_" + m_nomFichier;
+
+    /// test d'ouverture du fichier
+    std::fstream fic(nomFichier, std::ios_base::out);
+    if ( !fic.is_open() )
+        throw "Probleme ouverture fichier !";
+    /// ecriture dans le fichier
+
+    else
+    {
+        std::cout << std::endl << "Sauvegarde dans \"" << nomFichier << "\"." << std::endl;
+
+        fic << m_vertices_del.size() << std::endl;
+        for(auto &e : m_vertices_del)
+        {
+            fic << e.first << " " << e.second.m_coefIn << " " << e.second.m_coefOut << " " << e.second.m_population << " " << e.second.m_interface->m_top_box.get_posx()+2 << " " << e.second.m_interface->m_top_box.get_posy()+2 << " " << e.second.m_interface->m_img.get_pic_name() << std::endl;
+        }
+        fic.close();
     }
 }
 
@@ -377,6 +476,7 @@ void Graph::update()
         elt.second.post_update();
 
     update_buttons();
+    update_addVertices_box();
 
 }
 
@@ -419,6 +519,61 @@ void Graph::update_buttons()
             break;
         }
     }
+
+}
+
+void Graph::update_addVertices_box()
+{
+    int padding = 20;
+
+    int x = padding;
+    int y = padding;
+
+    /*** BOUTON ADD VERTICES ***/
+    if(m_interface->m_bouton_addVertices.get_value() && grman::mouse_click) // ON
+    {
+        m_interface->m_main_box.add_child(m_interface->m_addVertices_box);
+    }
+    else if(!m_interface->m_bouton_addVertices.get_value() && grman::mouse_click) // OFF + ADD
+    {
+        m_interface->m_main_box.remove_child(m_interface->m_addVertices_box);
+
+        for(auto const &elem : m_interface->tab)
+        {
+            if(elem->get_value())
+            {
+                move_vertexDelToVertices(elem->m_idx);
+            }
+        }
+    }
+
+    for(auto const &elem : m_interface->tab)
+    {
+        elem->m_top_box.set_pos(x, y);
+
+        x += elem->m_top_box.get_dimx() + padding - elem->m_top_box.get_border();;
+        if (x > m_interface->m_addVertices_box.get_dimx() - elem->m_top_box.get_dimx() - padding) {
+            x = padding;
+            y += elem->m_top_box.get_dimy() + padding;
+        }
+
+        if(elem->m_top_box.is_gui_clicked())
+        {
+            elem->set_value(!elem->get_value());
+
+            if(elem->get_value())
+            {
+                elem->m_icon.set_border(5);
+                elem->m_icon.set_border_color(VERTFLUOSOMBRE);
+            }
+            else
+            {
+                elem->m_icon.set_border(1);
+                elem->m_icon.set_border_color(NOIR);
+            }
+        }
+    }
+
 }
 
 /// Aide à l'ajout de sommets interfacés
@@ -491,6 +646,112 @@ void Graph::add_edges()
                 m_vertices[t].m_in.push_back(f);
             }
         }
+    }
+}
+
+void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name)
+{
+    unsigned int s;
+    int ix, iy;
+    int padding;
+
+    padding = 10;
+
+    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est déjà pris dans le tableau del -> ERREUR
+    {
+        std::cerr << "Error adding vertex to m_vertices_del at idx=" << idx << " already used..." << std::endl;
+        throw "Error adding vertex to m_vertices_del";
+    }
+    else
+    {
+        // Création d'une interface de sommet
+        VertexInterface *vi = new VertexInterface(idx, x, y, pic_name);
+
+        m_vertices_del[idx] = Vertex(coefIn, coefOut, pop, vi);
+        std::cout << std::endl << "Vertex[" << idx << "] added to m_vertices_del";
+
+
+        // Création d'une interface de sommet pour l'ajout
+        VertexAddInterface *vai = new VertexAddInterface(idx, pic_name);
+//        s = m_interface->tab.size();
+//        vai->m_top_box.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
+//        ix = s*vai->m_top_box.get_dimx() + padding*(s+1);
+//        if(ix > m_interface->m_addVertices_box.get_dimx() - s*vai->m_top_box.get_dimx() + padding*(s+1))
+//        {
+//
+//        }
+//
+//        vai->m_top_box.set_pos(s*vai->m_top_box.get_dimx() + 10*(s+1), s*vai->m_top_box.get_dimy() + 10*(s+1));
+        m_interface->tab.push_back(vai);
+        m_interface->m_addVertices_box.add_child(vai->m_top_box);
+
+    }
+}
+
+void Graph::move_vertexToDel(int idx)
+{
+    int pop, x, y;
+    double coefIn, coefOut;
+    std::string pic_name;
+
+    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est déjà pris dans le tableau del -> ERREUR
+    {
+        std::cerr << "Error adding vertex to m_vertices_del at idx=" << idx << " already used..." << std::endl;
+        throw "Error adding vertex to m_vertices_del";
+    }
+    else if(m_vertices.find(idx)!=m_vertices.end()) /// si l'idx existe dans m_vertices
+    {
+        Vertex &v = m_vertices[idx];
+
+        // On copie les attributs
+        pop = v.getPopulation();
+        x = v.m_interface->m_top_box.get_posx();
+        y = v.m_interface->m_top_box.get_posy();
+        coefIn = v.m_coefIn;
+        coefOut = v.m_coefOut;
+        pic_name = v.m_interface->m_img.get_pic_name();
+
+        // On ajoute le sommet au tableau m_vertices_del
+        add_vertex_mapDel(idx, coefIn, coefOut, pop, x, y, pic_name);
+    }
+
+}
+
+void Graph::move_vertexDelToVertices(int idx)
+{
+    int pop, x, y;
+    double coefIn, coefOut;
+    std::string pic_name;
+
+    if(m_vertices_del.find(idx)!=m_vertices_del.end()) /// si l'idx existe
+    {
+        Vertex &v = m_vertices_del[idx];
+
+        // On copie les attributs
+        pop = v.getPopulation();
+        x = v.m_interface->m_top_box.get_posx();
+        y = v.m_interface->m_top_box.get_posy();
+        coefIn = v.m_coefIn;
+        coefOut = v.m_coefOut;
+        pic_name = v.m_interface->m_img.get_pic_name();
+
+        add_interfaced_vertex(idx, coefIn, coefOut, pop, x, y, pic_name);
+        std::cout << std::endl << "Vertex[" << idx << "] added to m_vertices";
+
+        for(auto it = m_interface->tab.begin(); it != m_interface->tab.end(); ++it)
+        {
+            if((*it)->m_idx == idx)
+            {
+                m_interface->m_addVertices_box.remove_child((*it)->m_top_box);
+                delete *it;
+                m_interface->tab.erase(it);
+                break;
+            }
+        }
+
+
+        // on supprime le sommet du m_vertices_del
+        m_vertices_del.erase(idx);
     }
 }
 
@@ -593,6 +854,7 @@ void Graph::delete_vertex_allEdges(int idx)
 
 void Graph::delete_vertex(int idx)
 {
+    move_vertexToDel(idx);
     /// On supprime toutes les aretes comportant le sommet idx
     delete_vertex_allEdges(idx);
 

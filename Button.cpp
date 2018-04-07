@@ -100,6 +100,7 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
     /// Sauvegarde du graphe actuel dans le fichier texte associe
     else if (message == constants::TB_ACTION_SAVE) {
         workg.write_file();
+        workg.write_file_del();
     }
 
     /// Lancer la simulation

@@ -18,8 +18,12 @@ int main()
     g2.read_file("graph2.txt");
     g3.read_file("graph3.txt");
 
+    g1.read_file_del();
+    g2.read_file_del();
+    g3.read_file_del();
+
     workg=g3;
-    workg.kVertexConnex();
+   // workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement à des frameworks plus avancés )

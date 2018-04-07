@@ -144,6 +144,30 @@ class VertexInterface
         VertexInterface(int idx, int x, int y, std::string pic_name="", int pic_idx=0);
 };
 
+class VertexAddInterface
+{
+    friend class Vertex;
+    friend class Graph;
+
+    private :
+        int m_idx;
+        bool m_value;
+
+    public :
+        // La boite qui contient toute l'interface d'un sommet
+        grman::WidgetBox m_top_box;
+
+        // L'image
+        grman::WidgetImage m_icon;
+        // Label pour l'img
+        grman::WidgetText m_label_icon;
+        // Une boite pour le label précédent
+        grman::WidgetText m_box_label_icon;
+
+        VertexAddInterface(int idx, std::string pic_name="");
+        bool get_value(){return m_value;}
+        void set_value(bool value){m_value = value;}
+};
 
 class Vertex
 {
@@ -297,6 +321,8 @@ class GraphInterface
 
     private :
 
+        std::vector<VertexAddInterface*> tab;
+
         /// Les widgets de l'interface. N'oubliez pas qu'il ne suffit pas de déclarer
         /// ici un widget pour qu'il apparaisse, il faut aussi le mettre en place et
         /// le paramétrer ( voir l'implémentation du constructeur dans le .cpp )
@@ -310,14 +336,13 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
-        // A compléter éventuellement par des widgets de décoration ou
-        // d'édition (boutons ajouter/enlever ...)
-
     public :
 
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         GraphInterface(int x, int y, int w, int h);
+
+        /*** TB buttons ***/
 
         // wrapper pour les boutons
         grman::WidgetBox m_boite_boutons;
@@ -350,6 +375,8 @@ class GraphInterface
         grman::WidgetButton m_bouton_connex;
         grman::WidgetText m_bouton_connex_label;
 
+        /*** Bottom buttons ***/
+
         // bouton pour ajouter des aretes
         grman::WidgetButton m_bouton_addEdges;
         grman::WidgetText m_bouton_label_addEdges;
@@ -357,6 +384,15 @@ class GraphInterface
          // bouton pour supprimer les sommets/aretes selectionnes
         grman::WidgetButton m_bouton_delete;
         grman::WidgetText m_bouton_label_delete;
+
+        // bouton pour afficher la barre des sommets à ajouter
+        grman::WidgetOnOffButton m_bouton_addVertices;
+        grman::WidgetText m_bouton_label_addVertices;
+
+        /*** Add vertices ***/
+
+        /// Dans cette boite seront ajoutés les sommets pouvant être ajoutés au graphe
+        grman::WidgetBox m_addVertices_box;
 
 
 };
@@ -371,6 +407,9 @@ class Graph
 
         /// La liste des sommets
         std::map<int, Vertex> m_vertices;
+
+        /// La liste des sommets supprilm
+        std::map<int, Vertex> m_vertices_del;
 
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
@@ -392,8 +431,16 @@ class Graph
         void add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
 
+        /// Ajoute les aretes selon les sommets sélectionnés
         void add_edges();
+        /// Copie le sommet d'indice idx dans la map de sommets supprimés
+        void add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name);
+        /// Déplace un sommet supprimé (m_vertices_del), vers le tableau m_vertices
+        void move_vertexDelToVertices(int idx);
+        /// Déplace un sommet (m_vertices) vers le tableau des sommets supprimés (m_vertices_del)
+        void move_vertexToDel(int idx);
 
+        /// Retourne true si l'arete existe déjà
         bool edge_exist(int from, int to);
 
         /// Supprime le sommet d'indice idx
@@ -407,13 +454,14 @@ class Graph
 
         /// chargement des fichiers
         void read_file(const std::string& nom_fichier);
-
+        void read_file_del(); // fichier des sommets supprimés
         /// enregistrement des fichiers
         void write_file();
-
+        void write_file_del(); // fichier des sommets supprimés
         /// methode pour la detection des composantes fortement connexes
         void fort_connexe();
 
+        /// Retourne l'idx de l'arete la plus grande
         int find_idxMax_edges();
 
         /// implémentation de la liste des indices des arcs arrivant au sommet
@@ -444,6 +492,9 @@ class Graph
 
         /// Permet d'update les boutons des sommets
         void update_buttons();
+
+        /// Permet d'update la box comportant les sommets à ajouter
+        void update_addVertices_box();
 
         /// Permet de mettre à jour la population de tous les sommets
         void update_pop();
