@@ -192,7 +192,7 @@ class Vertex
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Vertex (double coefIn=0, double coefOut=0, int population=0, VertexInterface *interface=nullptr) :
-            m_coefIn(coefIn), m_coefOut(coefOut), m_population(population), m_isVertex(true), m_cptPop(0), m_interface(interface)  {  }
+            m_coefIn(coefIn), m_coefOut(coefOut), m_population(population), m_cptPop(0), m_isVertex(true), m_interface(interface)  {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)

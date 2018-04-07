@@ -710,8 +710,8 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
 {
     if(k < nb)
     {
-        std::map< int, Vertex >::iterator id = std::next(m_vertices.begin(),j);
-        for(id; id != m_vertices.end(); ++id)
+        std::map< int, Vertex >::iterator id;
+        for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); ++id)
         {
             tab.push_back(id->first);
             recu(allComponents, tab, id->first+1, k+1, nb);
@@ -798,6 +798,7 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
     bool *visited = new bool[m_vertices.size()];
     for(unsigned int i = 0; i < m_vertices.size(); ++i)
         visited[i] = false;
+    visitedVertices++;
 
     // Create a queue for BFS
     std::list<int> queue;
@@ -815,6 +816,7 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
         // Get all adjacent vertices of the dequeued
         // vertex s. If a adjacent has not been visited,
         // then mark it visited and enqueue it
+
         for(unsigned int i = 0; i < m_vertices[v].m_out.size(); ++i)
         {
             if(!visited[m_vertices[v].m_out[i]] && m_vertices[m_vertices[v].m_out[i]].m_isVertex)
@@ -824,7 +826,6 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
                 visitedVertices++;
             }
         }
-
         for(unsigned int i = 0; i < m_vertices[v].m_in.size(); ++i)
         {
             if(!visited[m_vertices[v].m_in[i]] && m_vertices[m_vertices[v].m_in[i]].m_isVertex)
@@ -861,7 +862,7 @@ void Graph::kVertexConnex()
             // Mise à jour du nombre d'aretes actives
             nbVertices = 0;
             for(auto &id : m_vertices)
-                if(!id.second.m_isVertex)
+                if(id.second.m_isVertex)
                     nbVertices++;
 
             for(auto &id : m_vertices)
@@ -869,6 +870,7 @@ void Graph::kVertexConnex()
                 if(id.second.m_isVertex)
                 {
                     bfs(id.first, visitedVertices);
+                    break;
                 }
             }
 
@@ -880,8 +882,6 @@ void Graph::kVertexConnex()
             if((kmin > nbVertices) && (visitedVertices < nbVertices))
                 kmin = nbVertices;
             visitedVertices = 0;
-
-            // Si pas connex truc
 
             for (auto &id : components)
                 m_vertices[id].m_isVertex = true;
