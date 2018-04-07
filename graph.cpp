@@ -983,6 +983,7 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
         for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); id++)
         {
             tab.push_back(id->first);
+
             recu(allComponents, tab, j+1, k+1, nb);
 
             if(tab.size() == nb)
@@ -1155,6 +1156,7 @@ void Graph::kVertexConnex()
                 k = nbVertices;
             if(kmin > k)
                 kmin = k-1;
+
 
             visitedVertices = 0;
 
