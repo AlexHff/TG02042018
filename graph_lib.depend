@@ -120,7 +120,7 @@
 	"grman/grman.h"
 	"constants.h"
 
-1523104506 source:c:\users\alhff\documents\tg02042018\graph.cpp
+1523107000 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
 1523102526 c:\users\alhff\documents\tg02042018\graph.h
@@ -321,7 +321,7 @@
 1523054978 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
 	"widget.h"
 
-1523102685 source:c:\users\alhff\documents\tg02042018\main.cpp
+1523106128 source:c:\users\alhff\documents\tg02042018\main.cpp
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
