@@ -484,6 +484,8 @@ void Graph::add_edges()
             if(!edge_exist(f, t))
             {
                 add_interfaced_edge(idxMax+1, f, t, 0);
+                m_edges[idxMax+1].m_from = f;
+                m_edges[idxMax+1].m_to = t;
                 std::cout << std::endl << "Edge ADDED " << f << " - " << t;
                 m_vertices[f].m_out.push_back(t);
                 m_vertices[t].m_in.push_back(f);
@@ -1030,24 +1032,5 @@ void Graph::resetColors()
     for(auto &e : m_vertices)
     {
         e.second.getInterface()->setBgCol(BLANCJAUNE);
-    }
-}
-
-void Graph::test()
-{
-    for(auto &e : m_vertices)
-    {
-        std::cout << "Indice = " << e.first << std::endl;
-    }
-    std::cout << "Taille : " << m_vertices.size() << std::endl;
-    for (auto &id : m_vertices)
-    {
-        std::cout << id.first << std::endl;
-        id.second.m_isVertex = false;
-    }
-    std::cout << "Taille : " << m_vertices.size() << std::endl;
-    for(auto &e : m_vertices)
-    {
-        std::cout << "Indice = " << e.first << std::endl;
     }
 }
