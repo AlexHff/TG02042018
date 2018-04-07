@@ -714,7 +714,7 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
         for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); ++id)
         {
             tab.push_back(id->first);
-            recu(allComponents, tab, id->first+1, k+1, nb);
+            recu(allComponents, tab, j+1, k+1, nb);
             if(tab.size() == nb)
                 allComponents.push_back(tab);
             tab.pop_back();
@@ -898,7 +898,6 @@ void Graph::kVertexConnex()
             std::cout << id << " ";
         std::cout << std::endl;
     }
-    kmin--;
     std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 
