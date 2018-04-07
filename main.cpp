@@ -22,7 +22,7 @@ int main()
     g2.read_file_del();
     g3.read_file_del();
 
-    workg=g1;
+    workg=g3;
    // workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"

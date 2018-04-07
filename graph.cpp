@@ -647,6 +647,7 @@ void Graph::add_edges()
     {
         for(auto &t : to)
         {
+            // on cherche l'idx max
             idxMax = find_idxMax_edges();
             if(!edge_exist(f, t))
             {
@@ -664,12 +665,6 @@ void Graph::add_edges()
 /// Copie le sommet d'indice idx dans la map de sommets supprimés
 void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name)
 {
-    unsigned int s;
-    int ix, iy;
-    int padding;
-
-    padding = 10;
-
     if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est déjà pris dans le tableau del -> ERREUR
     {
         std::cerr << "Error adding vertex to m_vertices_del at idx=" << idx << " already used..." << std::endl;
@@ -709,6 +704,7 @@ void Graph::move_vertexToDel(int idx)
     }
     else if(m_vertices.find(idx)!=m_vertices.end()) /// si l'idx existe dans m_vertices
     {
+        // reference vers le sommet
         Vertex &v = m_vertices[idx];
 
         // On copie les attributs
