@@ -980,10 +980,11 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
     if(k < nb)
     {
         std::map< int, Vertex >::iterator id;
-        for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); ++id)
+        for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); id++)
         {
             tab.push_back(id->first);
             recu(allComponents, tab, j+1, k+1, nb);
+
             if(tab.size() == nb)
                 allComponents.push_back(tab);
             tab.pop_back();
@@ -1149,15 +1150,18 @@ void Graph::kVertexConnex()
 
             if(visitedVerticesMax < visitedVertices)
                 visitedVerticesMax = visitedVertices;
+
             if((k > nbVertices) && (visitedVertices < nbVertices))
                 k = nbVertices;
             if(kmin > k)
                 kmin = k-1;
+
             visitedVertices = 0;
 
             for (auto &id : components)
                 m_vertices[id].m_isVertex = true;
         }
+
     }
     while(visitedVerticesMax == m_vertices.size());
 
@@ -1167,6 +1171,7 @@ void Graph::kVertexConnex()
             std::cout << id << " ";
         std::cout << std::endl;
     }
+
     std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 

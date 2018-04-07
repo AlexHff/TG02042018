@@ -30,7 +30,14 @@
 	<algorithm>
 	<allegro.h>
 
+<<<<<<< HEAD
 1523139606 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
+=======
+1523111656 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
+	"graph.h"
+
+1523110756 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
+>>>>>>> 961605a86977d4b3ab71beba9c95e9cf4bcb5c6d
 	<vector>
 	<map>
 	<string>
@@ -74,7 +81,11 @@
 1523124408 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.cpp
 	"widget.h"
 
+<<<<<<< HEAD
 1523141942 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
+=======
+1523111789 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
+>>>>>>> 961605a86977d4b3ab71beba9c95e9cf4bcb5c6d
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
