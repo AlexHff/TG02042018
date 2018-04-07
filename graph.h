@@ -439,6 +439,8 @@ class Graph
         /// trouver les différentes combinaisons
         void recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
 
+        void test();
+
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
 

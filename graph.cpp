@@ -307,19 +307,19 @@ void Graph::read_file(const std::string& nom_fichier)
         {
             fic >> idx >> coefIn >> coefOut >> pop >> x >> y >> pic_name;
             add_interfaced_vertex(idx, coefIn, coefOut, pop, x, y, pic_name);
-            m_vertices[i].m_coefIn = coefIn;
-            m_vertices[i].m_coefOut = coefOut;
-            m_vertices[i].m_population = pop;
-            m_vertices[i].m_cptPop = 0.0;
+            m_vertices[idx].m_coefIn = coefIn;
+            m_vertices[idx].m_coefOut = coefOut;
+            m_vertices[idx].m_population = pop;
+            m_vertices[idx].m_cptPop = 0.0;
         }
 
         for(unsigned int i(0); i<nbEdges; ++i)
         {
             fic >> idx >> vert1 >> vert2 >> weight;
             add_interfaced_edge(idx, vert1, vert2, weight);
-            m_edges[i].m_from = vert1;
-            m_edges[i].m_to = vert2;
-            m_edges[i].m_weight = weight;
+            m_edges[idx].m_from = vert1;
+            m_edges[idx].m_to = vert2;
+            m_edges[idx].m_weight = weight;
         }
     }
     findIn();
@@ -708,10 +708,11 @@ void Graph::recu(std::vector<std::vector<int>> &allComponents, std::vector<int> 
 {
     if(k < nb)
     {
-        for(unsigned int i = j; i < m_vertices.size(); i++)
+        std::map< int, Vertex >::iterator id = std::next(m_vertices.begin(),j);
+        for(id; id != m_vertices.end(); ++id)
         {
-            tab.push_back(i);
-            recu(allComponents, tab, i+1, k+1, nb);
+            tab.push_back(id->first);
+            recu(allComponents, tab, id->first+1, k+1, nb);
             if(tab.size() == nb)
                 allComponents.push_back(tab);
             tab.pop_back();
@@ -752,18 +753,18 @@ void Graph::fort_connexe()
 
     // Marquer toutes les aretes comme non visitées
     bool *visited = new bool[m_vertices.size()];
-    for(unsigned int i(0); i < m_vertices.size(); ++i)
-        visited[i] = false;
+    for(auto &id : m_vertices)
+        visited[id.first] = false;
 
     // Ajouter tous les sommets dans le stack
-    for(unsigned int i(0); i < m_vertices.size(); ++i)
-        if(!visited[i])
-            fillOrder(i, visited, Stack);
+    for(auto &id : m_vertices)
+        if(!visited[id.first])
+            fillOrder(id.first, visited, Stack);
 
     Graph g = getTranspose();
 
-    for(unsigned int i(0); i < m_vertices.size(); ++i)
-        visited[i] = false;
+    for(auto &id : m_vertices)
+        visited[id.first] = false;
 
     int k = 0;
     std::cout << "Les composantes fortement connexes :" << std::endl;
@@ -784,8 +785,8 @@ void Graph::fort_connexe()
         }
     }
 
-    for(unsigned int i(0); i < m_vertices.size(); ++i)
-        m_vertices[i].m_group = g.m_vertices[i].m_group;
+    for(auto &id : m_vertices)
+        m_vertices[id.first].m_group = g.m_vertices[id.first].m_group;
 }
 
 /// Implementation BFS inspiré de https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
@@ -848,24 +849,24 @@ void Graph::kVertexConnex()
             std::vector<int> temp;
             recu(allComponents, temp, 0, 0, j);
         }
-
         for (auto &components : allComponents)
         {
             for (auto &id : components)
+            {
                 m_vertices[id].m_isVertex = false;
+            }
 
             // Mise à jour du nombre d'aretes actives
             nbVertices = 0;
-            for(unsigned int i = 0; i < m_vertices.size(); ++i)
-                if(!m_vertices[i].m_isVertex)
+            for(auto &id : m_vertices)
+                if(!id.second.m_isVertex)
                     nbVertices++;
 
-            for(unsigned int i = 0; i < m_vertices.size(); ++i)
+            for(auto &id : m_vertices)
             {
-                if(m_vertices[i].m_isVertex)
+                if(id.second.m_isVertex)
                 {
-                    bfs(i, visitedVertices);
-                    i = m_vertices.size();
+                    bfs(id.first, visitedVertices);
                 }
             }
 
@@ -883,7 +884,6 @@ void Graph::kVertexConnex()
             for (auto &id : components)
                 m_vertices[id].m_isVertex = true;
         }
-
         /*for(k = 1; k < m_vertices.size(); ++k)
         {
             for(unsigned int o = 0; o < allComponents.size(); ++o)
@@ -925,7 +925,6 @@ void Graph::kVertexConnex()
             std::cout << id;
         std::cout << std::endl;
     }
-
     std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 
@@ -1031,5 +1030,24 @@ void Graph::resetColors()
     for(auto &e : m_vertices)
     {
         e.second.getInterface()->setBgCol(BLANCJAUNE);
+    }
+}
+
+void Graph::test()
+{
+    for(auto &e : m_vertices)
+    {
+        std::cout << "Indice = " << e.first << std::endl;
+    }
+    std::cout << "Taille : " << m_vertices.size() << std::endl;
+    for (auto &id : m_vertices)
+    {
+        std::cout << id.first << std::endl;
+        id.second.m_isVertex = false;
+    }
+    std::cout << "Taille : " << m_vertices.size() << std::endl;
+    for(auto &e : m_vertices)
+    {
+        std::cout << "Indice = " << e.first << std::endl;
     }
 }
