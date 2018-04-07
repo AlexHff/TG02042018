@@ -19,7 +19,7 @@ int main()
     g3.read_file("graph3.txt");
 
     workg=g3;
-    workg.kVertexConnex();
+    //workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement à des frameworks plus avancés )
