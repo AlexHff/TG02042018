@@ -841,99 +841,65 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
 /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
 void Graph::kVertexConnex()
 {
-    unsigned int kmin = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
+    unsigned int kmin = m_vertices.size()-1, k = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
     std::vector< std::vector<int> > allComponents, critPoints;
 
-//    do
-//    {
+    do
+    {
         // Trouver toutes les combinaisons entre les sommets
         for(unsigned int j = 0; j < m_vertices.size()-1; ++j)
         {
             std::vector<int> temp;
             recu(allComponents, temp, 0, 0, j);
         }
+
         for (auto &components : allComponents)
+        {
+            for (auto &id : components)
+            {
+                m_vertices[id].m_isVertex = false;
+            }
+
+            // Mise à jour du nombre d'aretes actives
+            nbVertices = 0;
+            for(auto &id : m_vertices)
+                if(id.second.m_isVertex)
+                    nbVertices++;
+
+            for(auto &id : m_vertices)
+            {
+                if(id.second.m_isVertex)
+                {
+                    bfs(id.first, visitedVertices);
+                    break;
+                }
+            }
+
+            if(visitedVertices < nbVertices)
+                critPoints.push_back(components);
+
+            if(visitedVerticesMax < visitedVertices)
+                visitedVerticesMax = visitedVertices;
+            if((k > nbVertices) && (visitedVertices < nbVertices))
+                k = nbVertices;
+            if(kmin > k)
+                kmin = k-1;
+            visitedVertices = 0;
+
+            for (auto &id : components)
+                m_vertices[id].m_isVertex = true;
+        }
+    }
+    while(visitedVerticesMax == m_vertices.size());
+
+    for (auto &components : critPoints)
     {
         for (auto &id : components)
             std::cout << id << " ";
         std::cout << std::endl;
     }
-//        for (auto &components : allComponents)
-//        {
-//            for (auto &id : components)
-//            {
-//                m_vertices[id].m_isVertex = false;
-//            }
-//
-//            // Mise à jour du nombre d'aretes actives
-//            nbVertices = 0;
-//            for(auto &id : m_vertices)
-//                if(id.second.m_isVertex)
-//                    nbVertices++;
-//
-//            for(auto &id : m_vertices)
-//            {
-//                if(id.second.m_isVertex)
-//                {
-//                    bfs(id.first, visitedVertices);
-//                    break;
-//                }
-//            }
-//
-//            if(visitedVertices < nbVertices)
-//                critPoints.push_back(components);
-//
-//            if(visitedVerticesMax < visitedVertices)
-//                visitedVerticesMax = visitedVertices;
-//            if((kmin > nbVertices) && (visitedVertices < nbVertices))
-//                kmin = nbVertices;
-//            visitedVertices = 0;
-//
-//            for (auto &id : components)
-//                m_vertices[id].m_isVertex = true;
-//        }
-//        /*for(k = 1; k < m_vertices.size(); ++k)
-//        {
-//            for(unsigned int o = 0; o < allComponents.size(); ++o)
-//            {
-//                for(unsigned int p = 0; p < allComponents[o].size(); ++p)
-//                    m_vertices[allComponents[k][p]].m_isVertex=false;
-//
-//                // Mise à jour du nombre d'aretes actives
-//                nbVertices = 0;
-//                for(unsigned int i(0); i < m_vertices.size(); ++i)
-//                    if(!m_vertices[i].m_isVertex)
-//                        nbVertices++;
-//
-//                for(unsigned int i(0); i < m_vertices.size(); ++i)
-//                {
-//                    if(!visited[i] && m_vertices[i].m_isVertex)
-//                    {
-//                        kVertexConnexRecur(i, visited, visitedVertices);
-//                        if(visitedVerticesMax < visitedVertices)
-//                            visitedVerticesMax = visitedVertices;
-//                        if((kmin > nbVertices) && (visitedVertices < nbVertices))
-//                            kmin = nbVertices;
-//                        visitedVertices = 0;
-//                    }
-//                    for(unsigned int t(0); t < m_vertices.size(); ++t)
-//                        visited[t] = false;
-//                }
-//
-//                for(unsigned int i(0); i < m_vertices.size(); ++i)
-//                    m_vertices[i].m_isVertex=true;
-//            }
-//        }*/
-//    }
-//    while(visitedVerticesMax == m_vertices.size());
-//
-//    for (auto &components : critPoints)
-//    {
-//        for (auto &id : components)
-//            std::cout << id << " ";
-//        std::cout << std::endl;
-//    }
-//    std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
+    kmin--;
+    std::cout << "Nombre minimal de sommet a desactiver pour deconnecter le graphe :" << std::endl << "kmin = " << kmin << std::endl;
 }
 
 double Graph::calcul_sommeKIn(int to)
