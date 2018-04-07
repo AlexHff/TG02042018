@@ -107,8 +107,6 @@ VertexAddInterface::VertexAddInterface(int idx, std::string pic_name)
     m_label_icon.set_message( std::to_string(idx) );
 }
 
-
-
 /// Gestion du Vertex avant l'appel à l'interface
 void Vertex::pre_update()
 {
@@ -332,11 +330,12 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
 void Graph::read_file(const std::string& nom_fichier)
 {
+    std::string chemin = "data/";
     m_nomFichier=nom_fichier;
     m_interface = std::make_shared<GraphInterface>(50, 0, 750, 600);
 
     /// Tentative d'ouverture du fichier
-    std::fstream fic(m_nomFichier, std::ios_base::in);
+    std::fstream fic(chemin + m_nomFichier, std::ios_base::in);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
     /// Traitement du fichier
@@ -376,8 +375,9 @@ void Graph::read_file(const std::string& nom_fichier)
 
 void Graph::write_file()
 {
+    std::string chemin = "data/";
     /// test d'ouverture du fichier
-    std::fstream fic(m_nomFichier, std::ios_base::out);
+    std::fstream fic(chemin + m_nomFichier, std::ios_base::out);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
     /// ecriture dans le fichier
@@ -404,10 +404,11 @@ void Graph::write_file()
 /*** FICHIERS SOMMETS DELETED ***/
 void Graph::read_file_del()
 {
+    std::string chemin = "data/";
     std::string nomFichier = "del_" + m_nomFichier;
 
     /// Tentative d'ouverture du fichier
-    std::fstream fic(nomFichier, std::ios_base::in);
+    std::fstream fic(chemin + nomFichier, std::ios_base::in);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
     /// Traitement du fichier
@@ -431,10 +432,11 @@ void Graph::read_file_del()
 
 void Graph::write_file_del()
 {
+    std::string chemin = "data/";
     std::string nomFichier = "del_" + m_nomFichier;
 
     /// test d'ouverture du fichier
-    std::fstream fic(nomFichier, std::ios_base::out);
+    std::fstream fic(chemin + nomFichier, std::ios_base::out);
     if ( !fic.is_open() )
         throw "Probleme ouverture fichier !";
     /// ecriture dans le fichier
@@ -486,14 +488,16 @@ void Graph::update_buttons()
     for(auto &elt : m_vertices)
     {
         /// Bouton suppr
+        // s'il reste plus d'un sommet
         if(elt.second.m_interface->m_bouton_delete.clicked() && m_vertices.size() > 1)
         {
-            delete_vertex(elt.first);
+            delete_vertex(elt.first); // on supprime le sommet
             break;
         }
         /// Bouton add edge
         if(elt.second.m_interface->m_bouton_addEdge.clicked())
         {
+            // change l'état de la case ( rien -> 1 -> 2 -> rien -> ...)
             if(elt.second.m_interface->m_bouton_label_addEdge.get_message() == "")
             {
                 elt.second.m_interface->m_bouton_label_addEdge.set_message("1");
@@ -512,10 +516,10 @@ void Graph::update_buttons()
     /*** BOUTONS ARETES ***/
     for(auto &elt : m_edges)
     {
-        /// Bouton suppr
+        /// Bouton suppr des aretes
         if(elt.second.m_interface->m_bouton_delete.clicked())
         {
-            delete_edge(elt.first);
+            delete_edge(elt.first); // on supprime l'arete
             break;
         }
     }
@@ -532,31 +536,39 @@ void Graph::update_addVertices_box()
     /*** BOUTON ADD VERTICES ***/
     if(m_interface->m_bouton_addVertices.get_value() && grman::mouse_click) // ON
     {
+        // on affiche la box d'ajout de sommets
         m_interface->m_main_box.add_child(m_interface->m_addVertices_box);
     }
     else if(!m_interface->m_bouton_addVertices.get_value() && grman::mouse_click) // OFF + ADD
     {
+        // on ferme la box d'ajout de sommets
         m_interface->m_main_box.remove_child(m_interface->m_addVertices_box);
 
         for(auto const &elem : m_interface->tab)
         {
+            // si l'élément a été sélectionné
             if(elem->get_value())
             {
+                // on le rajoute au graph
                 move_vertexDelToVertices(elem->m_idx);
             }
         }
     }
 
+    /** Affichage des éléments de la box ***/
     for(auto const &elem : m_interface->tab)
     {
         elem->m_top_box.set_pos(x, y);
 
         x += elem->m_top_box.get_dimx() + padding - elem->m_top_box.get_border();;
+
+        // si l'élément dépasse la box
         if (x > m_interface->m_addVertices_box.get_dimx() - elem->m_top_box.get_dimx() - padding) {
             x = padding;
-            y += elem->m_top_box.get_dimy() + padding;
+            y += elem->m_top_box.get_dimy() + padding; // on l'affiche à la ligne suivante
         }
 
+        // quand un élement est sélectionné
         if(elem->m_top_box.is_gui_clicked())
         {
             elem->set_value(!elem->get_value());
@@ -649,6 +661,7 @@ void Graph::add_edges()
     }
 }
 
+/// Copie le sommet d'indice idx dans la map de sommets supprimés
 void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name)
 {
     unsigned int s;
@@ -673,21 +686,16 @@ void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, i
 
         // Création d'une interface de sommet pour l'ajout
         VertexAddInterface *vai = new VertexAddInterface(idx, pic_name);
-//        s = m_interface->tab.size();
-//        vai->m_top_box.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
-//        ix = s*vai->m_top_box.get_dimx() + padding*(s+1);
-//        if(ix > m_interface->m_addVertices_box.get_dimx() - s*vai->m_top_box.get_dimx() + padding*(s+1))
-//        {
-//
-//        }
-//
-//        vai->m_top_box.set_pos(s*vai->m_top_box.get_dimx() + 10*(s+1), s*vai->m_top_box.get_dimy() + 10*(s+1));
+
+        // on le stock dans un tableau
         m_interface->tab.push_back(vai);
+
         m_interface->m_addVertices_box.add_child(vai->m_top_box);
 
     }
 }
 
+/// Déplace un sommet (m_vertices) vers le tableau des sommets supprimés (m_vertices_del)
 void Graph::move_vertexToDel(int idx)
 {
     int pop, x, y;
@@ -714,9 +722,9 @@ void Graph::move_vertexToDel(int idx)
         // On ajoute le sommet au tableau m_vertices_del
         add_vertex_mapDel(idx, coefIn, coefOut, pop, x, y, pic_name);
     }
-
 }
 
+/// Déplace un sommet supprimé (m_vertices_del), vers le tableau m_vertices
 void Graph::move_vertexDelToVertices(int idx)
 {
     int pop, x, y;
@@ -748,7 +756,6 @@ void Graph::move_vertexDelToVertices(int idx)
                 break;
             }
         }
-
 
         // on supprime le sommet du m_vertices_del
         m_vertices_del.erase(idx);

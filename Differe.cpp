@@ -155,11 +155,11 @@ void differe(Graph workg) {
     clear_to_color(graphique, makecol(255, 255, 255));
     while (duree == 0) {
         std::string res;
-        std::cout << "Combien de temps doit durer la simulation ?" << std::endl;
+        std::cout << std::endl << "Combien de temps doit durer la simulation ?" << std::endl;
         std::cin >> res;
         if (isInt(res)) duree = std::stoi(res);
     }
-    std::cout << "Creation du graphique pour " << duree << " etapes..." << std::endl;
+    std::cout << std::endl << "Creation du graphique pour " << duree << " etapes..." << std::endl;
 
     maxVal = findMaxVal(workg, duree);
 
