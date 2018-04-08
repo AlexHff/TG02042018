@@ -4,7 +4,7 @@
 namespace grman
 {
 
-/// Les couleurs proposées. Il est possible d'en ajouter en respectant la syntaxe.
+/// Les couleurs proposees. Il est possible d'en ajouter en respectant la syntaxe.
 /// Faire une recherche "couleur html" dans google image pour d'autres valeurs.
 
 #define NOIR 0x000000
@@ -73,13 +73,13 @@ namespace grman
 
 /// !!! Systeme : ne pas intervenir sur le code ci dessous !!!
 
-// Masques binaires de spécification de type de remplissage
+// Masques binaires de specification de type de remplissage
 #define CONTOUR 0X10000000
 
-// Masque binaire de spécification de dessin torique
+// Masque binaire de specification de dessin torique
 #define TORIQUE 0x40000000
 
-// Masque binaire de spécification de bitmap destination (sur page ou sur fond)
+// Masque binaire de specification de bitmap destination (sur page ou sur fond)
 #define PEINDRE 0x01000000
 
 // Macro de facilitation de determination bitmap destination du dessin :
@@ -105,10 +105,10 @@ namespace grman
 #define TORIQUE_FIN  }         \
 
 
-/// Couleur spéciale : rend "invisible"
+/// Couleur speciale : rend "invisible"
 #define EFFACER (0xFF00FF|PEINDRE)
 
-/// Couleur à tester pour recupCouleurFond ( -> pas de peinture dessous)
+/// Couleur a tester pour recupCouleurFond ( -> pas de peinture dessous)
 #define FOND 0xFF00FF
 
 /// Couleurs aleatoires

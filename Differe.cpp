@@ -14,6 +14,10 @@ int findMaxVal(Graph workg, int duree) {
         }
         g.update_pop();
         if (i % 100 == 0) rectfill(screen, 0, 0, mapInt(i, 0, duree, 0, SCREEN_W), 10, ORANGE);
+        if (maxVal == 50000) {
+            std::cout << "\tValeur max : " << maxVal << std::endl;
+            return maxVal;
+        }
     }
     std::cout << "\tValeur max : " << maxVal << std::endl;
     return maxVal;

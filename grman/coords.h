@@ -76,7 +76,7 @@ struct Frame
         Frame(double x_, double y_, double w_, double h_)
             : pos(x_, y_), dim(w_, h_) {}
 
-        // Renvoie les coordonnées (dans le repère de la position de Frame) de l'intersection
+        // Renvoie les coordonnees (dans le repere de la position de Frame) de l'intersection
         // entre la demi-droite centre Frame -> vecteur directeur vec et le cadre de la Frame
         Coords intersect(Coords vec);
 

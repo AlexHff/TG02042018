@@ -1,4 +1,4 @@
-/*! \file Regroupe les declarations des fonctions relatives au fonctionnement des boutons sur le côté de la fenêtre */
+/*! \file Regroupe les declarations des fonctions relatives au fonctionnement des boutons sur le côte de la fenêtre */
 
 #ifndef BUTTON_H
 #define BUTTON_H

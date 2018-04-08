@@ -1,6 +1,6 @@
 #include "coords.h"
 
-// Renvoie les coordonnées (dans le repère de la position de Frame) de l'intersection
+// Renvoie les coordonnees (dans le repere de la position de Frame) de l'intersection
 // entre la demi-droite centre Frame -> vecteur directeur vec et le cadre de la Frame
 Coords Frame::intersect(Coords vec)
 {

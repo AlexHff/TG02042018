@@ -4,7 +4,7 @@
                     VERTEX
 ****************************************************/
 
-/// Le constructeur met en place les éléments de l'interface
+/// Le constructeur met en place les elements de l'interface
 VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, int pic_idx)
 {
     // La boite englobante
@@ -14,9 +14,9 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
 
 
     /*** VALUE ***/
-    // Le slider de réglage de valeur
+    // Le slider de reglage de valeur
     m_top_box.add_child( m_slider_value );
-    m_slider_value.set_range(0.0, 0.02);  // Valeurs arbitraires, à adapter...
+    m_slider_value.set_range(0.0, 0.02);  // Valeurs arbitraires, a adapter...
     m_slider_value.set_dim(20,80);
     m_slider_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Up);
 
@@ -25,9 +25,9 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     //m_label_value.set_gravity_xy(grman::GravityX::Left, grman::GravityY::Down);
 
     /*** POPULATION ***/
-    // Le slider de réglage de la pop
+    // Le slider de reglage de la pop
     m_top_box.add_child( m_slider_pop );
-    m_slider_pop.set_range(0.0, 10000.0);  // Valeurs arbitraires, à adapter...
+    m_slider_pop.set_range(0.0, 10000.0);  // Valeurs arbitraires, a adapter...
     m_slider_pop.set_dim(20,80);
     m_slider_pop.set_gravity_xy(grman::GravityX::Right, grman::GravityY::Up);
 
@@ -76,7 +76,7 @@ VertexInterface::VertexInterface(int idx, int x, int y, std::string pic_name, in
     m_bouton_label_addEdge.set_message("");
 }
 
-/// Le constructeur met en place les éléments de l'interface
+/// Le constructeur met en place les elements de l'interface
 VertexAddInterface::VertexAddInterface(int idx, std::string pic_name)
 {
     m_idx = idx;
@@ -107,34 +107,34 @@ VertexAddInterface::VertexAddInterface(int idx, std::string pic_name)
     m_label_icon.set_message( std::to_string(idx) );
 }
 
-/// Gestion du Vertex avant l'appel à l'interface
+/// Gestion du Vertex avant l'appel a l'interface
 void Vertex::pre_update()
 {
     if (!m_interface)
         return;
 
     // Value
-    /// Copier la valeur locale de la donnée m_value vers le slider associé
+    /// Copier la valeur locale de la donnee m_value vers le slider associe
     m_interface->m_slider_value.set_value(m_coefIn);
 
-    /// Copier la valeur locale de la donnée m_value vers le label sous le slider
+    /// Copier la valeur locale de la donnee m_value vers le label sous le slider
     m_interface->m_label_value.set_message( std::to_string( (int)m_coefIn) );
 
     // Pop
-    /// Copier la valeur locale de la donnée m_population vers le slider associé
+    /// Copier la valeur locale de la donnee m_population vers le slider associe
     m_interface->m_slider_pop.set_value(m_population);
 
-    /// Copier la valeur locale de la donnée m_population vers le label sous le slider
+    /// Copier la valeur locale de la donnee m_population vers le label sous le slider
     m_interface->m_label_pop.set_message( std::to_string( (int)m_population) );
 }
 
-/// Gestion du Vertex après l'appel à l'interface
+/// Gestion du Vertex apres l'appel a l'interface
 void Vertex::post_update()
 {
     if (!m_interface)
         return;
 
-    /// Reprendre la valeur du slider dans la donnée m_value locale
+    /// Reprendre la valeur du slider dans la donnee m_value locale
     m_coefIn = m_interface->m_slider_value.get_value();
 
     m_population = m_interface->m_slider_pop.get_value();
@@ -144,7 +144,7 @@ void Vertex::post_update()
                     EDGE
 ****************************************************/
 
-/// Le constructeur met en place les éléments de l'interface
+/// Le constructeur met en place les elements de l'interface
 EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 {
     // Le WidgetEdge de l'interface de l'arc
@@ -157,14 +157,14 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
     m_top_edge.attach_to(to.m_interface->m_top_box);
     m_top_edge.reset_arrow_with_bullet();
 
-    // Une boite pour englober les widgets de réglage associés
+    // Une boite pour englober les widgets de reglage associes
     m_top_edge.add_child(m_box_edge);
     m_box_edge.set_dim(24,60);
     m_box_edge.set_bg_color(BLANCBLEU);
 
-    // Le slider de réglage de valeur
+    // Le slider de reglage de valeur
     m_box_edge.add_child( m_slider_weight );
-    m_slider_weight.set_range(0.0, 100.0);  // Valeurs arbitraires, à adapter...
+    m_slider_weight.set_range(0.0, 100.0);  // Valeurs arbitraires, a adapter...
     m_slider_weight.set_dim(16,40);
     m_slider_weight.set_gravity_y(grman::GravityY::Up);
 
@@ -185,26 +185,26 @@ EdgeInterface::EdgeInterface(Vertex& from, Vertex& to)
 }
 
 
-/// Gestion du Edge avant l'appel à l'interface
+/// Gestion du Edge avant l'appel a l'interface
 void Edge::pre_update()
 {
     if (!m_interface)
         return;
 
-    /// Copier la valeur locale de la donnée m_weight vers le slider associé
+    /// Copier la valeur locale de la donnee m_weight vers le slider associe
     m_interface->m_slider_weight.set_value(m_weight);
 
-    /// Copier la valeur locale de la donnée m_weight vers le label sous le slider
+    /// Copier la valeur locale de la donnee m_weight vers le label sous le slider
     m_interface->m_label_weight.set_message( std::to_string( (int)m_weight ) );
 }
 
-/// Gestion du Edge après l'appel à l'interface
+/// Gestion du Edge apres l'appel a l'interface
 void Edge::post_update()
 {
     if (!m_interface)
         return;
 
-    /// Reprendre la valeur du slider dans la donnée m_weight locale
+    /// Reprendre la valeur du slider dans la donnee m_weight locale
     m_weight = m_interface->m_slider_weight.get_value();
 }
 
@@ -213,8 +213,8 @@ void Edge::post_update()
                     GRAPH
 ****************************************************/
 
-/// Ici le constructeur se contente de préparer un cadre d'accueil des
-/// éléments qui seront ensuite ajoutés lors de la mise ne place du Graphe
+/// Ici le constructeur se contente de preparer un cadre d'accueil des
+/// elements qui seront ensuite ajoutes lors de la mise ne place du Graphe
 GraphInterface::GraphInterface(int x, int y, int w, int h)
 {
     m_top_box.set_dim(1000,740);
@@ -454,7 +454,7 @@ void Graph::write_file_del()
     }
 }
 
-/// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
+/// La methode update a appeler dans la boucle de jeu pour les graphes avec interface
 void Graph::update()
 {
     if (!m_interface)
@@ -497,7 +497,7 @@ void Graph::update_buttons()
         /// Bouton add edge
         if(elt.second.m_interface->m_bouton_addEdge.clicked())
         {
-            // change l'état de la case ( rien -> 1 -> 2 -> rien -> ...)
+            // change l'etat de la case ( rien -> 1 -> 2 -> rien -> ...)
             if(elt.second.m_interface->m_bouton_label_addEdge.get_message() == "")
             {
                 elt.second.m_interface->m_bouton_label_addEdge.set_message("1");
@@ -546,7 +546,7 @@ void Graph::update_addVertices_box()
 
         for(auto const &elem : m_interface->tab)
         {
-            // si l'élément a été sélectionné
+            // si l'element a ete selectionne
             if(elem->get_value())
             {
                 // on le rajoute au graph
@@ -555,20 +555,20 @@ void Graph::update_addVertices_box()
         }
     }
 
-    /** Affichage des éléments de la box ***/
+    /** Affichage des elements de la box ***/
     for(auto const &elem : m_interface->tab)
     {
         elem->m_top_box.set_pos(x, y);
 
         x += elem->m_top_box.get_dimx() + padding - elem->m_top_box.get_border();;
 
-        // si l'élément dépasse la box
+        // si l'element depasse la box
         if (x > m_interface->m_addVertices_box.get_dimx() - elem->m_top_box.get_dimx() - padding) {
             x = padding;
-            y += elem->m_top_box.get_dimy() + padding; // on l'affiche à la ligne suivante
+            y += elem->m_top_box.get_dimy() + padding; // on l'affiche a la ligne suivante
         }
 
-        // quand un élement est sélectionné
+        // quand un element est selectionne
         if(elem->m_top_box.is_gui_clicked())
         {
             elem->set_value(!elem->get_value());
@@ -588,7 +588,7 @@ void Graph::update_addVertices_box()
 
 }
 
-/// Aide à l'ajout de sommets interfacés
+/// Aide a l'ajout de sommets interfaces
 void Graph::add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name, int pic_idx )
 {
     if ( m_vertices.find(idx)!=m_vertices.end() )
@@ -596,7 +596,7 @@ void Graph::add_interfaced_vertex(int idx, double coefIn, double coefOut, int po
         std::cerr << "Error adding vertex at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex";
     }
-    // Création d'une interface de sommet
+    // Creation d'une interface de sommet
     VertexInterface *vi = new VertexInterface(idx, x, y, pic_name, pic_idx);
     // Ajout de la top box de l'interface de sommet
     m_interface->m_main_box.add_child(vi->m_top_box);
@@ -604,7 +604,7 @@ void Graph::add_interfaced_vertex(int idx, double coefIn, double coefOut, int po
     m_vertices[idx] = Vertex(coefIn, coefOut, pop, vi);
 }
 
-/// Aide à l'ajout d'arcs interfacés
+/// Aide a l'ajout d'arcs interfaces
 void Graph::add_interfaced_edge(int idx, int id_vert1, int id_vert2, double weight)
 {
     if ( m_edges.find(idx)!=m_edges.end() )
@@ -662,24 +662,24 @@ void Graph::add_edges()
     }
 }
 
-/// Copie le sommet d'indice idx dans la map de sommets supprimés
+/// Copie le sommet d'indice idx dans la map de sommets supprimes
 void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name)
 {
-    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est déjà pris dans le tableau del -> ERREUR
+    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est deja pris dans le tableau del -> ERREUR
     {
         std::cerr << "Error adding vertex to m_vertices_del at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex to m_vertices_del";
     }
     else
     {
-        // Création d'une interface de sommet
+        // Creation d'une interface de sommet
         VertexInterface *vi = new VertexInterface(idx, x, y, pic_name);
 
         m_vertices_del[idx] = Vertex(coefIn, coefOut, pop, vi);
         std::cout << std::endl << "Vertex[" << idx << "] added to m_vertices_del";
 
 
-        // Création d'une interface de sommet pour l'ajout
+        // Creation d'une interface de sommet pour l'ajout
         VertexAddInterface *vai = new VertexAddInterface(idx, pic_name);
 
         // on le stock dans un tableau
@@ -690,14 +690,14 @@ void Graph::add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, i
     }
 }
 
-/// Déplace un sommet (m_vertices) vers le tableau des sommets supprimés (m_vertices_del)
+/// Deplace un sommet (m_vertices) vers le tableau des sommets supprimes (m_vertices_del)
 void Graph::move_vertexToDel(int idx)
 {
     int pop, x, y;
     double coefIn, coefOut;
     std::string pic_name;
 
-    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est déjà pris dans le tableau del -> ERREUR
+    if ( m_vertices_del.find(idx)!=m_vertices_del.end() ) /// Si l'idx est deja pris dans le tableau del -> ERREUR
     {
         std::cerr << "Error adding vertex to m_vertices_del at idx=" << idx << " already used..." << std::endl;
         throw "Error adding vertex to m_vertices_del";
@@ -720,7 +720,7 @@ void Graph::move_vertexToDel(int idx)
     }
 }
 
-/// Déplace un sommet supprimé (m_vertices_del), vers le tableau m_vertices
+/// Deplace un sommet supprime (m_vertices_del), vers le tableau m_vertices
 void Graph::move_vertexDelToVertices(int idx)
 {
     int pop, x, y;
@@ -777,9 +777,9 @@ void Graph::delete_edge(int idx)
     {
         Edge &edge = m_edges.at(idx);
 
-        /// référence au tableau m_out
+        /// reference au tableau m_out
         std::vector<int> &tabFrom = m_vertices[edge.m_from].m_out;
-        /// référence au tableau m_out
+        /// reference au tableau m_out
         std::vector<int> &tabTo = m_vertices[edge.m_to].m_in;
 
 
@@ -815,10 +815,10 @@ void Graph::delete_vertex_allEdges(int idx)
         /// Si un des sommet de cet arete correspond au sommet d'indice idx
         if (it->second.m_from == idx || it->second.m_to == idx)
         {
-            /// Si le sommet est un sommet de départ de l'arete
+            /// Si le sommet est un sommet de depart de l'arete
             if(it->second.m_from == idx)
             {
-                /// référence au tableau m_in
+                /// reference au tableau m_in
                 std::vector<int> &tab = m_vertices[it->second.m_to].m_in;
 
                 auto it2 = find(tab.begin(), tab.end(), idx);
@@ -827,9 +827,9 @@ void Graph::delete_vertex_allEdges(int idx)
                     tab.erase(it2);
                 }
             }
-            else if(it->second.m_to == idx) /// Si le sommet est un sommet d'arrivé
+            else if(it->second.m_to == idx) /// Si le sommet est un sommet d'arrive
             {
-                /// référence au tableau m_out
+                /// reference au tableau m_out
                 std::vector<int> &tab = m_vertices[it->second.m_from].m_out;
 
                 auto it2 = find(tab.begin(), tab.end(), idx);
@@ -960,14 +960,14 @@ void Graph::fillOrder(int v, bool visited[], std::stack<int> &Stack)
     Stack.push(v);
 }
 
-/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspiré de https://www.geeksforgeeks.org/strongly-connected-components/
+/// Implementation de l'algorithme de Kosaraju pour trouver les composantes fortement connexes, inspire de https://www.geeksforgeeks.org/strongly-connected-components/
 void Graph::fort_connexe()
 {
-    // On utilise un stack étant donné son principe LIFO
+    // On utilise un stack etant donne son principe LIFO
     std::stack<int> Stack;
     std::vector<int> colors = {0x00FF00,0x0000FF,0xFF0000,0x01FFFE,0xFFA6FE,0xFFDB66,0x006401,0x010067,0x95003A,0x007DB5,0xFF00F6,0xFFEEE8,0x774D00,0x90FB92,0x0076FF,0xD5FF00,0xFF937E,0x6A826C,0xFF029D,0xFE8900,0x7A4782,0x7E2DD2,0x85A900,0xFF0056,0xA42400,0x00AE7E,0x683D3B,0xBDC6FF,0x263400,0xBDD393,0x00B917,0x9E008E,0x001544,0xC28C9F,0xFF74A3};
 
-    // Marquer toutes les aretes comme non visitées
+    // Marquer toutes les aretes comme non visitees
     bool *visited = new bool[m_vertices.size()];
     for(auto &id : m_vertices)
         visited[id.first] = false;
@@ -1005,10 +1005,10 @@ void Graph::fort_connexe()
         m_vertices[id.first].m_group = g.m_vertices[id.first].m_group;
 }
 
-/// Implementation BFS inspiré de https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+/// Implementation BFS inspire de https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
 void Graph::bfs(int v, unsigned int &visitedVertices)
 {
-    // Marquer toutes les aretes comme non visitées
+    // Marquer toutes les aretes comme non visitees
     bool *visited = new bool[m_vertices.size()];
     for(unsigned int i = 0; i < m_vertices.size(); ++i)
         visited[i] = false;
@@ -1052,7 +1052,7 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
     }
 }
 
-/// Verifie si tous les sommets sont marqués
+/// Verifie si tous les sommets sont marques
 bool Graph::isAllMarqued(std::map<int, bool> &marque)
 {
     for(auto &elem : marque)
@@ -1065,7 +1065,7 @@ bool Graph::isAllMarqued(std::map<int, bool> &marque)
     return true;
 }
 
-/// Verifie si les sommets activés forment un graphe connexe
+/// Verifie si les sommets actives forment un graphe connexe
 bool Graph::isConnexe()
 {
     std::queue<int> file;
@@ -1092,7 +1092,7 @@ bool Graph::isConnexe()
     if(it->second.m_isVertex == true && it != m_vertices.end())
     {
         //std::cout << std::endl << "it = " << it->first;
-        // on marque le premier élement (activé) et on rajoute l'indice à la file
+        // on marque le premier element (active) et on rajoute l'indice a la file
         marque[it->first] = true;
         file.push(it->first);
 
@@ -1102,10 +1102,10 @@ bool Graph::isConnexe()
             idFront = file.front();
             Vertex &vFront = m_vertices[idFront];
 
-            // on défile le premier élement
+            // on defile le premier element
             file.pop();
 
-            // Pour tous les sommets  adjacents, activés, non marqué de cet élement
+            // Pour tous les sommets  adjacents, actives, non marque de cet element
             for(auto &adj : vFront.m_out)
             {
                 if(m_vertices[adj].m_isVertex)
@@ -1119,7 +1119,7 @@ bool Graph::isConnexe()
                     }
                 }
             }
-            // Pour tous les sommets  adjacents, activés, non marqué de cet élement
+            // Pour tous les sommets  adjacents, actives, non marque de cet element
             for(auto &adj : vFront.m_in)
             {
                 if(m_vertices[adj].m_isVertex)
@@ -1172,7 +1172,7 @@ void Graph::kSommetConnex()
     int sizeAllCompo = 0;
     bool testConnex = isConnexe();
 
-    // tant que le graph (des sommets activés) est connexe
+    // tant que le graph (des sommets actives) est connexe
     while(testConnex && j < m_vertices.size())
     {
         // trouver une nouvelle combinaison entre les sommets
@@ -1187,7 +1187,7 @@ void Graph::kSommetConnex()
             {
                 v.second.m_isVertex = true;
             }
-            // désactive la combinaison de sommets trouvée
+            // desactive la combinaison de sommets trouvee
             for(auto &v : allComponents[i])
             {
                 m_vertices[v].m_isVertex = false;
@@ -1208,7 +1208,7 @@ void Graph::kSommetConnex()
 
     std::cout << std::endl << "Le graphe est " << kmin << "-sommet-connexe";
 
-    /*** On récupère les combinaisons déconnectant le graph ***/
+    /*** On recupere les combinaisons deconnectant le graph ***/
     for(int i = kmin-1; i < allComponents.size(); i++)
     {
         // active tous les sommets
@@ -1216,7 +1216,7 @@ void Graph::kSommetConnex()
         {
             v.second.m_isVertex = true;
         }
-        // désactive la combinaison de sommets trouvée
+        // desactive la combinaison de sommets trouvee
         for(auto &v : allComponents[i])
         {
             m_vertices[v].m_isVertex = false;
@@ -1233,7 +1233,7 @@ void Graph::kSommetConnex()
     if(combiNonConn.size() > 0)
     {
         std::cout << std::endl << "Les combinaisons deconnectant le graphe sont: ";
-        //// Le tableau combiNonConn possède les combinaisons de sommets à désactiver pour déconnecter le graphe
+        //// Le tableau combiNonConn possede les combinaisons de sommets a desactiver pour deconnecter le graphe
         for(auto &compo : combiNonConn)
         {
             std::cout << std::endl;
@@ -1337,7 +1337,7 @@ void Graph::update_pop()
             e.second.m_cptPop = 0.0;
         }
 
-        if(e.second.m_population < 0) /// Pas de pop négative
+        if(e.second.m_population < 0) /// Pas de pop negative
         {
             e.second.m_population = 0;
         }
@@ -1359,7 +1359,7 @@ double Graph::findWeight(int from, int to)
         }
     }
 
-    /// Si a pas trouvé, on retourne 0
+    /// Si a pas trouve, on retourne 0
     return 0;
 }
 

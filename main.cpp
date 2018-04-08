@@ -34,7 +34,7 @@ int main()
         /// Il faut appeler les mÃ©thodes d'update des objets qui comportent des widgets
         workg.update();
 
-        /// Mise à jour générale (clavier/souris/buffer etc...)
+        /// Mise a jour generale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
 
         get_buttons_actions(workg, g1, g2, g3);

@@ -1,4 +1,4 @@
-/*! \file Regroupe les implémentations des fonctions relatives au fonctionnement des boutons sur le côté de la fenêtre */
+/*! \file Regroupe les implementations des fonctions relatives au fonctionnement des boutons sur le côte de la fenêtre */
 
 #include "Button.h"
 
@@ -127,12 +127,12 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
         workg.setAfficheConnexite(!workg.getAfficheConnexite());
     }
 
-    /// Ajouter les aretes selons les sommets selectionnés
+    /// Ajouter les aretes selons les sommets selectionnes
     else if (message == constants::TB_ACTION_ADD_EDGES) {
         workg.add_edges();
     }
 
-    /// Supprimer tous les sommets et les aretes selectionnées
+    /// Supprimer tous les sommets et les aretes selectionnees
     else if (message == constants::TB_ACTION_DELETE) {
         workg.delete_vertices();
     }
