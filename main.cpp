@@ -22,8 +22,10 @@ int main()
     g2.read_file_del();
     g3.read_file_del();
 
-    workg=g3;
-    workg.kVertexConnex();
+    workg=g2;
+
+    workg.kSommetConnex();
+
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement à des frameworks plus avancés )
