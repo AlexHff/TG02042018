@@ -60,6 +60,10 @@ int getclicks(Graph &workg) {
         return constants::TB_ACTION_DELETE;
     }
 
+    if (workg.getInterface()->m_bouton_k_connex.clicked()) {
+        return constants::TB_ACTION_K_CONNEX;
+    }
+
     return constants::TB_ACTION_NOTHING;
 }
 
@@ -117,6 +121,7 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
 
     /// Afficher les composantes connexes
     else if (message == constants::TB_ACTION_CONNEX) {
+        workg.resetColors();
         // si on ne montre pas la connexite, on l'affiche
         if (!workg.getAfficheConnexite()) {
             workg.fort_connexe();
@@ -137,5 +142,9 @@ void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
         workg.delete_vertices();
     }
 
+    /// afficher la k-connexite
+    else if (message == constants::TB_ACTION_K_CONNEX) {
+        workg.kSommetConnex();
+    }
 }
 

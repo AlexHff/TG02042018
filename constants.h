@@ -12,6 +12,7 @@ namespace constants
     const int TB_ACTION_CONNEX = 6;
     const int TB_ACTION_ADD_EDGES = 7;
     const int TB_ACTION_DELETE = 8;
+    const int TB_ACTION_K_CONNEX = 9;
     const int TB_ACTION_NOTHING = 9999;
 }
 

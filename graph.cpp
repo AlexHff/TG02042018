@@ -290,11 +290,19 @@ GraphInterface::GraphInterface(int x, int y, int w, int h)
 
     /// bouton afficher connexite
     m_boite_boutons.add_child(m_bouton_connex);
-    m_bouton_connex.set_frame(5, 600, 70, 40);
+    m_bouton_connex.set_frame(5, 580, 70, 40);
     m_bouton_connex.set_bg_color(ORANGECLAIR);
 
     m_bouton_connex.add_child(m_bouton_connex_label);
-    m_bouton_connex_label.set_message("Connexite");
+    m_bouton_connex_label.set_message("Connex");
+
+    /// bouton afficher connexite
+    m_boite_boutons.add_child(m_bouton_k_connex);
+    m_bouton_k_connex.set_frame(5, 630, 70, 40);
+    m_bouton_k_connex.set_bg_color(ORANGECLAIR);
+
+    m_bouton_k_connex.add_child(m_bouton_k_connex_label);
+    m_bouton_k_connex_label.set_message("k-connex");
 
     /// Button ADD EDGE
     m_top_box.add_child(m_bouton_addEdges);
@@ -1236,12 +1244,19 @@ void Graph::kSommetConnex()
         //// Le tableau combiNonConn possede les combinaisons de sommets a desactiver pour deconnecter le graphe
         for(auto &compo : combiNonConn)
         {
+            resetColors();
             std::cout << std::endl;
             for(auto &v : compo)
             {
                 std::cout << v << " ";
+                m_vertices[v].getInterface()->setBgCol(0xFF0000);
             }
+            update();
+            grman::mettre_a_jour();
+            pause(1);
         }
+        resetColors();
+        std::cout << "\n-- FIN DE L'AFFICHAGE DE LA K-CONNEXITE --" << std::endl;
     }
 
 

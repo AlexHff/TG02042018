@@ -44,6 +44,8 @@
 		<Unit filename="Button.h" />
 		<Unit filename="Differe.cpp" />
 		<Unit filename="Differe.h" />
+		<Unit filename="Misc.cpp" />
+		<Unit filename="Misc.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="graph.cpp" />
 		<Unit filename="graph.h" />

@@ -1,5 +1,6 @@
 #ifndef GRAPH_H_INCLUDED
 #define GRAPH_H_INCLUDED
+#include "Misc.h"
 
 /**************************************************************
     Ici sont proposees 3 classes fondamentales
@@ -375,6 +376,10 @@ class GraphInterface
         // bouton pour afficher la forte connexite
         grman::WidgetButton m_bouton_connex;
         grman::WidgetText m_bouton_connex_label;
+
+        // bouton pour afficher les combis de sommets a detacher
+        grman::WidgetButton m_bouton_k_connex;
+        grman::WidgetText m_bouton_k_connex_label;
 
         /*** Bottom buttons ***/
 

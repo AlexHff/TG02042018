@@ -22,10 +22,7 @@ int main()
     g2.read_file_del();
     g3.read_file_del();
 
-    workg=g3;
-
-    workg.kSommetConnex();
-
+    workg=g1;
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement à des frameworks plus avancés )
