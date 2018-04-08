@@ -22,7 +22,7 @@ int main()
     g2.read_file_del();
     g3.read_file_del();
 
-    workg=g2;
+    workg=g1;
 
     workg.kSommetConnex();
 
@@ -39,9 +39,6 @@ int main()
 
         get_buttons_actions(workg, g1, g2, g3);
     }
-
-    /// enregistrement du graphe
-   // workg.write_file();
 
     grman::fermer_allegro();
 
