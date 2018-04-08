@@ -887,15 +887,7 @@ void Graph::delete_vertices()
         {
             ++it;
         }
-    }/*
-    for(auto &e : m_vertices)
-    {
-        if(e.second.m_interface->m_bouton_label_addEdge.get_message() == "1" || e.second.m_interface->m_bouton_label_addEdge.get_message() == "2")
-        {
-            e.second.m_interface->m_bouton_label_addEdge.set_message("");
-            delete_vertex(e.first);
-        }
-    }*/
+    }
 }
 
 int Graph::find_idxMax_edges()
@@ -920,19 +912,6 @@ void Graph::findOut()
             if(e.first==f.second.m_from)
                 e.second.m_out.push_back(f.second.m_to);
     }
-
-    /*for(auto &e : m_vertices)
-    {
-        std::cout << e.first << " est succede par ";
-        if(e.second.m_out.size()==0)
-            std::cout << "aucun autre sommet." << std::endl;
-        else
-        {
-            for(unsigned int j(0); j < e.second.m_out.size(); ++j)
-                std::cout << e.second.m_out[j] << " ";
-            std::cout << std::endl;
-        }
-    }*/
 }
 
 void Graph::findIn()
@@ -943,19 +922,6 @@ void Graph::findIn()
             if(e.first==f.second.m_to)
                 e.second.m_in.push_back(f.second.m_from);
     }
-
-    /*for(auto &e : m_vertices)
-    {
-        std::cout << e.first << " est precede par ";
-        if(e.second.m_in.size()==0)
-            std::cout << "aucun autre sommet." << std::endl;
-        else
-        {
-            for(unsigned int j(0); j < e.second.m_in.size(); ++j)
-                std::cout << e.second.m_in[j] << " ";
-            std::cout << std::endl;
-        }
-    }*/
 }
 
 void Graph::dfs(int v, bool visited[],int k, int col)
