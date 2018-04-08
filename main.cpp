@@ -24,6 +24,7 @@ int main()
 
     workg=g3;
    // workg.kVertexConnex();
+   workg.kSommetConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement à des frameworks plus avancés )

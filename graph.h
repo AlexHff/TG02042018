@@ -77,6 +77,7 @@
 #include <memory>
 #include <fstream>
 #include <stack>
+#include <queue>
 #include <array>
 #include <list>
 
@@ -513,6 +514,12 @@ class Graph
         void resetColors();
 
         std::map<int, Vertex> getVertices() { return m_vertices; }
+
+
+        bool isConnexe();
+        void kSommetConnex();
+        void findCombi(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
+        bool isAllMarqued(std::map<int, bool> &marque);
 };
 
 

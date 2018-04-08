@@ -1105,7 +1105,220 @@ void Graph::bfs(int v, unsigned int &visitedVertices)
     }
 }
 
+/*** TEST ***/
+bool Graph::isAllMarqued(std::map<int, bool> &marque)
+{
+    for(auto &elem : marque)
+    {
+        if(elem.second == false)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Graph::isConnexe()
+{
+    std::queue<int> file;
+    std::map<int, bool> marque;
+    int idFront;
+
+    // on initialise le tableau de marquage
+    for(auto &v : m_vertices)
+    {
+        if(m_vertices[v.first].m_isVertex)
+        {
+            marque[v.first] = false;
+        }
+
+    }
+
+    auto it = m_vertices.begin();
+
+    while(it->second.m_isVertex == false && it != m_vertices.end())
+    {
+        it++;
+    }
+
+    if(it->second.m_isVertex == true && it != m_vertices.end())
+    {
+        //std::cout << std::endl << "it = " << it->first;
+        // on marque le premier élement (activé) et on rajoute l'indice à la file
+        marque[it->first] = true;
+        file.push(it->first);
+
+        // tant que la file n'est pas vide
+        while(!file.empty())
+        {
+            idFront = file.front();
+            Vertex &vFront = m_vertices[idFront];
+
+            // on défile le premier élement
+            file.pop();
+
+            // Pour tous les sommets  adjacents, activés, non marqué de cet élement
+            for(auto &adj : vFront.m_out)
+            {
+                if(m_vertices[adj].m_isVertex)
+                {
+                    if(!marque[adj])
+                    {
+                         // on marque le sommet
+                        marque[adj] = true;
+                        // on l'enfile
+                        file.push(adj);
+                    }
+                }
+            }
+            // Pour tous les sommets  adjacents, activés, non marqué de cet élement
+            for(auto &adj : vFront.m_in)
+            {
+                if(m_vertices[adj].m_isVertex)
+                {
+                    if(!marque[adj])
+                    {
+                         // on marque le sommet
+                        marque[adj] = true;
+                        // on l'enfile
+                        file.push(adj);
+                    }
+                }
+            }
+
+        }
+        if(isAllMarqued(marque))
+        {
+            return true;
+        }
+    }
+
+    /// DERNIERE VERIF
+    if(it != m_vertices.end())
+    {
+        if(isAllMarqued(marque))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+
+        return false;
+    }
+
+
+}
+
 /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
+void Graph::kSommetConnex()
+{
+    std::vector< std::vector<int> > allComponents;
+    std::vector< std::vector<int> > combiNonConn;
+    int j = 0;
+    int kmin = 0;
+    int sizeAllCompo = 0;
+    bool testConnex = isConnexe();
+
+    // tant que le graph (des sommets activés) est connexe
+    while(testConnex && j < m_vertices.size())
+    {
+        // trouver une nouvelle combinaison entre les sommets
+        std::vector<int> temp;
+        sizeAllCompo = allComponents.size();
+        findCombi(allComponents, temp, 0, 0, j);
+
+        for(int i = sizeAllCompo; i < allComponents.size(); i++)
+        {
+            // active tous les sommets
+            for(auto &v : m_vertices)
+            {
+                v.second.m_isVertex = true;
+            }
+            // désactive la combinaison de sommets trouvée
+            for(auto &v : allComponents[i])
+            {
+                m_vertices[v].m_isVertex = false;
+            }
+
+            // on regarde si le graph est toujours connex
+            testConnex = isConnexe();
+            if(!testConnex)
+            {
+                i = allComponents.size();
+            }
+        }
+
+        kmin = j;
+        j++;
+    }
+
+
+    std::cout << std::endl << "Le graphe est " << kmin << "-sommet-connexe";
+
+    /*** On récupère les combinaisons déconnectant le graph ***/
+    for(int i = kmin-1; i < allComponents.size(); i++)
+    {
+        // active tous les sommets
+        for(auto &v : m_vertices)
+        {
+            v.second.m_isVertex = true;
+        }
+        // désactive la combinaison de sommets trouvée
+        for(auto &v : allComponents[i])
+        {
+            m_vertices[v].m_isVertex = false;
+        }
+
+        // on regarde si le graph est toujours connexe
+        testConnex = isConnexe();
+        if(!testConnex)
+        {
+            combiNonConn.push_back(allComponents[i]);
+        }
+    }
+
+    if(combiNonConn.size() > 0)
+    {
+        std::cout << std::endl << "Les combinaisons deconnectant le graphe sont: ";
+        //// Le tableau combiNonConn possède les combinaisons de sommets à désactiver pour déconnecter le graphe
+        for(auto &compo : combiNonConn)
+        {
+            std::cout << std::endl;
+            for(auto &v : compo)
+            {
+                std::cout << v << " ";
+            }
+        }
+    }
+
+
+}
+
+void Graph::findCombi(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb)
+{
+    if(k < nb)
+    {
+        std::map< int, Vertex >::iterator id;
+        for(id = std::next(m_vertices.begin(),j); id != (m_vertices.end()--)--; id++)
+        {
+            tab.push_back(id->first);
+
+            recu(allComponents, tab, j+1, k+1, nb);
+
+            if(tab.size() == nb)
+                allComponents.push_back(tab);
+            tab.pop_back();
+        }
+    }
+}
+
+/***************/
+
 void Graph::kVertexConnex()
 {
     unsigned int kmin = m_vertices.size()-1, k = m_vertices.size()-1, visitedVertices = 0, visitedVerticesMax = 0, nbVertices;
