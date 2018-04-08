@@ -482,12 +482,6 @@ class Graph
 
         void bfs(int v, unsigned int &visitedVertices);
 
-        /// k-sommet-connexite
-        void kVertexConnex();
-
-        /// trouver les différentes combinaisons
-        void recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
-
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
 
