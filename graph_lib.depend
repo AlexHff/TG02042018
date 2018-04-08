@@ -1,14 +1,22 @@
 # depslib dependency file v1.0
+<<<<<<< HEAD
 1523183690 source:c:\users\alhff\documents\tg02042018\graph.cpp
 	"graph.h"
 
 1523183690 c:\users\alhff\documents\tg02042018\graph.h
+=======
+1523193164 source:c:\users\alhff\documents\tg02042018\graph.cpp
+	"graph.h"
+
+1523189864 c:\users\alhff\documents\tg02042018\graph.h
+>>>>>>> develop
 	<vector>
 	<map>
 	<string>
 	<memory>
 	<fstream>
 	<stack>
+	<queue>
 	<array>
 	<list>
 	"grman/grman.h"
@@ -21,6 +29,7 @@
 	"coords.h"
 	"widget.h"
 
+<<<<<<< HEAD
 1523054978 D
 	<stack>
 	"grman/grman.h"
@@ -93,6 +102,13 @@
 1523183673 c:\users\alhff\documents\tg02042018\grman\coords.h
 	<cmath>
 
+=======
+1523183673 c:\users\alhff\documents\tg02042018\grman\grman_couleurs.h
+
+1523183673 c:\users\alhff\documents\tg02042018\grman\coords.h
+	<cmath>
+
+>>>>>>> develop
 1523183690 c:\users\alhff\documents\tg02042018\grman\widget.h
 	"grman.h"
 	<iostream>
@@ -103,12 +119,17 @@
 
 1523183690 c:\users\alhff\documents\tg02042018\constants.h
 
+<<<<<<< HEAD
 1523183760 source:c:\users\alhff\documents\tg02042018\main.cpp
+=======
+1523193162 source:c:\users\alhff\documents\tg02042018\main.cpp
+>>>>>>> develop
 	"grman/grman.h"
 	<iostream>
 	"graph.h"
 	"Button.h"
 
+<<<<<<< HEAD
 1522770682 c:\users\alex\documents\tg02042018\graph.h
 	<vector>
 	<map>
@@ -140,6 +161,8 @@
 
 1522877135 
 
+=======
+>>>>>>> develop
 1523183690 c:\users\alhff\documents\tg02042018\button.h
 	<iostream>
 	<string>
@@ -148,8 +171,11 @@
 	"constants.h"
 	"Differe.h"
 
+<<<<<<< HEAD
 1522771508 c:\users\adrie\desktop\ing2\info\piscine\grman\grman.h
 
+=======
+>>>>>>> develop
 1523183690 c:\users\alhff\documents\tg02042018\differe.h
 	<iostream>
 	<string>
@@ -157,11 +183,15 @@
 	"graph.h"
 	"grman/grman.h"
 
+<<<<<<< HEAD
 1522833339 source:c:\users\alhff\documents\tg02042018\button.cpp
 	"Button.h"
+=======
+1523183690 source:c:\users\alhff\documents\tg02042018\button.cpp
+>>>>>>> develop
 	"Button.h"
 
-1523181051 source:c:\users\alhff\documents\tg02042018\differe.cpp
+1523183690 source:c:\users\alhff\documents\tg02042018\differe.cpp
 	"Differe.h"
 
 1523183673 source:c:\users\alhff\documents\tg02042018\grman\coords.cpp
@@ -181,6 +211,7 @@
 	<loadpng.h>
 	<jpgalleg.h>
 
+<<<<<<< HEAD
 1522771508 source:c:\users\adrie\desktop\ing2\info\piscine\grman\coords.cpp
 	"coords.h"
 
@@ -218,3 +249,93 @@
 	<string>
 	"Button.h"
 
+=======
+1523183690 source:c:\users\alhff\documents\tg02042018\grman\widget.cpp
+	"widget.h"
+
+1523191444 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.cpp
+	"Button.h"
+
+1522963880 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+	"graph.h"
+	"constants.h"
+	"Differe.h"
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman_couleurs.h
+
+1522771292 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\coords.h
+	<cmath>
+
+1523191444 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1523191444 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	<queue>
+	<array>
+	<list>
+	"grman/grman.h"
+	"constants.h"
+
+1523118124 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\constants.h
+
+1523055715 c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1523191444 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\differe.cpp
+	"Differe.h"
+
+1522771292 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\coords.cpp
+	"coords.h"
+
+1522771292 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1523191444 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\grman\widget.cpp
+	"widget.h"
+
+1523191745 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Button.h"
+
+1523191794 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
+	"graph.h"
+
+>>>>>>> develop

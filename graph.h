@@ -77,6 +77,7 @@
 #include <memory>
 #include <fstream>
 #include <stack>
+#include <queue>
 #include <array>
 #include <list>
 
@@ -481,12 +482,6 @@ class Graph
 
         void bfs(int v, unsigned int &visitedVertices);
 
-        /// k-sommet-connexite
-        void kVertexConnex();
-
-        /// trouver les différentes combinaisons
-        void recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
-
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
 
@@ -513,6 +508,15 @@ class Graph
         void resetColors();
 
         std::map<int, Vertex> getVertices() { return m_vertices; }
+
+        /// Verifie si les sommets activés forment un graphe connexe
+        bool isConnexe();
+        /// Implementation d'un programme permettant de trouver le nombre k minimum de sommets pour deconnecter le graphe
+        void kSommetConnex();
+        /// Trouve les combi de sommet
+        void findCombi(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
+        /// Verifie si tous les sommets sont marqués
+        bool isAllMarqued(std::map<int, bool> &marque);
 };
 
 
