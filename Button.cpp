@@ -1,3 +1,5 @@
+/*! \file Regroupe les implémentations des fonctions relatives au fonctionnement des boutons sur le côté de la fenêtre */
+
 #include "Button.h"
 
 void updateMessages(Graph &workg) {

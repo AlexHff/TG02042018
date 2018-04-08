@@ -169,3 +169,85 @@
 1523191794 source:c:\users\nhien\documents\workspace\encours\theoriedesgraphes\projet\new\tg02042018\graph.cpp
 	"graph.h"
 
+1523190298 source:c:\users\adrie\desktop\ing2\info\piscine\differe.cpp
+	"Differe.h"
+
+1523184360 c:\users\adrie\desktop\ing2\info\piscine\differe.h
+	<iostream>
+	<string>
+	<vector>
+	"graph.h"
+	"grman/grman.h"
+
+1523205112 c:\users\adrie\desktop\ing2\info\piscine\graph.h
+	<vector>
+	<map>
+	<string>
+	<memory>
+	<fstream>
+	<stack>
+	<queue>
+	<array>
+	<list>
+	"grman/grman.h"
+	"constants.h"
+
+1523184360 c:\users\adrie\desktop\ing2\info\piscine\grman\grman.h
+	<allegro.h>
+	<string>
+	"grman_couleurs.h"
+	"coords.h"
+	"widget.h"
+
+1523184360 c:\users\adrie\desktop\ing2\info\piscine\grman\grman_couleurs.h
+
+1523184360 c:\users\adrie\desktop\ing2\info\piscine\grman\coords.h
+	<cmath>
+
+1523190298 c:\users\adrie\desktop\ing2\info\piscine\grman\widget.h
+	"grman.h"
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<allegro.h>
+
+1523184360 c:\users\adrie\desktop\ing2\info\piscine\constants.h
+
+1523205112 source:c:\users\adrie\desktop\ing2\info\piscine\graph.cpp
+	"graph.h"
+
+1523184360 source:c:\users\adrie\desktop\ing2\info\piscine\grman\coords.cpp
+	"coords.h"
+
+1523184360 source:c:\users\adrie\desktop\ing2\info\piscine\grman\grman.cpp
+	<cmath>
+	<unordered_map>
+	<unordered_set>
+	<utility>
+	<string>
+	<iostream>
+	<regex>
+	"grman.h"
+	<allegro.h>
+	<png.h>
+	<loadpng.h>
+	<jpgalleg.h>
+
+1523190298 source:c:\users\adrie\desktop\ing2\info\piscine\grman\widget.cpp
+	"widget.h"
+
+1523205112 source:c:\users\adrie\desktop\ing2\info\piscine\main.cpp
+	"grman/grman.h"
+	<iostream>
+	"graph.h"
+	"Button.h"
+
+1523209178 c:\users\adrie\desktop\ing2\info\piscine\button.h
+	<iostream>
+	<string>
+	"grman/grman.h"
+	"graph.h"
+	"constants.h"
+	"Differe.h"
+
