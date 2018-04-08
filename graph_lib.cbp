@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -30,6 +31,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Linker>
@@ -39,6 +41,11 @@
 			<Add library="alleg44.dll" />
 		</Linker>
 		<Unit filename="Button.h" />
+<<<<<<< HEAD
+=======
+		<Unit filename="Differe.cpp" />
+		<Unit filename="Differe.h" />
+>>>>>>> develop
 		<Unit filename="constants.h" />
 		<Unit filename="graph.cpp" />
 		<Unit filename="graph.h" />

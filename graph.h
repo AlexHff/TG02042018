@@ -77,8 +77,11 @@
 #include <memory>
 #include <fstream>
 #include <stack>
+#include <array>
+#include <list>
 
 #include "grman/grman.h"
+#include "constants.h"
 
 /***************************************************
                     VERTEX
@@ -101,28 +104,70 @@ class VertexInterface
         // La boite qui contient toute l'interface d'un sommet
         grman::WidgetBox m_top_box;
 
+        /*** VALUE ***/
         // Un slider de visualisation/modification de la valeur du sommet
         grman::WidgetVSlider m_slider_value;
 
         // Un label de visualisation de la valeur du sommet
         grman::WidgetText m_label_value;
 
+        /*** POPULATION ***/
+        // Un slider de visualisation/modification de la pop du sommet
+        grman::WidgetVSlider m_slider_pop;
+
+        // Un label de visualisation de la valeur du sommet
+        grman::WidgetText m_label_pop;
+
+        /*** IMG ***/
         // Une image de "remplissage"
         grman::WidgetImage m_img;
 
+        /*** IDX ***/
         // Un label indiquant l'index du sommet
         grman::WidgetText m_label_idx;
 
         // Une boite pour le label précédent
         grman::WidgetText m_box_label_idx;
 
-    public :
+        /*** Button DELETE ***/
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
 
+        /*** Button ADD EDGE ***/
+        grman::WidgetButton m_bouton_addEdge;
+        grman::WidgetText m_bouton_label_addEdge;
+
+    public :
+        void setBgCol(int val) {m_top_box.set_bg_color(val); }
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         VertexInterface(int idx, int x, int y, std::string pic_name="", int pic_idx=0);
 };
 
+class VertexAddInterface
+{
+    friend class Vertex;
+    friend class Graph;
+
+    private :
+        int m_idx;
+        bool m_value;
+
+    public :
+        // La boite qui contient toute l'interface d'un sommet
+        grman::WidgetBox m_top_box;
+
+        // L'image
+        grman::WidgetImage m_icon;
+        // Label pour l'img
+        grman::WidgetText m_label_icon;
+        // Une boite pour le label précédent
+        grman::WidgetText m_box_label_icon;
+
+        VertexAddInterface(int idx, std::string pic_name="");
+        bool get_value(){return m_value;}
+        void set_value(bool value){m_value = value;}
+};
 
 class Vertex
 {
@@ -140,14 +185,20 @@ class Vertex
         /// liste des indices des sommets partant du sommet : accès aux successeurs
         std::vector<int> m_out;
 
-        /// valeur de sommet
-        double m_value;
+        /// coef In -> "mange"
+        double m_coefIn;
+        /// coef Out -> "est mangé"
+        double m_coefOut;
+
+        /// population
+        int m_population;
+
+        /// compteur incrémentation pop
+        double m_cptPop;
 
         /// booleen pour desactiver les sommets
         bool m_isVertex;
 
-        /// population
-        int m_population;
 
         /// groupe d'appartenance pour la forte connexite
         int m_group;
@@ -161,17 +212,19 @@ class Vertex
 
 
     public:
-
+        std::shared_ptr<VertexInterface> getInterface() { return m_interface; }
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
-        Vertex (double value=0, VertexInterface *interface=nullptr) :
-            m_value(value), m_isVertex(true), m_interface(interface)  {  }
+        Vertex (double coefIn=0, double coefOut=0, int population=0, VertexInterface *interface=nullptr) :
+            m_coefIn(coefIn), m_coefOut(coefOut), m_population(population), m_cptPop(0), m_isVertex(true), m_interface(interface)  {  }
 
         /// Vertex étant géré par Graph ce sera la méthode update de graph qui appellera
         /// le pre_update et post_update de Vertex (pas directement la boucle de jeu)
         /// Voir l'implémentation Graph::update dans le .cpp
         void pre_update();
         void post_update();
+        int getPopulation() { return m_population; }
+
 };
 
 
@@ -204,6 +257,10 @@ class EdgeInterface
 
         // Un label de visualisation du poids de l'arc
         grman::WidgetText m_label_weight;
+
+        // bouton pour supprimer l'arete
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
 
     public :
 
@@ -264,6 +321,8 @@ class GraphInterface
 
     private :
 
+        std::vector<VertexAddInterface*> tab;
+
         /// Les widgets de l'interface. N'oubliez pas qu'il ne suffit pas de déclarer
         /// ici un widget pour qu'il apparaisse, il faut aussi le mettre en place et
         /// le paramétrer ( voir l'implémentation du constructeur dans le .cpp )
@@ -277,15 +336,65 @@ class GraphInterface
         /// Dans cette boite seront ajoutés des boutons de contrôle etc...
         grman::WidgetBox m_tool_box;
 
-
-        // A compléter éventuellement par des widgets de décoration ou
-        // d'édition (boutons ajouter/enlever ...)
-
     public :
 
         // Le constructeur met en place les éléments de l'interface
         // voir l'implémentation dans le .cpp
         GraphInterface(int x, int y, int w, int h);
+
+        /*** TB buttons ***/
+
+        // wrapper pour les boutons
+        grman::WidgetBox m_boite_boutons;
+
+        // bouton pour charger le graphe 1
+        grman::WidgetButton m_bouton_g1;
+        grman::WidgetText m_bouton_g1_label;
+
+        // bouton pour charger le graphe 2
+        grman::WidgetButton m_bouton_g2;
+        grman::WidgetText m_bouton_g2_label;
+
+        // bouton pour charger le graphe 3
+        grman::WidgetButton m_bouton_g3;
+        grman::WidgetText m_bouton_g3_label;
+
+        // bouton pour sauvegarder le graphe actuel
+        grman::WidgetButton m_bouton_save;
+        grman::WidgetText m_bouton_save_label;
+
+        // bouton pour lancer la simulation temporelle
+        grman::WidgetButton m_bouton_simu;
+        grman::WidgetText m_bouton_simu_label;
+
+        // bouton pour lancer la simulation differee
+        grman::WidgetButton m_bouton_diff;
+        grman::WidgetText m_bouton_diff_label;
+
+        // bouton pour afficher la forte connexite
+        grman::WidgetButton m_bouton_connex;
+        grman::WidgetText m_bouton_connex_label;
+
+        /*** Bottom buttons ***/
+
+        // bouton pour ajouter des aretes
+        grman::WidgetButton m_bouton_addEdges;
+        grman::WidgetText m_bouton_label_addEdges;
+
+         // bouton pour supprimer les sommets/aretes selectionnes
+        grman::WidgetButton m_bouton_delete;
+        grman::WidgetText m_bouton_label_delete;
+
+        // bouton pour afficher la barre des sommets à ajouter
+        grman::WidgetOnOffButton m_bouton_addVertices;
+        grman::WidgetText m_bouton_label_addVertices;
+
+        /*** Add vertices ***/
+
+        /// Dans cette boite seront ajoutés les sommets pouvant être ajoutés au graphe
+        grman::WidgetBox m_addVertices_box;
+
+
 };
 
 
@@ -299,30 +408,61 @@ class Graph
         /// La liste des sommets
         std::map<int, Vertex> m_vertices;
 
+        /// La liste des sommets supprilm
+        std::map<int, Vertex> m_vertices_del;
+
         /// le POINTEUR sur l'interface associée, nullptr -> pas d'interface
         std::shared_ptr<GraphInterface> m_interface = nullptr;
 
         /// nom du fichier
         std::string m_nomFichier;
 
-    public:
+        bool m_afficheConnexite = false;
+        bool m_simu_temp = false;
 
+    public:
+        std::string getNomFichier() {return m_nomFichier; }
+        std::shared_ptr<GraphInterface> getInterface() {return m_interface;}
         /// Les constructeurs sont à compléter selon vos besoin...
         /// Ici on ne donne qu'un seul constructeur qui peut utiliser une interface
         Graph (GraphInterface *interface=nullptr) :
             m_interface(interface)  {  }
 
-        void add_interfaced_vertex(int idx, double value, int x, int y, std::string pic_name="", int pic_idx=0 );
+        void add_interfaced_vertex(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name="", int pic_idx=0 );
         void add_interfaced_edge(int idx, int vert1, int vert2, double weight=0);
+
+        /// Ajoute les aretes selon les sommets sélectionnés
+        void add_edges();
+        /// Copie le sommet d'indice idx dans la map de sommets supprimés
+        void add_vertex_mapDel(int idx, double coefIn, double coefOut, int pop, int x, int y, std::string pic_name);
+        /// Déplace un sommet supprimé (m_vertices_del), vers le tableau m_vertices
+        void move_vertexDelToVertices(int idx);
+        /// Déplace un sommet (m_vertices) vers le tableau des sommets supprimés (m_vertices_del)
+        void move_vertexToDel(int idx);
+
+        /// Retourne true si l'arete existe déjà
+        bool edge_exist(int from, int to);
+
+        /// Supprime le sommet d'indice idx
+        void delete_edge(int idx);
+        /// Supprime toutes les aretes comportant le sommet d'indice idx
+        void delete_vertex_allEdges(int idx);
+        /// Supprime le sommet d'indice idx
+        void delete_vertex(int idx);
+        /// Supprimes tous les sommets selectionnés
+        void delete_vertices();
 
         /// chargement des fichiers
         void read_file(const std::string& nom_fichier);
-
+        void read_file_del(); // fichier des sommets supprimés
         /// enregistrement des fichiers
         void write_file();
-
+        void write_file_del(); // fichier des sommets supprimés
         /// methode pour la detection des composantes fortement connexes
         void fort_connexe();
+
+        /// Retourne l'idx de l'arete la plus grande
+        int find_idxMax_edges();
 
         /// implémentation de la liste des indices des arcs arrivant au sommet
         void findIn();
@@ -337,16 +477,42 @@ class Graph
         Graph getTranspose();
 
         /// implémentation dfs
-        void dfs(int v, bool visited[], int k);
+        void dfs(int v, bool visited[], int k, int col);
 
-        /// k-sommet-connexite récurrence
-        void kVertexConnexRecur(int v, bool visited[], int k, int j);
+        void bfs(int v, unsigned int &visitedVertices);
 
         /// k-sommet-connexite
         void kVertexConnex();
 
+        /// trouver les différentes combinaisons
+        void recu(std::vector<std::vector<int>> &allComponents, std::vector<int> &tab, int j, int k, int nb);
+
         /// La méthode update à appeler dans la boucle de jeu pour les graphes avec interface
         void update();
+
+        /// Permet d'update les boutons des sommets
+        void update_buttons();
+
+        /// Permet d'update la box comportant les sommets à ajouter
+        void update_addVertices_box();
+
+        /// Permet de mettre à jour la population de tous les sommets
+        void update_pop();
+
+        /// Calcul de K, capacité de portage de l'environnement
+        double calcul_sommeKIn(int to);
+        double calcul_sommeKOut(int from);
+
+        /// Permet de chercher le poids de l'arete formé par les 2 sommets (s'il existe, 0 sinon)
+        double findWeight(int from, int to);
+
+        bool getAfficheConnexite() { return m_afficheConnexite; }
+        void setAfficheConnexite(bool val) { m_afficheConnexite = val; }
+
+        void invertSimu() { m_simu_temp = !m_simu_temp; }
+        void resetColors();
+
+        std::map<int, Vertex> getVertices() { return m_vertices; }
 };
 
 

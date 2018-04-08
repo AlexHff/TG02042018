@@ -151,7 +151,8 @@ class Widget
         void set_margin(int margin) { m_margin=margin; reframe(); }
         void set_border(int border) { m_border=border; reframe(); }
         void set_padding(int padding) { m_padding=padding; reframe(); }
-        //void set_(int ) { m_=; }
+
+        void set_border_color(int color) { m_border_color=color; reframe();}
 
         // Usage "interne"
         Frame get_parent_frame()
@@ -182,12 +183,14 @@ class Widget
         bool is_gui_over() {return this==gui_over || this==gui_last_over;}
         bool is_gui_focus() {return this==gui_focus;}
         bool is_gui_leave() {return this==gui_leave;}
+        bool is_gui_clicked(){return (this==gui_focus && mouse_click);}
 
         bool is_mouse_over();
 
         /// Les accesseurs de "styles" sont à compléter...
         void set_bg_color(int bgc) { m_bg_color = bgc; }
         int get_border_color() { return is_gui_focus() ? m_border_color_focus : is_gui_over() ? m_border_color_over : m_border_color; }
+        int get_border(){ return m_border;}
 
         Widget(const Widget&) = delete;
         Widget & operator=(const Widget&) = delete;
@@ -225,6 +228,7 @@ class WidgetText : public Widget
         void set_message(std::string message="");
         std::string get_message() { return m_message; }
         void set_vertical(bool vertical=true) { m_vertical=vertical; set_message(m_message); } /// BRICOLAGE ...
+        void set_color(int color) {m_color = color;}
 };
 
 
@@ -265,6 +269,25 @@ class WidgetButton : public Widget
         virtual bool captures_focus() { return true; }
 
         bool clicked() { bool clk = m_value; m_value=false; return clk; }
+        bool get_value() { return m_value; }
+        void set_value(bool value) { m_value = value; }
+};
+
+
+/***************************************************
+                    ON/OFF BUTTON
+****************************************************/
+
+class WidgetOnOffButton : public Widget
+{
+    protected :
+        bool m_value = false;
+
+    public :
+
+        virtual void interact_focus();
+        virtual bool captures_focus() { return true; }
+
         bool get_value() { return m_value; }
         void set_value(bool value) { m_value = value; }
 };

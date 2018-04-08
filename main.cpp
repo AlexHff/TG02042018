@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "graph.h"
-#include "Taskbar.h"
 #include "Button.h"
 
 int main()
@@ -19,10 +18,12 @@ int main()
     g2.read_file("graph2.txt");
     g3.read_file("graph3.txt");
 
-    workg=g1;
-    workg.fort_connexe();
-    workg.kVertexConnex();
+    g1.read_file_del();
+    g2.read_file_del();
+    g3.read_file_del();
 
+    workg=g3;
+    workg.kVertexConnex();
 
     /// Vous gardez la main sur la "boucle de jeu"
     /// ( contrairement Ã  des frameworks plus avancÃ©s )
@@ -33,14 +34,15 @@ int main()
 
         /// Mise à jour générale (clavier/souris/buffer etc...)
         grman::mettre_a_jour();
+
+        get_buttons_actions(workg, g1, g2, g3);
     }
 
     /// enregistrement du graphe
-    workg.write_file();
+   // workg.write_file();
 
     grman::fermer_allegro();
 
     return 0;
 }
 END_OF_MAIN()
-

@@ -1,48 +1,139 @@
 #include "Button.h"
 
-Button::Button(int _x, int _y, int _w, int _h, std::string _text)
-{
-    m_x = _x;
-    m_y = _y;
-    m_w = _w;
-    m_h = _h;
-    m_text = _text;
-    m_curstate = false;
-    m_prevstate = false;
-    m_hover = false;
-}
+void updateMessages(Graph &workg) {
+    workg.getInterface()->m_bouton_g1_label.set_message("Graphe 1");
+    workg.getInterface()->m_bouton_g2_label.set_message("Graphe 2");
+    workg.getInterface()->m_bouton_g3_label.set_message("Graphe 3");
 
-Button::~Button()
-{
-    //dtor
-}
-
-void Button::update() {
-    // update hover state
-    if (mouse_x > m_x && mouse_x < m_x + m_w && mouse_y > m_y && mouse_y < m_y + m_h) {
-        m_hover = true;
-    } else {
-        m_hover = false;
+    if (workg.getNomFichier() == "graph1.txt") {
+        workg.getInterface()->m_bouton_g1_label.set_message("ACTIF 1");
+        workg.getInterface()->m_bouton_g1.set_bg_color(VERTFLUOSOMBRE);
     }
 
-    // update clicstate
+    if (workg.getNomFichier() == "graph2.txt") {
+        workg.getInterface()->m_bouton_g2_label.set_message("ACTIF 2");
+        workg.getInterface()->m_bouton_g2.set_bg_color(VERTFLUOSOMBRE);
+    }
 
-    // save the previous click state
-    m_prevstate = m_curstate;
-    // get the new one
-    m_curstate = (mouse_b&1);
+    if (workg.getNomFichier() == "graph3.txt") {
+        workg.getInterface()->m_bouton_g3_label.set_message("ACTIF 3");
+        workg.getInterface()->m_bouton_g3.set_bg_color(VERTFLUOSOMBRE);
+    }
 }
 
-bool Button::isClicked() {
-    /* button has been clicked if :
-     *  1. the mouse button is currently being held down
-     *  2. AND the mouse button was not previously being held down
-     *  3. AND the button is being hovered by the cursor
-    */
-    return (m_curstate && !m_prevstate && m_hover);
+int getclicks(Graph &workg) {
+    if (workg.getInterface()->m_bouton_g1.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_1;
+    }
+
+    if (workg.getInterface()->m_bouton_g2.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_2;
+    }
+
+    if (workg.getInterface()->m_bouton_g3.clicked()) {
+        return constants::TB_ACTION_LOAD_GRAPH_3;
+    }
+
+    if (workg.getInterface()->m_bouton_save.clicked()) {
+        return constants::TB_ACTION_SAVE;
+    }
+
+    if (workg.getInterface()->m_bouton_simu.clicked()) {
+        return constants::TB_ACTION_SIMU;
+    }
+
+    if (workg.getInterface()->m_bouton_diff.clicked()) {
+        return constants::TB_ACTION_DIFF;
+    }
+
+    if (workg.getInterface()->m_bouton_connex.clicked()) {
+        return constants::TB_ACTION_CONNEX;
+    }
+
+    if (workg.getInterface()->m_bouton_addEdges.clicked()) {
+        return constants::TB_ACTION_ADD_EDGES;
+    }
+
+    if (workg.getInterface()->m_bouton_delete.clicked()) {
+        return constants::TB_ACTION_DELETE;
+    }
+
+    return constants::TB_ACTION_NOTHING;
 }
 
-void Button::show() {
-    std::cout << "Affichage du bouton " << m_text << std::endl;
-    //rect(page, 0, 0, 10, 10, makecol(255, 255, 255));
+void get_buttons_actions(Graph &workg, Graph &g1, Graph &g2, Graph &g3) {
+    int message = getclicks(workg);
+    updateMessages(workg);
+    /// Chargement du graphe 1
+    if (message == constants::TB_ACTION_LOAD_GRAPH_1) {
+        if (workg.getNomFichier() != "graph1.txt") {
+            if (workg.getNomFichier() == "graph2.txt") {
+                g2 = workg;
+            } else {
+                g3 = workg;
+            }
+            workg = g1;
+        }
+    }
+    /// Chargement du graphe 2
+    else if (message == constants::TB_ACTION_LOAD_GRAPH_2) {
+        if (workg.getNomFichier() != "graph2.txt") {
+            if (workg.getNomFichier() == "graph1.txt") {
+                g1 = workg;
+            } else {
+                g3 = workg;
+            }
+            workg = g2;
+        }
+    }
+    /// Chargement du graphe 3
+    else if (message == constants::TB_ACTION_LOAD_GRAPH_3) {
+        if (workg.getNomFichier() != "graph3.txt") {
+            if (workg.getNomFichier() == "graph1.txt") {
+                g1 = workg;
+            } else {
+                g2 = workg;
+            }
+            workg = g3;
+        }
+    }
+    /// Sauvegarde du graphe actuel dans le fichier texte associe
+    else if (message == constants::TB_ACTION_SAVE) {
+        workg.write_file();
+        workg.write_file_del();
+    }
+
+    /// Lancer la simulation
+    else if (message == constants::TB_ACTION_SIMU) {
+        workg.invertSimu();
+    }
+
+    /// Simulation differee
+    else if (message == constants::TB_ACTION_DIFF) {
+        differe(workg);
+    }
+
+    /// Afficher les composantes connexes
+    else if (message == constants::TB_ACTION_CONNEX) {
+        // si on ne montre pas la connexite, on l'affiche
+        if (!workg.getAfficheConnexite()) {
+            workg.fort_connexe();
+        } else {
+            workg.resetColors();
+        }
+        // on inverse la variable qui traque l'affichage
+        workg.setAfficheConnexite(!workg.getAfficheConnexite());
+    }
+
+    /// Ajouter les aretes selons les sommets selectionnés
+    else if (message == constants::TB_ACTION_ADD_EDGES) {
+        workg.add_edges();
+    }
+
+    /// Supprimer tous les sommets et les aretes selectionnées
+    else if (message == constants::TB_ACTION_DELETE) {
+        workg.delete_vertices();
+    }
+
 }
+
