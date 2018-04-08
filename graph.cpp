@@ -1253,11 +1253,11 @@ void Graph::findCombi(std::vector<std::vector<int>> &allComponents, std::vector<
     if(k < nb)
     {
         std::map< int, Vertex >::iterator id;
-        for(id = std::next(m_vertices.begin(),j); id != m_vertices.end()--; id++)
+        for(id = std::next(m_vertices.begin(),j); id != m_vertices.end(); id++)
         {
             tab.push_back(id->first);
 
-            findCombi(allComponents, tab, j+1, k+1, nb);
+            findCombi(allComponents, tab, ++j, k+1, nb);
 
             if(tab.size() == nb)
                 allComponents.push_back(tab);
